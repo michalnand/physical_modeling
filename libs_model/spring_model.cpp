@@ -1,8 +1,8 @@
 #include "spring_model.h"
-#include <spring_model_kernel.cuh>
-
 #include <iostream>
 
+#include <cuda/spring_model_kernel.cuh>
+#include <cuda/cuda_particle_allocator.cuh>
 
 SpringModel::SpringModel(unsigned int size, t_num ks, t_num kf, t_num mass)
 {
@@ -10,6 +10,13 @@ SpringModel::SpringModel(unsigned int size, t_num ks, t_num kf, t_num mass)
   this->ks = ks;
   this->kf = kf;
   this->mass = mass;
+  cu_particles = nullptr;
+
+
+  this->width  = 20;
+  this->height = 8;
+  this->depth  = 20;
+
   init();
 }
 
@@ -23,13 +30,14 @@ void SpringModel::init()
 {
   particles.clear();
 
-  for (int z = 0; z < (int)size; z++)
-  for (int y = 0; y < (int)size; y++)
-  for (int x = 0; x < (int)size; x++)
+
+  for (int z = 0; z < (int)depth; z++)
+  for (int y = 0; y < (int)height; y++)
+  for (int x = 0; x < (int)width; x++)
   {
-    t_num z_ = (z*1.0/size - 0.5)*2.0;
-    t_num y_ = (y*1.0/size - 0.5)*2.0;
-    t_num x_ = (x*1.0/size - 0.5)*2.0;
+    t_num z_ = 1.4*(z*1.0/depth - 0.5)*2.0;
+    t_num y_ = 0.3*(y*1.0/height - 0.5)*2.0;
+    t_num x_ = 1.4*(x*1.0/width - 0.5)*2.0;
 
     sParticle particle;
 
@@ -51,24 +59,17 @@ void SpringModel::init()
     particle.vy = 0.0;
     particle.vz = 0.0;
 
-    t_num v = 1.0;
 
-    if (x == 0)
-      particle.vx = -v;
-    if (x == ((int)size-1))
-      particle.vx = v;
 
-/*
-    if (y == 0)
-      particle.vy = -v;
-    if (y == ((int)size-1))
-      particle.vy = v;
 
-    if (z == 0)
-      particle.vz = -v;
-    if (z == ((int)size-1))
-      particle.vz = v;
-*/
+    int xc = width/2;
+    int yc = height/2;
+    int zc = depth/2;
+
+
+    if ((x == xc)&&(y == (height-1) )&&(z == zc))
+      particle.vy = 8;
+
 
     particle.x = x_;
     particle.y = y_;
@@ -103,18 +104,14 @@ void SpringModel::init()
     }
   }
 
-  /*
-  cuda_spring_model_init(cu_particles, particles);
 
-  for (unsigned int idx = 0; idx < particles.size(); idx++)
-  {
-    particles[idx].x = 0.0;
-    particles[idx].y = 0.0;
-    particles[idx].z = 0.0;
-  }
-
-  cuda_spring_model_to_host(particles, cu_particles);
-  */
+  #ifdef _PARTICLES_USE_CUDA_
+    cu_particles = cuda_particle_allocator.malloc(particles.size());
+    cuda_particle_allocator.host_to_device(cu_particles, &particles[0], particles.size());
+    cuda_particle_allocator.device_to_host(&particles[0], cu_particles, particles.size());
+  #else
+    cu_particles = nullptr;
+  #endif
 }
 
 int SpringModel::to_idx(int x, int y, int z)
@@ -128,16 +125,16 @@ int SpringModel::to_idx(int x, int y, int z)
   if (z < 0)
     return -3;
 
-  if (x >= (int)size)
+  if (x >= (int)width)
     return -4;
 
-  if (y >= (int)size)
+  if (y >= (int)height)
     return -5;
 
-  if (z >= (int)size)
+  if (z >= (int)depth)
     return -6;
 
-  int result = (z*size + y)*size + x;
+  int result = (z*height + y)*width + x;
 
   return result;
 }
@@ -146,57 +143,23 @@ void SpringModel::compute(t_num Fx, t_num Fy, t_num Fz)
 {
   t_num dt = 0.01;
 
-  for (unsigned int idx = 0; idx < particles.size(); idx++)
-  {
-    float fsx = 0.0;
-    float fsy = 0.0;
-    float fsz = 0.0;
-
-    for (unsigned int j = 0; j < INTERACTION_POINT_MAX; j++)
-    {
-      int idx_b = particles[idx].interaction_idx[j];
-      if (idx_b >= 0)
-      {
-        float dx_new = particles[idx].x - particles[idx_b].x;
-        float dy_new = particles[idx].y - particles[idx_b].y;
-        float dz_new = particles[idx].z - particles[idx_b].z;
-
-        fsx+= dx_new - particles[idx].interaction_idx_dx[j];
-        fsy+= dy_new - particles[idx].interaction_idx_dy[j];
-        fsz+= dz_new - particles[idx].interaction_idx_dz[j];
-      }
-    }
-
-    fsx = -fsx*ks;
-    fsy = -fsy*ks;
-    fsz = -fsz*ks;
-
-    t_num ffx = -kf*particles[idx].vx;
-    t_num ffy = -kf*particles[idx].vy;
-    t_num ffz = -kf*particles[idx].vz;
-
-    particles[idx].fx = Fx + fsx + ffx;
-    particles[idx].fy = Fy + fsy + ffy;
-    particles[idx].fz = Fz + fsz + ffz;
-
-    particles[idx].ax = particles[idx].fx/particles[idx].mass;
-    particles[idx].ay = particles[idx].fy/particles[idx].mass;
-    particles[idx].az = particles[idx].fz/particles[idx].mass;
-
-    particles[idx].vx+= particles[idx].ax*dt;
-    particles[idx].vy+= particles[idx].ay*dt;
-    particles[idx].vz+= particles[idx].az*dt;
-
-    particles[idx].x+= particles[idx].vx*dt;
-    particles[idx].y+= particles[idx].vy*dt;
-    particles[idx].z+= particles[idx].vz*dt;
-  }
+  #ifdef _PARTICLES_USE_CUDA_
+    particles_kernel(cu_particles, dt, particles.size());
+  #else
+    particles_kernel(&particles[0], dt, particles.size());
+  #endif
 }
 
 
 void SpringModel::render()
 {
-  t_num scale = 0.5;
+  #ifdef _PARTICLES_USE_CUDA_
+
+    cuda_particle_allocator.device_to_host(&particles[0], cu_particles, particles.size());
+
+  #endif
+
+  t_num scale = 0.75;
   visualisation.start();
 
   visualisation.translate(0.0, 0.0, -3.0);
@@ -235,7 +198,7 @@ void SpringModel::render()
 
     visualisation.set_color(1.0, 0.0, 0.0);
     visualisation.translate(scale*particles[i].x, scale*particles[i].y, scale*particles[i].z);
-    visualisation.paint_sphere(0.02);
+    visualisation.paint_sphere(0.01);
 
     visualisation.pop();
   }
