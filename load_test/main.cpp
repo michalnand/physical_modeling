@@ -14,7 +14,7 @@ int main()
   GLVisualisation visualisation;
 
   unsigned int step = 0;
- 
+
   while (1)
   {
     visualisation.start();
