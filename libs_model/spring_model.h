@@ -18,6 +18,7 @@ class SpringModel
 
     sParticle *cu_particles;
 
+    int width, height, depth;
   protected:
     GLVisualisation visualisation;
 
