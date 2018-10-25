@@ -45,12 +45,26 @@
 			"weights_file_name" : "rbc_0/trained/layer_3"
 		},
 		{
-			"type" : "dropout",
+			"geometry" : 
+			[
+				1,
+				1,
+				256
+			],
+			"type" : "fc",
 			"weights_file_name" : "rbc_0/trained/layer_4"
 		},
 		{
-			"type" : "output",
+			"type" : "relu",
 			"weights_file_name" : "rbc_0/trained/layer_5"
+		},
+		{
+			"type" : "dropout",
+			"weights_file_name" : "rbc_0/trained/layer_6"
+		},
+		{
+			"type" : "output",
+			"weights_file_name" : "rbc_0/trained/layer_7"
 		}
 	],
 	"network_log_file_name" : "rbc_0/network.log",

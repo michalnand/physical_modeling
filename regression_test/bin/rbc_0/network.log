@@ -12,12 +12,13 @@ minibatch size 32
                 RELU  [    7    36    32] [    1     1     1] [    7    36    32] [         0          0][     16128]
    DENSE CONVOLUTION  [    7    36    32] [    3     3    32] [    7    36    64] [      9216         32][   2330496]
                 RELU  [    7    36    64] [    1     1     1] [    7    36    64] [         0          0][     32256]
-             DROPOUT  [    7    36    64] [    1     1     1] [    7    36    64] [         0          0][     32256]
-                  FC  [    7    36    64] [    1     1     1] [    1     1     1] [     16128          1][     32258]
+                  FC  [    7    36    64] [    1     1   256] [    1     1   256] [   4128768        256][   8258048]
+                RELU  [    1     1   256] [    1     1     1] [    1     1   256] [         0          0][       512]
+             DROPOUT  [    1     1   256] [    1     1     1] [    1     1   256] [         0          0][       512]
+                  FC  [    1     1   256] [    1     1     3] [    1     1     3] [       768          3][      1542]
 
 input_geometry  [7 36 51]
-output_geometry [1 1 1]
-network flops operations 6152834 FLOPS, 0.006153 GFLOPS
+output_geometry [1 1 3]
+network flops operations 14348934 FLOPS, 0.014349 GFLOPS
 init DONE
 
-network destructor done

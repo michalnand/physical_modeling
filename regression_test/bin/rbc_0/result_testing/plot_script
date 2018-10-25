@@ -44,3 +44,42 @@ plot 'h_resulted_summary.log' using 2:3 notitle with boxes linecolor rgb "red"
 set ylabel "relative count"
 set output 'resulted_summary_relative.png'
 plot 'h_resulted_summary.log' using 2:4 notitle with boxes linecolor rgb "red"
+
+
+
+set ylabel "count"
+set output 'required_0.png'
+plot 'h_required_0.log' using 2:3 notitle with boxes linecolor rgb "red"
+
+set ylabel "count"
+set output 'resulted_0.png'
+plot 'h_resulted_0.log' using 2:3 notitle with boxes linecolor rgb "red"
+
+set ylabel "count"
+set output 'error_0.png'
+plot 'h_error_0.log' using 2:3 notitle with boxes linecolor rgb "red"
+
+
+set ylabel "count"
+set output 'required_1.png'
+plot 'h_required_1.log' using 2:3 notitle with boxes linecolor rgb "red"
+
+set ylabel "count"
+set output 'resulted_1.png'
+plot 'h_resulted_1.log' using 2:3 notitle with boxes linecolor rgb "red"
+
+set ylabel "count"
+set output 'error_1.png'
+plot 'h_error_1.log' using 2:3 notitle with boxes linecolor rgb "red"
+
+set ylabel "count"
+set output 'required_2.png'
+plot 'h_required_2.log' using 2:3 notitle with boxes linecolor rgb "red"
+
+set ylabel "count"
+set output 'resulted_2.png'
+plot 'h_resulted_2.log' using 2:3 notitle with boxes linecolor rgb "red"
+
+set ylabel "count"
+set output 'error_2.png'
+plot 'h_error_2.log' using 2:3 notitle with boxes linecolor rgb "red"

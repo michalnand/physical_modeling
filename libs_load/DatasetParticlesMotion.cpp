@@ -36,7 +36,7 @@ DatasetParticlesMotion::DatasetParticlesMotion( DatsLoad &raw_data_training,
   channels= input_particles_to_read.size() + 1;
 
 
-  training.resize(3);
+  training.resize(1);
 
 //  training_size = training[0].size();
 
@@ -45,7 +45,7 @@ DatasetParticlesMotion::DatasetParticlesMotion( DatsLoad &raw_data_training,
 
 
   std::cout << "training size = " << training[0].size() << "\n";
-  std::cout << "testing size = " << testing.size() << "\n";
+  std::cout << "testing size  = " << testing.size() << "\n";
 
   print();
 }
@@ -53,7 +53,7 @@ DatasetParticlesMotion::DatasetParticlesMotion( DatsLoad &raw_data_training,
 
 void DatasetParticlesMotion::create(DatsLoad &raw_data, bool put_to_testing)
 {
-  for (unsigned int line = 0; line < raw_data.get_lines_count(); line+= time_window_stride)
+  for (unsigned int line = 0; line < raw_data.get_lines_count(); line++)
     for (unsigned int particle = 0; particle < input_particles_to_read.size(); particle++)
       if ((rand()%100) < load_percentage)
        if (line < (raw_data.get_lines_count() - (time_window_size+1)*time_window_stride) )
@@ -67,12 +67,10 @@ void DatasetParticlesMotion::create(DatsLoad &raw_data, bool put_to_testing)
 
           if (put_to_testing)
             add_testing(item);
-          else 
+          else
             add_training_for_regression(item);
             //training[0].push_back(item);
         }
-
-
 }
 
 

@@ -12,12 +12,12 @@
     "time window size"      : 32,
     "time window stride"    : 100,
 
-    "load percentage"            : 100.0
+    "load percentage"            : 10.0
   },
 
   "output parameters" :
   {
     "columns to read" : [1, 2, 3],
-    "prediction step" : 2000
+    "prediction step" : 3500
   }
 }

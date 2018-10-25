@@ -43,6 +43,14 @@
           },
 
           {
+            "type"      : "fc",
+            "geometry"  : [1, 1, 256]
+          },
+          {
+            "type"      : "relu"
+          },
+
+          {
             "type"      : "dropout"
           },
 
