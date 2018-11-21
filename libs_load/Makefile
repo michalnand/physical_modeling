@@ -1,11 +1,10 @@
 OUTPUT_NAME = libs_load
 
-NN_LIBS_PATH=$(HOME)/rysy
-
 INC+= -I.
-INC+= -I$(NN_LIBS_PATH)/libs_common
-INC+= -I$(NN_LIBS_PATH)/libs_dataset
-INC+= -I$(NN_LIBS_PATH)/libs_nn
+INC+= -I$(RYSY_LIBS_PATH)/libs_common
+INC+= -I$(RYSY_LIBS_PATH)/libs_dataset
+INC+= -I$(RYSY_LIBS_PATH)/libs_experiment
+INC+= -I$(RYSY_LIBS_PATH)/libs_nn
 
 SRCS+= $(shell find . -name '*.cpp')
 

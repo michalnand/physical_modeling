@@ -1,6 +1,5 @@
 ELF = bin/regression_test.elf
 
-RYSY_LIBS_PATH=$(HOME)/rysy
 LIBS_PATH=..
 
 INC+= -I.

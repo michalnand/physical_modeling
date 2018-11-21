@@ -1,6 +1,5 @@
-ELF = bin/spring_test.elf
+ELF = bin/lorenz_test.elf
 
-RYSY_LIBS_PATH=$(HOME)/rysy
 LIBS_PATH=..
 
 INC+= -I.
