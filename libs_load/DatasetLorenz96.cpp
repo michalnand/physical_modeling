@@ -1,5 +1,6 @@
 #include "DatasetLorenz96.h"
 #include <math.h>
+#include <iostream>
 
 DatasetLorenz96::DatasetLorenz96(unsigned int variables_count, unsigned int training_size, unsigned int testing_size)
 {
@@ -9,25 +10,27 @@ DatasetLorenz96::DatasetLorenz96(unsigned int variables_count, unsigned int trai
   height  = 1;
   channels= variables_count;
 
+  unsigned int batch_size = 4000;
 
   training.resize(1);
 
-
-  unsigned int batch_count, batch_size;
-
-  batch_count = sqrt(training_size);
-  batch_size  = sqrt(training_size);
-  create(lorenz96, batch_count, batch_size, false);
-
-  batch_count = sqrt(testing_size);
-  batch_size  = sqrt(testing_size);
-  create(lorenz96, batch_count, batch_size, true);
+  create(lorenz96, training_size, batch_size, false);
+  create(lorenz96, testing_size, batch_size, true);
 }
 
 DatasetLorenz96::~DatasetLorenz96()
 {
 
 }
+
+/*
+void print_v(std::vector<float> &v)
+{
+  for (unsigned int i = 0; i < v.size(); i++)
+    std::cout << v[i] << " ";
+  std::cout << "\n";
+}
+*/
 
 void DatasetLorenz96::create(Lorenz96 &lorenz96, unsigned int batch_count, unsigned int batch_size, bool put_to_testing)
 {
@@ -37,11 +40,12 @@ void DatasetLorenz96::create(Lorenz96 &lorenz96, unsigned int batch_count, unsig
 
     for (unsigned int i = 0; i < batch_size; i++)
     {
-      lorenz96.next();
+      lorenz96.next(0.1);
 
       sDatasetItem item;
       item.input  = lorenz96.get_x();
       item.output = lorenz96.get_dif();
+
 
       if (put_to_testing)
         add_testing(item);

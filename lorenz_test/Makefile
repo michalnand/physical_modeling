@@ -8,10 +8,12 @@ INC+= -I$(RYSY_LIBS_PATH)/libs_dataset
 INC+= -I$(RYSY_LIBS_PATH)/libs_nn
 INC+= -I$(RYSY_LIBS_PATH)/libs_experiment
 INC+= -I$(LIBS_PATH)/libs_load
+INC+= -I$(LIBS_PATH)/libs_trajectory
 INC+= -I$(LIBS_PATH)/libs_model
 
 LIBS+= $(LIBS_PATH)/libs_load/libs_load.a
 LIBS+= $(LIBS_PATH)/libs_model/libs_model.a
+LIBS+= $(LIBS_PATH)/libs_trajectory/libs_trajectory.a
 LIBS+= $(RYSY_LIBS_PATH)/libs_dataset/libs_dataset.a
 LIBS+= $(RYSY_LIBS_PATH)/libs_experiment/libs_experiment.a
 LIBS+= $(RYSY_LIBS_PATH)/libs_nn/libs_nn.a
@@ -53,6 +55,6 @@ $(ELF): $(LIBS) $(OBJS) $(OBJS_CUDA)
 	$(CU) -c $(CUDAFLAGS) $< -o $@
 
 clean:
-	rm $(OBJS) -rf
-	rm $(OBJS_CUDA) -rf
-	rm $(ELF) -rf
+	rm $(OBJS) -f
+	rm $(OBJS_CUDA) -f
+	rm $(ELF) -f

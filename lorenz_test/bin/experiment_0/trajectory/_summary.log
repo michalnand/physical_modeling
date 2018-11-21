@@ -1,0 +1,15 @@
+items count = 	1000
+variables count = 	10
+
+target average value = 	0.857862
+target min value = 	0.285778
+target max value = 	1.414130
+
+resulted average value = 	-49.981865
+resulted min value = 	-101.655533
+resulted max value = 	0.941551
+
+error average value = 	50.839779
+error min value = 	0.087169
+error max value = 	102.383110
+

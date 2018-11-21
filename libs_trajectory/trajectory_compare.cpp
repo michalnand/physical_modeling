@@ -9,7 +9,7 @@ TrajectoryCompare::TrajectoryCompare()
 TrajectoryCompare::~TrajectoryCompare()
 {
 
-}
+} 
 
 void TrajectoryCompare::process(  std::string file_name_prefix,
                                   std::vector<std::vector<float>> &target,

@@ -2,57 +2,78 @@
 #include <lorenz96.h>
 #include <log.h>
 #include <trajectory_compare.h>
+#include <DatasetLorenz96.h>
+#include <regression_experiment.h>
 
-int main()
+
+void predict(std::string experiment_dir, unsigned int variables_count)
 {
-  unsigned int iterations_count = 5000;
-  unsigned int variables_count = 10;
+  sGeometry input_geometry, output_geometry;
+  input_geometry.w = 1;
+  input_geometry.h = 1;
+  input_geometry.d = variables_count;
 
-  std::vector<std::vector<float>> target_trajectory;
+  output_geometry.w = 1;
+  output_geometry.h = 1;
+  output_geometry.d = variables_count;
+
+  CNN nn(experiment_dir+"trained/cnn_config.json", input_geometry, output_geometry);
+
+  Log trajectory_target_log(experiment_dir+"trajectory/trajectory_target.log");
+  Log trajectory_predicted_log(experiment_dir+"trajectory/trajectory_predicted.log");
+
+  Lorenz96 lorenz96(variables_count);
+  lorenz96.set_random_initial_conditions(0.1);
+
+  float dt = 0.1;
+
+  lorenz96.next(dt);
+
+
+  std::vector<std::vector<float>> trajectory_target, trajectory_predicted;
+
+  auto predicted = lorenz96.get_x();
+  std::vector<float> target(variables_count);
+  std::vector<float> dif(variables_count);
+
+  for (unsigned int j = 0; j < 1000; j++)
   {
-    Log log("result/target_trajectory.log");
+    auto initial = lorenz96.get_x();
 
-    Lorenz96 lorenz96(variables_count);
-    lorenz96.set_random_initial_conditions(0.01);
+    nn.forward(dif, initial);
+    for (unsigned int i = 0; i < variables_count; i++)
+      predicted[i] = predicted[i] + dif[i]*dt;
 
-    for (unsigned int iteration = 0; iteration < iterations_count; iteration++)
-    {
-      lorenz96.next(0.1);
+    lorenz96.next(dt);
+    auto target = lorenz96.get_x();
 
-      target_trajectory.push_back(lorenz96.get_x());
+    trajectory_target.push_back(target);
+    trajectory_predicted.push_back(predicted);
 
-      log << iteration << " ";
-
-      for (unsigned int i = 0; i < variables_count; i++)
-        log << lorenz96.get_x()[i] << " ";
-      log << "\n";
-    }
-  }
-
-
-  std::vector<std::vector<float>> resulted_trajectory;
-  {
-    Log log("result/resulted_trajectory.log");
-
-    Lorenz96 lorenz96(variables_count);
-    lorenz96.set_random_initial_conditions(0.01);
-
-    for (unsigned int iteration = 0; iteration < iterations_count; iteration++)
-    {
-      lorenz96.next(0.1);
-
-      resulted_trajectory.push_back(lorenz96.get_x());
-
-      log << iteration << " ";
-
-      for (unsigned int i = 0; i < variables_count; i++)
-        log << lorenz96.get_x()[i] << " ";
-      log << "\n";
-    }
+    trajectory_target_log << target << "\n";
+    trajectory_predicted_log << predicted << "\n";
   }
 
   TrajectoryCompare compare;
-  compare.process("result/compared", target_trajectory, resulted_trajectory);
+  compare.process(experiment_dir + "trajectory/", trajectory_target, trajectory_predicted);
+
+}
+
+int main()
+{
+  unsigned int variables_count = 10;
+
+/*
+  DatasetLorenz96 dataset(variables_count, 100, 100);
+  dataset.print();
+
+  {
+    RegressionExperiment experiment(dataset, "experiment_0/");
+    experiment.run();
+  }
+
+*/
+  predict("experiment_0/", variables_count);
 
   std::cout << "program done\n";
   return 0;

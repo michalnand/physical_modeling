@@ -1,0 +1,26 @@
+initializing
+training size    : 400000
+testing size     : 400000
+epoch count      : 10
+sub epoch size   : 5
+
+epoch_learning_rate_decay   : 8
+learning_rate_decay         : 0.250000
+
+training
+
+
+
+epoch [0 0] from [10 5]
+training time per iterations 0.512150[ms]
+testing on 400000 items
+testing done
+average error 0.000371
+min error     0.000000
+max error     0.099342
+saving best net
+best net saved to experiment_0/trained/, with error 0.000371
+
+
+
+epoch [0 1] from [10 5]
