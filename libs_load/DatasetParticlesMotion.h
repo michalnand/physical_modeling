@@ -8,6 +8,7 @@
 
 #include <dataset_interface.h>
 #include <nn_trajectory_input.h>
+#include <nn_trajectory_spatial_input.h>
 
 class DatasetParticlesMotion: public DatasetInterface
 {
@@ -16,7 +17,8 @@ class DatasetParticlesMotion: public DatasetInterface
                             std::string config_file_name);
 
   private:
-    void create(NNTrajectoryInput nn_trajectory_input, DatsLoad &raw_data, bool put_to_testing);
+    void create(NNTrajectorySpatialInput nn_trajectory_input, DatsLoad &raw_data, bool put_to_testing);
+    void print_testing_item(unsigned int idx);
 };
 
 #endif

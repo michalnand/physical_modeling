@@ -8,9 +8,13 @@
                             30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
                             40, 41, 42, 43, 44, 45, 46, 47, 48, 49 ],
 
-    "padding"               : 2,
-    "time window size"      : 32,
-    "time window stride"    : 100,
+    "padding"               : 0,
+    "time window size"      : 4,
+    "time window stride"    : 200,
+
+    "discretisation x"      : 32,
+    "discretisation y"      : 32,
+    "discretisation z"      : 4,
 
     "load percentage"            : 100.0
   },

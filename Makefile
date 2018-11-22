@@ -11,6 +11,7 @@ all:
 
 	cd regression_test && make -j4
 
+	cd spring_test && make -j4
 
 clean:
 	cd libs_load && make clean
@@ -20,3 +21,4 @@ clean:
 	cd lorenz_test && make clean
 
 	cd regression_test && make clean
+	cd spring_test && make clean

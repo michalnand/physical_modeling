@@ -1,6 +1,6 @@
 ELF = bin/spring_test.elf
 
-
+LIBS_PATH=..
 
 INC+= -I.
 INC+= -I$(RYSY_LIBS_PATH)/libs_common

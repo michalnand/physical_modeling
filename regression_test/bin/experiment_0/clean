@@ -1,5 +1,6 @@
 rm *.log
 
+
 cd trained
 rm *
 cd ..

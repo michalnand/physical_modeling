@@ -13,34 +13,15 @@ int main()
   raw_dataset_testing.normalise_column();
 
 
-
   DatasetParticlesMotion dataset( raw_dataset_training,
                                   raw_dataset_testing,
-                                  "dataset_particles_motion_config.json");
+                                  "dataset_particles_motion_spatial_config.json");
 
 
   std::cout << "loading done\n";
-/*
-  unsigned int testing_size = dataset.get_testing_size();
-
-  for (unsigned int i = 0; i < 100; i++)
-  {
-     sDatasetItem item = dataset.get_random_training();
-
-     for (unsigned int j = 0; j < item.input.size(); j++)
-      printf("%6.3f ", item.input[j]);
-
-    printf("\n\n");
 
 
-    for (unsigned int j = 0; j < item.output.size(); j++)
-     printf("%6.3f ", item.output[j]);
-
-   printf("\n\n\n\n\n");
-  }
-*/
-
-  RegressionExperiment experiment(dataset, "rbc_0/");
+  RegressionExperiment experiment(dataset, "experiment_0/");
   experiment.run();
 
   std::cout << "program done\n";
