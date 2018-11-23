@@ -34,12 +34,13 @@ plot 'h_error_0.log' using 2:3 title "x" with boxes linecolor rgb "red" lw 2,\
      'h_error_2.log' using 2:3 title "z" with boxes linecolor rgb "blue" lw 2
 
 
-set ylabel "count"
+set ylabel "relative count"
 set output 'error_relative.png'
 plot 'h_error_0.log' using 2:4 title "x" with boxes linecolor rgb "red" lw 2,\
      'h_error_1.log' using 2:4 title "y" with boxes linecolor rgb "green" lw 2,\
      'h_error_2.log' using 2:4 title "z" with boxes linecolor rgb "blue" lw 2
 
+set xlabel "value"
 
 set ylabel "relative count"
 set output 'required_resulted_summary.png'

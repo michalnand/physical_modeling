@@ -66,6 +66,7 @@ class NNTrajectorySpatialInput
 
     int saturate(int x, int min, int max);
     unsigned int to_idx(unsigned int x, unsigned int y, unsigned int z, unsigned int t, unsigned int w);
+    std::vector<std::vector<float>> make_kernel(float x, float y, unsigned int kernel_size);
 
 };
 

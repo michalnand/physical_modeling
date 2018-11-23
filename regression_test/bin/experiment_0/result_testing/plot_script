@@ -20,66 +20,28 @@ set xlabel "error"
 
 set ylabel "count"
 set output 'error_summary.png'
-plot 'h_error_summary.log' using 2:3 notitle with boxes linecolor rgb "red"
+plot 'h_error_summary.log' using 2:3 notitle with boxes linecolor rgb "red" lw 2
 
 set ylabel "relative count"
 set output 'error_summary_relative.png'
-plot 'h_error_summary.log' using 2:4 notitle with boxes linecolor rgb "red"
+plot 'h_error_summary.log' using 2:4 notitle with boxes linecolor rgb "red" lw 2
 
 
 set ylabel "count"
-set output 'required_summary.png'
-plot 'h_required_summary.log' using 2:3 notitle with boxes linecolor rgb "red"
+set output 'error_all.png'
+plot 'h_error_0.log' using 2:3 title "x" with boxes linecolor rgb "red" lw 2,\
+     'h_error_1.log' using 2:3 title "y" with boxes linecolor rgb "green" lw 2,\
+     'h_error_2.log' using 2:3 title "z" with boxes linecolor rgb "blue" lw 2
+
 
 set ylabel "relative count"
-set output 'required_summary_relative.png'
-plot 'h_required_summary.log' using 2:4 notitle with boxes linecolor rgb "red"
+set output 'error_relative.png'
+plot 'h_error_0.log' using 2:4 title "x" with boxes linecolor rgb "red" lw 2,\
+     'h_error_1.log' using 2:4 title "y" with boxes linecolor rgb "green" lw 2,\
+     'h_error_2.log' using 2:4 title "z" with boxes linecolor rgb "blue" lw 2
 
-
-
-set ylabel "count"
-set output 'resulted_summary.png'
-plot 'h_resulted_summary.log' using 2:3 notitle with boxes linecolor rgb "red"
 
 set ylabel "relative count"
-set output 'resulted_summary_relative.png'
-plot 'h_resulted_summary.log' using 2:4 notitle with boxes linecolor rgb "red"
-
-
-
-set ylabel "count"
-set output 'required_0.png'
-plot 'h_required_0.log' using 2:3 notitle with boxes linecolor rgb "red"
-
-set ylabel "count"
-set output 'resulted_0.png'
-plot 'h_resulted_0.log' using 2:3 notitle with boxes linecolor rgb "red"
-
-set ylabel "count"
-set output 'error_0.png'
-plot 'h_error_0.log' using 2:3 notitle with boxes linecolor rgb "red"
-
-
-set ylabel "count"
-set output 'required_1.png'
-plot 'h_required_1.log' using 2:3 notitle with boxes linecolor rgb "red"
-
-set ylabel "count"
-set output 'resulted_1.png'
-plot 'h_resulted_1.log' using 2:3 notitle with boxes linecolor rgb "red"
-
-set ylabel "count"
-set output 'error_1.png'
-plot 'h_error_1.log' using 2:3 notitle with boxes linecolor rgb "red"
-
-set ylabel "count"
-set output 'required_2.png'
-plot 'h_required_2.log' using 2:3 notitle with boxes linecolor rgb "red"
-
-set ylabel "count"
-set output 'resulted_2.png'
-plot 'h_resulted_2.log' using 2:3 notitle with boxes linecolor rgb "red"
-
-set ylabel "count"
-set output 'error_2.png'
-plot 'h_error_2.log' using 2:3 notitle with boxes linecolor rgb "red"
+set output 'required_resulted_summary.png'
+plot 'h_required_summary.log' using 2:4 title "required" with boxes linecolor rgb "red" lw 2, \
+     'h_resulted_summary.log' using 2:4 title "resulted" with boxes linecolor rgb "green" lw 1

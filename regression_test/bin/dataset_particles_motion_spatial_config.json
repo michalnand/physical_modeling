@@ -12,9 +12,9 @@
     "time window size"      : 4,
     "time window stride"    : 200,
 
-    "discretisation x"      : 32,
-    "discretisation y"      : 32,
-    "discretisation z"      : 4,
+    "discretisation x"      : 16,
+    "discretisation y"      : 16,
+    "discretisation z"      : 1,
 
     "load percentage"            : 100.0
   },
@@ -22,6 +22,6 @@
   "output parameters" :
   {
     "columns to read" : [1, 2, 3],
-    "prediction step" : 3500
+    "prediction step" : 1000
   }
 }

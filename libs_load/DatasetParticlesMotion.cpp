@@ -30,7 +30,8 @@ DatasetParticlesMotion::DatasetParticlesMotion( DatsLoad &raw_data_training,
 
   print();
 
-  print_testing_item(100);
+  for (unsigned int i = 0; i < 10; i++)
+    print_testing_item(rand());
 }
 
 
@@ -55,6 +56,8 @@ void DatasetParticlesMotion::create(NNTrajectorySpatialInput nn_trajectory_input
 
 void DatasetParticlesMotion::print_testing_item(unsigned int idx)
 {
+  idx = idx%testing.size();
+
   unsigned int id = 0;
   for (unsigned int ch = 0; ch < channels; ch++)
   {
@@ -62,11 +65,13 @@ void DatasetParticlesMotion::print_testing_item(unsigned int idx)
     {
       for (unsigned int x = 0; x < width; x++)
       {
+        /*
         if (testing[idx].input[id] > 0.0)
           printf("* ");
         else
           printf(". ");
-        //printf("%3.1f ", testing[idx].input[id]);
+        */
+        printf("%2.3f ", testing[idx].input[id]);
         id++;
       }
       printf("\n");
