@@ -1,21 +1,22 @@
 ELF = bin/regression_test.elf
 
-LIBS_PATH=..
+PHYSICAL_MODELING_LIBS_PATH=..
 
 INC+= -I.
 INC+= -I$(RYSY_LIBS_PATH)/libs_common
 INC+= -I$(RYSY_LIBS_PATH)/libs_dataset
-INC+= -I$(RYSY_LIBS_PATH)/libs_nn
 INC+= -I$(RYSY_LIBS_PATH)/libs_experiment
-INC+= -I$(LIBS_PATH)/libs_load
-INC+= -I$(LIBS_PATH)/libs_model
+INC+= -I$(RYSY_LIBS_PATH)/libs_nn
+INC+= -I$(PHYSICAL_MODELING_LIBS_PATH)/libs_common
+INC+= -I$(PHYSICAL_MODELING_LIBS_PATH)/libs_load
 
-LIBS+= $(LIBS_PATH)/libs_load/libs_load.a
-LIBS+= $(LIBS_PATH)/libs_model/libs_model.a
+LIBS+= $(PHYSICAL_MODELING_LIBS_PATH)/libs_load/libs_load.a
+LIBS+= $(PHYSICAL_MODELING_LIBS_PATH)/libs_common/libs_common_pm.a
 LIBS+= $(RYSY_LIBS_PATH)/libs_dataset/libs_dataset.a
 LIBS+= $(RYSY_LIBS_PATH)/libs_experiment/libs_experiment.a
 LIBS+= $(RYSY_LIBS_PATH)/libs_nn/libs_nn.a
 LIBS+= $(RYSY_LIBS_PATH)/libs_common/libs_common.a
+
 
 
 CC = g++

@@ -1,4 +1,4 @@
-OUTPUT_NAME = libs_load
+OUTPUT_NAME = libs_common_pm
 PHYSICAL_MODELING_LIBS_PATH=..
 
 INC+= -I.
