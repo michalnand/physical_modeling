@@ -46,6 +46,7 @@ class DatsLoad
     void print();
 
     float get(unsigned int dat_idx, unsigned int column_idx, unsigned int line_idx);
+    void set(unsigned int dat_idx, unsigned int column_idx, unsigned int line_idx, float value);
 
     unsigned int get_dat_count();
     unsigned int get_columns_count();

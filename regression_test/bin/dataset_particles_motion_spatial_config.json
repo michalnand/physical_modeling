@@ -16,8 +16,8 @@
     "discretisation y"      : 16,
     "discretisation z"      : 1,
 
-    "load percentage"            : 100.0
-  },
+    "load percentage"            : 50.0
+  }, 
 
   "output parameters" :
   {

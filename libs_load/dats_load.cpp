@@ -102,6 +102,11 @@ float DatsLoad::get(unsigned int dat_idx, unsigned int column_idx, unsigned int 
   return dat[dat_idx].get(column_idx, line_idx);
 }
 
+void DatsLoad::set(unsigned int dat_idx, unsigned int column_idx, unsigned int line_idx, float value)
+{
+  dat[dat_idx].set(column_idx, line_idx, value);
+}
+
 unsigned int DatsLoad::get_dat_count()
 {
   return dat_count;

@@ -76,6 +76,10 @@ float DatLoad::get(unsigned int column, unsigned int line)
   return values[line][column];
 }
 
+void DatLoad::set(unsigned int column, unsigned int line, float value)
+{
+  values[line][column] = value;
+} 
 
 float DatLoad::get_max()
 {
@@ -114,7 +118,7 @@ void DatLoad::normalise_column_kq(unsigned int column, float k, float q)
 {
   for (unsigned int i = 0; i < values.size(); i++)
     values[i][column] = k*values[i][column] + q;
-} 
+}
 
 void DatLoad::print(bool verbose)
 {

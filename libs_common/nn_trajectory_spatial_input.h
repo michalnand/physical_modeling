@@ -27,7 +27,7 @@ class NNTrajectorySpatialInput
     void copy(const NNTrajectorySpatialInput& other);
 
   public:
-    virtual sDatasetItem create(DatsLoad &raw_data, unsigned int line);
+    virtual sDatasetItem create(DatsLoad &raw_data, unsigned int line, unsigned int particle);
 
     unsigned int get_width()
     {

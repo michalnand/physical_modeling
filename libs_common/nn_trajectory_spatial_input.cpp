@@ -122,12 +122,13 @@ void NNTrajectorySpatialInput::copy(const NNTrajectorySpatialInput& other)
   channels  = other.channels;
 }
 
-sDatasetItem NNTrajectorySpatialInput::create(DatsLoad &raw_data, unsigned int line)
+sDatasetItem NNTrajectorySpatialInput::create(DatsLoad &raw_data, unsigned int line, unsigned int particle)
 {
   sDatasetItem result;
 
-    for (unsigned int particle = 0; particle < input_particles_to_read.size(); particle++)
-      if ((rand()%100) < load_percentage)
+  float p = 100.0*(rand()%10000)/10000.0;
+    //for (unsigned int particle = 0; particle < input_particles_to_read.size(); particle++)
+      if (p < load_percentage)
        if (line < (raw_data.get_lines_count() - (time_window_size + 1)*time_window_stride))
         if (line < raw_data.get_lines_count() - (prediction_step + 1))
         {
@@ -135,11 +136,10 @@ sDatasetItem NNTrajectorySpatialInput::create(DatsLoad &raw_data, unsigned int l
 
           result.input  = make_input(top_particle_idx, line, raw_data);
           result.output = make_output(top_particle_idx, line, raw_data);
-        }
+        }  
 
   return result;
 }
-
 
 
 std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_particle_idx,

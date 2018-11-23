@@ -29,28 +29,28 @@ DatasetParticlesMotion::DatasetParticlesMotion( DatsLoad &raw_data_training,
   std::cout << "testing size  = " << testing.size() << "\n";
 
   print();
-
+/*
   for (unsigned int i = 0; i < 10; i++)
     print_testing_item(rand());
+*/
 }
 
 
 void DatasetParticlesMotion::create(NNTrajectorySpatialInput nn_trajectory_input, DatsLoad &raw_data, bool put_to_testing)
 {
   for (unsigned int line = 0; line < raw_data.get_lines_count(); line++)
+  for (unsigned int particle = 0; particle < raw_data.get_dat_count(); particle++)
   {
-    sDatasetItem item = nn_trajectory_input.create(raw_data, line);
+    sDatasetItem item = nn_trajectory_input.create(raw_data, line, particle);
 
-    if (item.input.size() == 0)
-      break;
-
-    if (item.output.size() == 0)
-      break;
-
-    if (put_to_testing)
-      add_testing(item);
-    else
-      add_training_for_regression(item);
+    if (item.input.size() != 0)
+    if (item.output.size() != 0)
+    {
+      if (put_to_testing)
+        add_testing(item);
+      else
+        add_training_for_regression(item);
+    }  
   }
 }
 

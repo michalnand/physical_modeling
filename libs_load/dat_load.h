@@ -48,6 +48,7 @@ class DatLoad
     unsigned int get_lines_count();
 
     float get(unsigned int column, unsigned int line);
+    void set(unsigned int column, unsigned int line, float value);
 
     float get_max();
     float get_max_column(unsigned int column);
@@ -63,7 +64,7 @@ class DatLoad
   public:
     void load(std::string file_name);
     void find_extreme();
- 
+
   private:
     void normalise_column(unsigned int column, float source_min, float source_max, float dest_min, float dest_max);
 

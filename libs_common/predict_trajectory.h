@@ -1,7 +1,7 @@
 #ifndef _PREDICT_TRAJECTORY_H_
 #define _PREDICT_TRAJECTORY_H_
 
-#include <nn_trajectory_input.h>
+#include <nn_trajectory_spatial_input.h>
 #include <trajectory_compare.h>
 #include <cnn.h>
 
