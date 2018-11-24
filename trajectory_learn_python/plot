@@ -1,0 +1,24 @@
+cd trajectory_training_target
+gnuplot plot_script
+cd ..
+
+cd trajectory_testing_target
+gnuplot plot_script
+cd ..
+
+
+cd experiment_0
+./plot
+cd ..
+
+cd experiment_1
+./plot
+cd ..
+
+cd experiment_2
+./plot
+cd ..
+
+cd experiment_3
+./plot
+cd ..

@@ -1,0 +1,16 @@
+cd result_training
+gnuplot plot_script
+cd ..
+
+cd result_testing
+gnuplot plot_script
+cd ..
+
+
+cd trajectory_training_resulted
+gnuplot plot_script
+cd ..
+
+cd trajectory_testing_resulted
+gnuplot plot_script
+cd ..

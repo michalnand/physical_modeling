@@ -1,0 +1,26 @@
+cd trajectory_training_target
+rm *.log
+rm *.png
+cd ..
+
+
+cd trajectory_testing_target
+rm *.log
+rm *.png
+cd ..
+
+cd experiment_0
+./clean
+cd ..
+
+cd experiment_1
+./clean
+cd ..
+
+cd experiment_2
+./clean
+cd ..
+
+cd experiment_3
+./clean
+cd ..
