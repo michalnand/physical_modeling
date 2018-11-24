@@ -20,6 +20,7 @@ dats_testing.normalise_column(0.0, 1.0, False)
 #convert raw values to trajectories
 training_trajectory = pyphy.DatsToTrajectory(dats_training, "dataset_particles_motion_spatial_config.json")
 testing_trajectory = pyphy.DatsToTrajectory(dats_testing, "dataset_particles_motion_spatial_config.json")
+print("loading done")
 
 #save trajectories for further usage
 
@@ -28,7 +29,7 @@ training_trajectory.get_trajectory_output().save("trajectory_training_target/out
 testing_trajectory.get_trajectory_input().save("trajectory_testing_target/input")
 testing_trajectory.get_trajectory_output().save("trajectory_testing_target/output")
 
-print("loading done")
+print("saving done")
 
 
 #create dataset for neural network
@@ -38,7 +39,7 @@ dataset = pyphy.DatasetParticlesMotion( training_trajectory.get_trajectory_input
                                         testing_trajectory.get_trajectory_output(),
                                         "dataset_particles_motion_spatial_config.json")
 
-print("dataset creating done") 
+print("dataset creating done")
 
 #run experiments with different networks
 
@@ -53,3 +54,5 @@ experiment_2.run()
 
 experiment_3 = pyphy.RegressionExperiment(dataset, "experiment_3/")
 experiment_3.run()
+
+print("program done")
