@@ -44,6 +44,7 @@ class DatsLoad
 
   public:
     void print();
+    void save(std::string file_name_prefix);
 
     float get(unsigned int dat_idx, unsigned int column_idx, unsigned int line_idx);
     void set(unsigned int dat_idx, unsigned int column_idx, unsigned int line_idx, float value);
@@ -58,11 +59,22 @@ class DatsLoad
     float get_min();
     float get_min_column(unsigned int column);
 
-    void normalise_column(float min = 0.0, float max = 1.0);
+    void normalise_column(float min = 0.0, float max = 1.0, bool find_own_extreme = true);
+
+    sDatExtremes get_extremes()
+    {
+      return extremes;
+    }
+
+    void set_extremes(sDatExtremes extremes)
+    {
+      this->extremes = extremes;
+    }
+
+    void find_extreme();
 
   private:
     void compute_metric();
-    void find_extreme();
 
 
 };

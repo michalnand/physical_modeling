@@ -60,6 +60,7 @@ class DatLoad
     void normalise_column_kq(unsigned int column, float k, float q);
 
     void print(bool verbose = false);
+    void save(std::string file_name);
 
   public:
     void load(std::string file_name);

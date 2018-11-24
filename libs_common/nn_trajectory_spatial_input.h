@@ -4,8 +4,9 @@
 #include <string>
 #include <vector>
 
-#include <dats_load.h>
 #include <dataset_interface.h>
+#include <dats_load.h>
+#include <trajectory.h>
 
 class NNTrajectorySpatialInput
 {
@@ -28,6 +29,9 @@ class NNTrajectorySpatialInput
 
   public:
     virtual sDatasetItem create(DatsLoad &raw_data, unsigned int line, unsigned int particle);
+    virtual sDatasetItem create(  Trajectory &trajectory_input,
+                                  Trajectory &trajectory_output, 
+                                  unsigned int line, unsigned int particle);
 
     unsigned int get_width()
     {
@@ -45,6 +49,7 @@ class NNTrajectorySpatialInput
     }
 
   private:
+    bool use_other_particles;
     float load_percentage;
 
     std::vector<unsigned int> input_columns_to_read, input_particles_to_read;
@@ -63,6 +68,9 @@ class NNTrajectorySpatialInput
   private:
     std::vector<float> make_input(unsigned int top_particle_idx, unsigned int line, DatsLoad &raw_data);
     std::vector<float> make_output( unsigned int top_particle_idx, unsigned int line, DatsLoad &raw_data);
+
+    std::vector<float> make_input(unsigned int top_particle_idx, unsigned int line, Trajectory &trajectory);
+    std::vector<float> make_output( unsigned int top_particle_idx, unsigned int line, Trajectory &raw_data);
 
     int saturate(int x, int min, int max);
     unsigned int to_idx(unsigned int x, unsigned int y, unsigned int z, unsigned int t, unsigned int w);

@@ -94,7 +94,15 @@ void DatsLoad::print()
   for (unsigned int i = 0; i < get_columns_count(); i++)
     std::cout << get_max_column(i) << " ";
   std::cout << "\n\n";
+}
 
+void DatsLoad::save(std::string file_name_prefix)
+{
+  for (unsigned int i = 0; i < dat.size(); i++)
+  {
+    std::string file_name = file_name_prefix + "_" + std::to_string(i) + ".log";
+    dat[i].save(file_name);
+  }
 }
 
 float DatsLoad::get(unsigned int dat_idx, unsigned int column_idx, unsigned int line_idx)
@@ -200,11 +208,12 @@ void DatsLoad::find_extreme()
   }
 }
 
-void DatsLoad::normalise_column(float min, float max)
+void DatsLoad::normalise_column(float min, float max, bool find_own_extreme)
 {
-  std::cout << "normalising \n";
+  std::cout << "normalising into " << min << " " << max << "\n";
 
-  find_extreme();
+  if (find_own_extreme)
+    find_extreme();
 
   for (unsigned int j = 0; j < get_columns_count(); j++)
   {

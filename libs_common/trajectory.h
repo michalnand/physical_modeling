@@ -7,10 +7,11 @@
 class Trajectory
 {
   private:
-    std::vector<std::vector<float>> trajectory;
+    std::vector<std::vector<std::vector<float>>> trajectory;
 
   public:
     Trajectory();
+    Trajectory(unsigned int w, unsigned int h, unsigned int d);
     Trajectory(Trajectory& other);
     Trajectory(const Trajectory& other);
 
@@ -23,23 +24,32 @@ class Trajectory
     void copy(const Trajectory& other);
 
   public:
-    void add(std::vector<float> &value);
+    void init(unsigned int w, unsigned int h, unsigned int d, float value = 0.0);
     void clear();
 
-    unsigned int dim();
-    unsigned int size();
+    unsigned int get_width()
+    {
+      return trajectory[0][0].size();
+    }
 
-    std::vector<std::vector<float>>& get();
-    std::vector<float>& get_line(unsigned int idx);
+    unsigned int get_height()
+    {
+      return trajectory[0].size();
+    }
 
+    unsigned int get_depth()
+    {
+      return trajectory.size();
+    }
 
-    void print();
-    void save(std::string file_name);
+    void set(unsigned int x, unsigned int y, unsigned int z, float value);
+    float get(unsigned int x, unsigned int y, unsigned int z);
 
   public:
-    void random(unsigned int length, unsigned int dim = 3, float dt = 0.001);
-    std::string asString(unsigned int idx);
-    void print(unsigned int idx);
+    void print();
+    void save(std::string file_name_prefix);
+
+    void random(unsigned int width, unsigned int height, unsigned int depth, float dt = 0.001);
 
 };
 

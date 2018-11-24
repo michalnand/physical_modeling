@@ -4,6 +4,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <log.h>
+
 DatLoad::DatLoad()
 {
   extremes.max         = 0.0;
@@ -79,7 +81,7 @@ float DatLoad::get(unsigned int column, unsigned int line)
 void DatLoad::set(unsigned int column, unsigned int line, float value)
 {
   values[line][column] = value;
-} 
+}
 
 float DatLoad::get_max()
 {
@@ -153,6 +155,17 @@ void DatLoad::print(bool verbose)
     std::cout << "\n";
   }
   std::cout << "\n";
+}
+
+void DatLoad::save(std::string file_name)
+{
+  Log log(file_name);
+  for (unsigned int j = 0; j < get_lines_count(); j++)
+  {
+    for (unsigned int i = 0; i < get_columns_count(); i++)
+      log << get(i, j) << " ";
+    log << "\n";
+  }
 }
 
 

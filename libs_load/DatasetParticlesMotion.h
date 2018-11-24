@@ -4,20 +4,26 @@
 #include <string>
 #include <vector>
 
-#include <dats_load.h>
+#include <trajectory.h>
 
 #include <dataset_interface.h>
-#include <nn_trajectory_input.h>
 #include <nn_trajectory_spatial_input.h>
 
 class DatasetParticlesMotion: public DatasetInterface
 {
   public:
-    DatasetParticlesMotion( DatsLoad &raw_data_training, DatsLoad &raw_data_testing,
+    DatasetParticlesMotion( Trajectory &trajectory_training_input,
+                            Trajectory &trajectory_training_output,
+                            Trajectory &trajectory_testing_input,
+                            Trajectory &trajectory_testing_output,
                             std::string config_file_name);
 
+    virtual ~DatasetParticlesMotion();
   private:
-    void create(NNTrajectorySpatialInput nn_trajectory_input, DatsLoad &raw_data, bool put_to_testing);
+    void create(  NNTrajectorySpatialInput nn_trajectory_input,
+                  Trajectory &trajectory_input,
+                  Trajectory &trajectory_output,
+                  bool put_to_testing);
     void print_testing_item(unsigned int idx);
 };
 

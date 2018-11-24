@@ -3,16 +3,14 @@
 #include <json_config.h>
 #include <iostream>
 
-DatasetParticlesMotion::DatasetParticlesMotion( DatsLoad &raw_data_training,
-                                                DatsLoad &raw_data_testing,
+DatasetParticlesMotion::DatasetParticlesMotion( Trajectory &trajectory_training_input,
+                                                Trajectory &trajectory_training_output,
+                                                Trajectory &trajectory_testing_input,
+                                                Trajectory &trajectory_testing_output,
                                                 std::string config_file_name)
                        :DatasetInterface()
 {
-  //NNTrajectoryInput nn_trajectory_input(config_file_name);
-
   NNTrajectorySpatialInput nn_trajectory_input(config_file_name);
-
-
 
   width     = nn_trajectory_input.get_width();
   height    = nn_trajectory_input.get_height();
@@ -21,27 +19,35 @@ DatasetParticlesMotion::DatasetParticlesMotion( DatsLoad &raw_data_training,
 
   training.resize(1);
 
-  create(nn_trajectory_input, raw_data_training, false);
-  create(nn_trajectory_input, raw_data_testing, true);
-
+  create(nn_trajectory_input, trajectory_training_input, trajectory_training_output, false);
+  create(nn_trajectory_input, trajectory_testing_input, trajectory_testing_output, true);
 
   std::cout << "training size = " << training[0].size() << "\n";
   std::cout << "testing size  = " << testing.size() << "\n";
 
   print();
+
 /*
   for (unsigned int i = 0; i < 10; i++)
     print_testing_item(rand());
 */
 }
 
-
-void DatasetParticlesMotion::create(NNTrajectorySpatialInput nn_trajectory_input, DatsLoad &raw_data, bool put_to_testing)
+DatasetParticlesMotion::~DatasetParticlesMotion()
 {
-  for (unsigned int line = 0; line < raw_data.get_lines_count(); line++)
-  for (unsigned int particle = 0; particle < raw_data.get_dat_count(); particle++)
+
+}
+
+
+void DatasetParticlesMotion::create(  NNTrajectorySpatialInput nn_trajectory_input,
+                                      Trajectory &trajectory_input,
+                                      Trajectory &trajectory_output,
+                                      bool put_to_testing)
+{
+  for (unsigned int line = 0; line < trajectory_input.get_height(); line++)
+  for (unsigned int particle = 0; particle < trajectory_input.get_depth(); particle++)
   {
-    sDatasetItem item = nn_trajectory_input.create(raw_data, line, particle);
+    sDatasetItem item = nn_trajectory_input.create(trajectory_input, trajectory_output, line, particle);
 
     if (item.input.size() != 0)
     if (item.output.size() != 0)
@@ -50,7 +56,7 @@ void DatasetParticlesMotion::create(NNTrajectorySpatialInput nn_trajectory_input
         add_testing(item);
       else
         add_training_for_regression(item);
-    }  
+    }
   }
 }
 
