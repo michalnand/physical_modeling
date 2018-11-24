@@ -28,7 +28,7 @@ training_trajectory.get_trajectory_output().save("trajectory_training_target/out
 testing_trajectory.get_trajectory_input().save("trajectory_testing_target/input")
 testing_trajectory.get_trajectory_output().save("trajectory_testing_target/output")
 
-print("loading done");
+print("loading done")
 
 
 #create dataset for neural network
@@ -36,20 +36,20 @@ dataset = pyphy.DatasetParticlesMotion( training_trajectory.get_trajectory_input
                                         training_trajectory.get_trajectory_output(),
                                         testing_trajectory.get_trajectory_input(),
                                         testing_trajectory.get_trajectory_output(),
-                                        "dataset_particles_motion_spatial_config.json");
+                                        "dataset_particles_motion_spatial_config.json")
 
-print("dataset creating done");
+print("dataset creating done") 
 
 #run experiments with different networks
 
-experiment_0 = pyphy.RegressionExperiment(dataset, "experiment_0/");
-experiment_0.run();
+experiment_0 = pyphy.RegressionExperiment(dataset, "experiment_0/")
+experiment_0.run()
 
-experiment_1 = pyphy.RegressionExperiment(dataset, "experiment_1/");
-experiment_1.run();
+experiment_1 = pyphy.RegressionExperiment(dataset, "experiment_1/")
+experiment_1.run()
 
-experiment_2 = pyphy.RegressionExperiment(dataset, "experiment_2/");
-experiment_2.run();
+experiment_2 = pyphy.RegressionExperiment(dataset, "experiment_2/")
+experiment_2.run()
 
-experiment_3 = pyphy.RegressionExperiment(dataset, "experiment_3/");
-experiment_3.run();
+experiment_3 = pyphy.RegressionExperiment(dataset, "experiment_3/")
+experiment_3.run()
