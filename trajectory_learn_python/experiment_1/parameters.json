@@ -27,7 +27,7 @@
         [
           {
             "type"      : "dense convolution",
-            "geometry"  : [3, 3, 16]
+            "geometry"  : [3, 3, 8]
           },
           {
             "type"      : "relu"
@@ -35,11 +35,12 @@
 
           {
             "type"      : "dense convolution",
-            "geometry"  : [3, 3, 16]
+            "geometry"  : [3, 3, 8]
           },
           {
             "type"      : "relu"
           },
+
 
           {
             "type"      : "convolution",
@@ -49,9 +50,42 @@
             "type"      : "relu"
           },
 
+
+          {
+            "type"      : "dense convolution",
+            "geometry"  : [3, 3, 8]
+          },
+          {
+            "type"      : "relu"
+          },
+
+          {
+            "type"      : "dense convolution",
+            "geometry"  : [3, 3, 8]
+          },
+          {
+            "type"      : "relu"
+          },
+
+          {
+            "type"      : "dense convolution",
+            "geometry"  : [3, 3, 8]
+          },
+          {
+            "type"      : "relu"
+          },
+
+          {
+            "type"      : "dense convolution",
+            "geometry"  : [3, 3, 8]
+          },
+          {
+            "type"      : "relu"
+          },
+
           {
             "type"      : "convolution",
-            "geometry"  : [3, 3, 16]
+            "geometry"  : [1, 1, 16]
           },
           {
             "type"      : "relu"
@@ -59,7 +93,7 @@
 
           {
             "type"      : "fc",
-            "geometry"  : [1, 1, 64]
+            "geometry"  : [1, 1, 256]
           },
           {
             "type"      : "relu"
