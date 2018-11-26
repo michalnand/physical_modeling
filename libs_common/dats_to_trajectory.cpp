@@ -25,7 +25,7 @@ DatsToTrajectory::DatsToTrajectory(DatsLoad &raw_data, std::string config_file_n
     trajectory_input.init(input_columns_to_read.size(), raw_data.get_lines_count(), particles_to_read.size());
 
     for (unsigned int k = 0; k < particles_to_read.size(); k++)
-    for (unsigned int j = 0; j < raw_data.get_lines_count(); j++)
+    for (unsigned int j = 1; j < raw_data.get_lines_count(); j++)
     for (unsigned int i = 0; i < input_columns_to_read.size(); i++)
     {
       float value = raw_data.get(particles_to_read[k], input_columns_to_read[i], j);
@@ -37,11 +37,18 @@ DatsToTrajectory::DatsToTrajectory(DatsLoad &raw_data, std::string config_file_n
     trajectory_output.init(output_columns_to_read.size(), raw_data.get_lines_count(), particles_to_read.size());
 
     for (unsigned int k = 0; k < particles_to_read.size(); k++)
-    for (unsigned int j = 0; j < raw_data.get_lines_count(); j++)
+    for (unsigned int j = 1; j < raw_data.get_lines_count(); j++)
     for (unsigned int i = 0; i < output_columns_to_read.size(); i++)
     {
-      float value = raw_data.get(particles_to_read[k], input_columns_to_read[i], j);
+      float value = raw_data.get(particles_to_read[k], output_columns_to_read[i], j);
       trajectory_output.set(i, j, k, value);
+
+      /*
+      float x0 = raw_data.get(particles_to_read[k], output_columns_to_read[i], j - 1);
+      float x1 = raw_data.get(particles_to_read[k], output_columns_to_read[i], j);
+      float v = x1 - x0;
+      trajectory_output.set(i, j, k, v);
+      */
     }
   }
 }
