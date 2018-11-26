@@ -7,8 +7,18 @@
 #include <trajectory.h>
 #include <dats_to_trajectory.h>
 
+#include <particles_test.h>
+
 int main()
 {
+  ParticlesTest particles_test(256);
+
+  while (1)
+  {
+    particles_test.process();
+    particles_test.render();
+  }
+
   DatsLoad dats_training("training.json");
   DatsLoad dats_testing("testing.json");
 
@@ -61,7 +71,7 @@ int main()
  {
    RegressionExperiment experiment(dataset, "experiment_3/");
    experiment.run();
- } 
+ }
 
 
   std::cout << "program done\n";
