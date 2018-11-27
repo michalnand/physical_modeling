@@ -29,6 +29,8 @@
 #include <dat_load.h>
 #include <dats_load.h>
 #include <dataset_interface.h>
+#include <DatasetLorenz.h>
+#include <DatasetLorenzSpatial.h>
 #include <DatasetParticlesMotion.h>
 
 #include <log.h>
@@ -50,6 +52,8 @@
 %include <dat_load.h>
 %include <dats_load.h>
 %include <dataset_interface.h>
+%include <DatasetLorenz.h>
+%include <DatasetLorenzSpatial.h>
 %include <DatasetParticlesMotion.h>
 
 %include <log.h>

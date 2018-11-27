@@ -1452,8 +1452,17 @@ class Lorenz(_object):
     __swig_destroy__ = _pyphy.delete_Lorenz
     __del__ = lambda self: None
 
-    def save(self, file_name):
-        return _pyphy.Lorenz_save(self, file_name)
+    def save(self, file_name_prefix):
+        return _pyphy.Lorenz_save(self, file_name_prefix)
+
+    def size(self):
+        return _pyphy.Lorenz_size(self)
+
+    def get_state(self, idx):
+        return _pyphy.Lorenz_get_state(self, idx)
+
+    def get_output(self, idx):
+        return _pyphy.Lorenz_get_output(self, idx)
 Lorenz_swigregister = _pyphy.Lorenz_swigregister
 Lorenz_swigregister(Lorenz)
 
@@ -1726,6 +1735,50 @@ class DatasetInterface(_object):
         return _pyphy.DatasetInterface_save_to_binary(self, training_file_name, testing_file_name, unlabeled_file_name)
 DatasetInterface_swigregister = _pyphy.DatasetInterface_swigregister
 DatasetInterface_swigregister(DatasetInterface)
+
+class DatasetLorenz(DatasetInterface):
+    __swig_setmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetLorenz, name, value)
+    __swig_getmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, DatasetLorenz, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, training_count, testing_count):
+        this = _pyphy.new_DatasetLorenz(training_count, testing_count)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_DatasetLorenz
+    __del__ = lambda self: None
+DatasetLorenz_swigregister = _pyphy.DatasetLorenz_swigregister
+DatasetLorenz_swigregister(DatasetLorenz)
+
+class DatasetLorenzSpatial(DatasetInterface):
+    __swig_setmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetLorenzSpatial, name, value)
+    __swig_getmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, DatasetLorenzSpatial, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, training_count, testing_count, discretization=16):
+        this = _pyphy.new_DatasetLorenzSpatial(training_count, testing_count, discretization)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_DatasetLorenzSpatial
+    __del__ = lambda self: None
+DatasetLorenzSpatial_swigregister = _pyphy.DatasetLorenzSpatial_swigregister
+DatasetLorenzSpatial_swigregister(DatasetLorenzSpatial)
 
 class DatasetParticlesMotion(DatasetInterface):
     __swig_setmethods__ = {}
