@@ -7,6 +7,7 @@
 #include <predict_trajectory.h>
 #include <trajectory_compare.h>
 #include <trajectory.h>
+#include <lorenz.h>
 
 
 #include <dat_load.h>
