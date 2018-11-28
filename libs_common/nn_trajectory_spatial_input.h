@@ -50,6 +50,8 @@ class NNTrajectorySpatialInput
 
   private:
     bool use_other_particles;
+    bool use_gaussian_kernel;
+    
     float load_percentage;
 
     std::vector<unsigned int> input_columns_to_read, input_particles_to_read;
@@ -76,8 +78,11 @@ class NNTrajectorySpatialInput
 
     int saturate(int x, int min, int max);
     unsigned int to_idx(unsigned int x, unsigned int y, unsigned int z, unsigned int t, unsigned int w);
-    std::vector<std::vector<float>> make_kernel(float x, float y, unsigned int kernel_size);
 
+    std::vector<std::vector<std::vector<float>>> make_kernel( float x, float y, float z,
+                                                              unsigned int kernel_size);
+
+    float gaussian(float x, float y, float z, float x0, float y0, float z0, float k);
 };
 
 #endif

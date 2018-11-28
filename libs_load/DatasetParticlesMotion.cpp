@@ -27,10 +27,8 @@ DatasetParticlesMotion::DatasetParticlesMotion( Trajectory &trajectory_training_
 
   print();
 
-/*
-  for (unsigned int i = 0; i < 10; i++)
+  //for (unsigned int i = 0; i < 10; i++)
     print_testing_item(rand());
-*/
 }
 
 DatasetParticlesMotion::~DatasetParticlesMotion()
@@ -77,7 +75,10 @@ void DatasetParticlesMotion::print_testing_item(unsigned int idx)
         else
           printf(". ");
         */
+
         printf("%2.3f ", testing[idx].input[id]);
+
+
         id++;
       }
       printf("\n");

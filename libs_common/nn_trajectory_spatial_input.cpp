@@ -6,6 +6,8 @@
 NNTrajectorySpatialInput::NNTrajectorySpatialInput()
 {
   use_other_particles = false;
+  use_gaussian_kernel = false;
+
   load_percentage     = 0.0;
   padding             = 0;
   time_window_size    = 0;
@@ -26,8 +28,10 @@ NNTrajectorySpatialInput::NNTrajectorySpatialInput(std::string config_file_name)
   JsonConfig json(config_file_name);
 
   use_other_particles = json.result["use other particles"].asBool();
+  use_gaussian_kernel = json.result["use gaussian kernel"].asBool();
 
-  load_percentage = json.result["input parameters"]["load percentage"].asFloat();
+
+  load_percentage = json.result["load percentage"].asFloat();
 
   for (unsigned int i = 0; i < json.result["input parameters"]["columns to read"].size(); i++)
     input_columns_to_read.push_back(json.result["input parameters"]["columns to read"][i].asInt());
@@ -50,8 +54,12 @@ NNTrajectorySpatialInput::NNTrajectorySpatialInput(std::string config_file_name)
 
   width   = discretisation_x  + 2*padding;
   height  = discretisation_y  + 2*padding;
-  //channels= discretisation_z*time_window_size*2;
-  channels= discretisation_z*time_window_size;
+
+  if (use_other_particles)
+    channels= discretisation_z*time_window_size*2;
+  else
+    channels= discretisation_z*time_window_size;
+
 }
 
 NNTrajectorySpatialInput::NNTrajectorySpatialInput(NNTrajectorySpatialInput& other)
@@ -127,25 +135,7 @@ void NNTrajectorySpatialInput::copy(const NNTrajectorySpatialInput& other)
   channels  = other.channels;
 }
 
-/*
-sDatasetItem NNTrajectorySpatialInput::create(DatsLoad &raw_data, unsigned int line, unsigned int particle)
-{
-  sDatasetItem result;
 
-  float p = 100.0*(rand()%10000)/10000.0;
-      if (p < load_percentage)
-       if (line < (raw_data.get_lines_count() - (time_window_size + 1)*time_window_stride))
-        if (line < raw_data.get_lines_count() - (prediction_step + 1))
-        {
-          unsigned int top_particle_idx = input_particles_to_read[particle];
-
-          result.input  = make_input(top_particle_idx, line, raw_data);
-          result.output = make_output(top_particle_idx, line, raw_data);
-        }
-
-  return result;
-}
-*/
 
 sDatasetItem NNTrajectorySpatialInput::create(  Trajectory &trajectory_input,
                                                 Trajectory &trajectory_output,
@@ -167,109 +157,33 @@ sDatasetItem NNTrajectorySpatialInput::create(  Trajectory &trajectory_input,
   return result;
 }
 
-/*
-std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_particle_idx,
-                                                          unsigned int line,
-                                                          DatsLoad &raw_data)
-{
-    unsigned int result_size = width*height*channels;
-
-    std::vector<float> result(result_size);
-
-    for (unsigned int i = 0; i < result.size(); i++)
-      result[i] = 0.0;
-
-    for (unsigned int time_idx = 0; time_idx < time_window_size; time_idx++)
-    {
-      float x = raw_data.get(top_particle_idx, input_columns_to_read[0], time_idx*time_window_stride + line);
-      float y = raw_data.get(top_particle_idx, input_columns_to_read[1], time_idx*time_window_stride + line);
-      float z = raw_data.get(top_particle_idx, input_columns_to_read[2], time_idx*time_window_stride + line);
-
-      float x_discretized = x*discretisation_x;
-      float y_discretized = y*discretisation_y;
-      float z_discretized = z*discretisation_z;
-
-      unsigned int x_ = saturate(x_discretized, 0, discretisation_x-1);
-      unsigned int y_ = saturate(y_discretized, 0, discretisation_y-1);
-      unsigned int z_ = saturate(z_discretized, 0, discretisation_z-1);
-
-      unsigned int kernel_size = 5;
-      auto kernel = make_kernel(x_discretized, y_discretized, kernel_size);
-
-      for (unsigned int ky = 0; ky < kernel_size; ky++)
-      for (unsigned int kx = 0; kx < kernel_size; kx++)
-      {
-        unsigned int idx = to_idx(x_ + kx, y_ + ky, z_, time_idx, 0);
-        result[idx]+= kernel[ky][kx];
-      }
-    }
-
-    if (use_other_particles)
-    {
-      for (unsigned int particle = 0; particle < input_particles_to_read.size(); particle++)
-      for (unsigned int time_idx = 0; time_idx < time_window_size; time_idx++)
-      {
-        float x = raw_data.get(top_particle_idx, input_columns_to_read[0], time_idx*time_window_stride + line);
-        float y = raw_data.get(top_particle_idx, input_columns_to_read[1], time_idx*time_window_stride + line);
-        float z = raw_data.get(top_particle_idx, input_columns_to_read[2], time_idx*time_window_stride + line);
-
-        float x_discretized = x*discretisation_x;
-        float y_discretized = y*discretisation_y;
-        float z_discretized = z*discretisation_z;
-
-        unsigned int x_ = saturate(x_discretized, 0, discretisation_x-1);
-        unsigned int y_ = saturate(y_discretized, 0, discretisation_y-1);
-        unsigned int z_ = saturate(z_discretized, 0, discretisation_z-1);
-
-        unsigned int kernel_size = 5;
-        auto kernel = make_kernel(x_discretized, y_discretized, kernel_size);
-
-        for (unsigned int ky = 0; ky < kernel_size; ky++)
-        for (unsigned int kx = 0; kx < kernel_size; kx++)
-        {
-          unsigned int idx = to_idx(x_ + kx, y_ + ky, z_, time_idx, 1);
-          result[idx]+= kernel[ky][kx];
-        }
-      }
-    }
-
-  return result;
-}
-
-
-std::vector<float> NNTrajectorySpatialInput::make_output(   unsigned int top_particle_idx,
-                                                            unsigned int line,
-                                                            DatsLoad &raw_data)
-{
-  unsigned int otput_size = output_columns_to_read.size();
-  std::vector<float> result(otput_size);
-
-  for (unsigned int column = 0; column < otput_size; column++)
-  {
-    float value = raw_data.get(
-                                top_particle_idx,
-                                output_columns_to_read[column],
-                                prediction_step + line
-                              );
-
-    result[column] = value;
-  }
-
-  return result;
-}
-
-*/
 
 std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_particle_idx,
                                                           unsigned int line,
                                                           Trajectory &trajectory)
 {
+    //TODO bug width use_gaussian_kernel -> still true
+    // printf(">>>>> VALUES = %u %u \n\n", use_gaussian_kernel, use_other_particles);
+
     unsigned int result_size = width*height*channels;
 
     std::vector<float> result(result_size);
 
     for (unsigned int i = 0; i < result.size(); i++)
       result[i] = 0.0;
+
+    unsigned int kernel_size = 5;
+
+    if (discretisation_x < kernel_size)
+      kernel_size = discretisation_x;
+
+    if (discretisation_y < kernel_size)
+      kernel_size = discretisation_y;
+
+    if (discretisation_z < kernel_size)
+      kernel_size = discretisation_z;
+
+
 
     for (unsigned int time_idx = 0; time_idx < time_window_size; time_idx++)
     {
@@ -277,28 +191,38 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
       float y = trajectory.get(input_columns_to_read[1], time_idx*time_window_stride + line, top_particle_idx);
       float z = trajectory.get(input_columns_to_read[2], time_idx*time_window_stride + line, top_particle_idx);
 
-      float x_discretized = x*discretisation_x;
-      float y_discretized = y*discretisation_y;
-      float z_discretized = z*discretisation_z;
 
-      unsigned int x_ = saturate(x_discretized, 0, discretisation_x-1);
-      unsigned int y_ = saturate(y_discretized, 0, discretisation_y-1);
-      unsigned int z_ = saturate(z_discretized, 0, discretisation_z-1);
 
-      unsigned int idx = to_idx(x_ , y_, z_, time_idx, 0);
-      result[idx] = 1.0;
+      float x_scaled = x*discretisation_x;
+      float y_scaled = y*discretisation_y;
+      float z_scaled = z*discretisation_z;
 
-      /*
-      unsigned int kernel_size = 5;
-      auto kernel = make_kernel(x_discretized, y_discretized, kernel_size);
+      unsigned int x_discretized = saturate(x_scaled, 0, discretisation_x-1);
+      unsigned int y_discretized = saturate(y_scaled, 0, discretisation_y-1);
+      unsigned int z_discretized = saturate(z_scaled, 0, discretisation_z-1);
 
-      for (unsigned int ky = 0; ky < kernel_size; ky++)
-      for (unsigned int kx = 0; kx < kernel_size; kx++)
+      if (use_gaussian_kernel)
       {
-        unsigned int idx = to_idx(x_ + kx, y_ + ky, z_, time_idx, 0);
-        result[idx]+= kernel[ky][kx];
+        auto kernel = make_kernel(  x - (float)x_discretized,
+                                    y - (float)y_discretized,
+                                    z - (float)z_discretized,
+
+                                    kernel_size);
+
+        for (unsigned int kz = 0; kz < kernel_size; kz++)
+        for (unsigned int ky = 0; ky < kernel_size; ky++)
+        for (unsigned int kx = 0; kx < kernel_size; kx++)
+        {
+          unsigned int idx = to_idx(x_discretized + kx, y_discretized + ky, z_discretized + kz, time_idx, 0);
+          result[idx] = kernel[kz][ky][kx];
+        }
       }
-      */
+      else
+      {
+        unsigned int idx = to_idx(x_discretized , y_discretized, z_discretized, time_idx, 0);
+        result[idx] = 1.0;
+      }
+
     }
 
     if (use_other_particles)
@@ -306,32 +230,39 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
       for (unsigned int particle = 0; particle < input_particles_to_read.size(); particle++)
       for (unsigned int time_idx = 0; time_idx < time_window_size; time_idx++)
       {
-        float x = trajectory.get(input_columns_to_read[0], time_idx*time_window_stride + line, top_particle_idx);
-        float y = trajectory.get(input_columns_to_read[1], time_idx*time_window_stride + line, top_particle_idx);
-        float z = trajectory.get(input_columns_to_read[2], time_idx*time_window_stride + line, top_particle_idx);
+        float x = trajectory.get(input_columns_to_read[0], time_idx*time_window_stride + line, particle);
+        float y = trajectory.get(input_columns_to_read[1], time_idx*time_window_stride + line, particle);
+        float z = trajectory.get(input_columns_to_read[2], time_idx*time_window_stride + line, particle);
 
-        float x_discretized = x*discretisation_x;
-        float y_discretized = y*discretisation_y;
-        float z_discretized = z*discretisation_z;
+        float x_scaled = x*discretisation_x;
+        float y_scaled = y*discretisation_y;
+        float z_scaled = z*discretisation_z;
 
-        unsigned int x_ = saturate(x_discretized, 0, discretisation_x-1);
-        unsigned int y_ = saturate(y_discretized, 0, discretisation_y-1);
-        unsigned int z_ = saturate(z_discretized, 0, discretisation_z-1);
+        unsigned int x_discretized = saturate(x_scaled, 0, discretisation_x-1);
+        unsigned int y_discretized = saturate(y_scaled, 0, discretisation_y-1);
+        unsigned int z_discretized = saturate(z_scaled, 0, discretisation_z-1);
 
-        unsigned int idx = to_idx(x_ , y_, z_, time_idx, 0);
-        result[idx] = 1.0;
-
-        /*
-        unsigned int kernel_size = 5;
-        auto kernel = make_kernel(x_discretized, y_discretized, kernel_size);
-
-        for (unsigned int ky = 0; ky < kernel_size; ky++)
-        for (unsigned int kx = 0; kx < kernel_size; kx++)
+        if (use_gaussian_kernel)
         {
-          unsigned int idx = to_idx(x_ + kx, y_ + ky, z_, time_idx, 1);
-          result[idx]+= kernel[ky][kx];
+          auto kernel = make_kernel(  x - (float)x_discretized,
+                                      y - (float)y_discretized,
+                                      z - (float)z_discretized,
+
+                                      kernel_size);
+
+          for (unsigned int kz = 0; kz < kernel_size; kz++)
+          for (unsigned int ky = 0; ky < kernel_size; ky++)
+          for (unsigned int kx = 0; kx < kernel_size; kx++)
+          {
+            unsigned int idx = to_idx(x_discretized + kx, y_discretized + ky, z_discretized + kz, time_idx, 1);
+            result[idx] = kernel[kz][ky][kx];
+          }
         }
-        */
+        else
+        {
+          unsigned int idx = to_idx(x_discretized , y_discretized, z_discretized, time_idx, 1);
+          result[idx] = 1.0;
+        }
       }
     }
 
@@ -389,41 +320,53 @@ unsigned int NNTrajectorySpatialInput::to_idx(unsigned int x, unsigned int y, un
 }
 
 
-std::vector<std::vector<float>> NNTrajectorySpatialInput::make_kernel(float x, float y, unsigned int kernel_size)
+
+std::vector<std::vector<std::vector<float>>> NNTrajectorySpatialInput::make_kernel( float x, float y, float z,
+                                                                                    unsigned int kernel_size)
 {
-  std::vector<std::vector<float>> result(kernel_size, std::vector<float>(kernel_size));
+  std::vector<std::vector<std::vector<float>>>
+  result(kernel_size, std::vector<std::vector<float>>(kernel_size, std::vector<float>(kernel_size)));
 
-  for (unsigned int j = 0; j < kernel_size; j++)
-    for (unsigned int i = 0; i < kernel_size; i++)
-      result[j][i] = 0.0;
-
-  for (unsigned int j = 0; j < kernel_size; j++)
-  {
-    for (unsigned int i = 0; i < kernel_size; i++)
-    {
-      float x_discretized = x + (i - kernel_size/2.0);
-      float y_discretized = y + (j - kernel_size/2.0);
+  float sigma = 1.0/kernel_size;
 
 
-      float d = 0.0;
-      d+= pow(x - x_discretized, 2);
-      d+= pow(y - y_discretized, 2);
-
-      result[j][i] = exp(-d);
-    }
-  }
-    float sum = 0.0;
+  for (unsigned int k = 0; k < kernel_size; k++)
     for (unsigned int j = 0; j < kernel_size; j++)
       for (unsigned int i = 0; i < kernel_size; i++)
-        sum+= result[j][i];
+      {
+        float x_ = (float)i + x - kernel_size/2.0;
+        float y_ = (float)j + y - kernel_size/2.0;
+        float z_ = (float)k + z - kernel_size/2.0;
 
-    if (sum > 0.0)
-    {
+        result[k][j][i] = gaussian(x_, y_, z_, x, y, z, sigma);
+      }
+
+  float sum = 0.0;
+  for (unsigned int k = 0; k < kernel_size; k++)
+    for (unsigned int j = 0; j < kernel_size; j++)
+      for (unsigned int i = 0; i < kernel_size; i++)
+        sum+= result[k][j][i];
+
+  if (sum > 0.0)
+  {
+    for (unsigned int k = 0; k < kernel_size; k++)
       for (unsigned int j = 0; j < kernel_size; j++)
         for (unsigned int i = 0; i < kernel_size; i++)
-          result[j][i]/= sum;
-    }
-
+          result[k][j][i]/= sum;
+  }
 
   return result;
+}
+
+
+float NNTrajectorySpatialInput::gaussian( float x, float y, float z,
+                                          float x0, float y0, float z0,
+                                          float k)
+{
+  float sum = 0.0;
+  sum+= (x - x0)*(x - x0);
+  sum+= (y - y0)*(y - y0);
+  sum+= (z - z0)*(z - z0);
+
+  return exp(-sum*k);
 }
