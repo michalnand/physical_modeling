@@ -127,6 +127,7 @@ void NNTrajectorySpatialInput::copy(const NNTrajectorySpatialInput& other)
   channels  = other.channels;
 }
 
+/*
 sDatasetItem NNTrajectorySpatialInput::create(DatsLoad &raw_data, unsigned int line, unsigned int particle)
 {
   sDatasetItem result;
@@ -144,7 +145,7 @@ sDatasetItem NNTrajectorySpatialInput::create(DatsLoad &raw_data, unsigned int l
 
   return result;
 }
-
+*/
 
 sDatasetItem NNTrajectorySpatialInput::create(  Trajectory &trajectory_input,
                                                 Trajectory &trajectory_output,
@@ -166,7 +167,7 @@ sDatasetItem NNTrajectorySpatialInput::create(  Trajectory &trajectory_input,
   return result;
 }
 
-
+/*
 std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_particle_idx,
                                                           unsigned int line,
                                                           DatsLoad &raw_data)
@@ -236,9 +237,9 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
 }
 
 
-std::vector<float> NNTrajectorySpatialInput::make_output(  unsigned int top_particle_idx,
-                                                    unsigned int line,
-                                                    DatsLoad &raw_data)
+std::vector<float> NNTrajectorySpatialInput::make_output(   unsigned int top_particle_idx,
+                                                            unsigned int line,
+                                                            DatsLoad &raw_data)
 {
   unsigned int otput_size = output_columns_to_read.size();
   std::vector<float> result(otput_size);
@@ -257,7 +258,7 @@ std::vector<float> NNTrajectorySpatialInput::make_output(  unsigned int top_part
   return result;
 }
 
-
+*/
 
 std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_particle_idx,
                                                           unsigned int line,
@@ -284,6 +285,10 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
       unsigned int y_ = saturate(y_discretized, 0, discretisation_y-1);
       unsigned int z_ = saturate(z_discretized, 0, discretisation_z-1);
 
+      unsigned int idx = to_idx(x_ , y_, z_, time_idx, 0);
+      result[idx] = 1.0;
+
+      /*
       unsigned int kernel_size = 5;
       auto kernel = make_kernel(x_discretized, y_discretized, kernel_size);
 
@@ -293,6 +298,7 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
         unsigned int idx = to_idx(x_ + kx, y_ + ky, z_, time_idx, 0);
         result[idx]+= kernel[ky][kx];
       }
+      */
     }
 
     if (use_other_particles)
@@ -312,6 +318,10 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
         unsigned int y_ = saturate(y_discretized, 0, discretisation_y-1);
         unsigned int z_ = saturate(z_discretized, 0, discretisation_z-1);
 
+        unsigned int idx = to_idx(x_ , y_, z_, time_idx, 0);
+        result[idx] = 1.0;
+
+        /*
         unsigned int kernel_size = 5;
         auto kernel = make_kernel(x_discretized, y_discretized, kernel_size);
 
@@ -321,6 +331,7 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
           unsigned int idx = to_idx(x_ + kx, y_ + ky, z_, time_idx, 1);
           result[idx]+= kernel[ky][kx];
         }
+        */
       }
     }
 

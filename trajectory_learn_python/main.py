@@ -23,14 +23,14 @@ testing_trajectory = pyphy.DatsToTrajectory(dats_testing, "dataset_particles_mot
 print("loading done")
 
 #save trajectories for further usage
-
+'''
 training_trajectory.get_trajectory_input().save("trajectory_training_target/input")
 training_trajectory.get_trajectory_output().save("trajectory_training_target/output")
 testing_trajectory.get_trajectory_input().save("trajectory_testing_target/input")
 testing_trajectory.get_trajectory_output().save("trajectory_testing_target/output")
 
 print("saving done")
-
+'''
 
 #create dataset for neural network
 dataset = pyphy.DatasetParticlesMotion( training_trajectory.get_trajectory_input(),
@@ -49,10 +49,5 @@ experiment_0.run()
 experiment_1 = pyphy.RegressionExperiment(dataset, "experiment_1/")
 experiment_1.run()
 
-experiment_2 = pyphy.RegressionExperiment(dataset, "experiment_2/")
-experiment_2.run()
-
-experiment_3 = pyphy.RegressionExperiment(dataset, "experiment_3/")
-experiment_3.run()
 
 print("program done")

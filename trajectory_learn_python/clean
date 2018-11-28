@@ -16,11 +16,3 @@ cd ..
 cd experiment_1
 ./clean
 cd ..
-
-cd experiment_2
-./clean
-cd ..
-
-cd experiment_3
-./clean
-cd ..

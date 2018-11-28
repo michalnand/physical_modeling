@@ -19,6 +19,7 @@ PredictTrajectory::~PredictTrajectory()
 
 void PredictTrajectory::process()
 {
+  /*
   trajectory.clear();
 
   NNTrajectorySpatialInput nn_trajectory_input(dataset_config_file_name);
@@ -40,4 +41,5 @@ void PredictTrajectory::process()
     sDatasetItem item = nn_trajectory_input.create(*initial_conditions, line, 0);
 
   }
+  */
 }

@@ -14,11 +14,3 @@ cd ..
 cd experiment_1
 ./plot
 cd ..
-
-cd experiment_2
-./plot
-cd ..
-
-cd experiment_3
-./plot
-cd ..

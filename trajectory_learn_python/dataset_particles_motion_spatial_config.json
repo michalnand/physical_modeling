@@ -3,7 +3,7 @@
 
   "input parameters" :
   {
-    "load percentage"       : 70.0,
+    "load percentage"       : 15.0,
     "use other particles"   : false,
 
     "columns to read"   : [1, 2, 3],
@@ -14,17 +14,17 @@
                             40, 41, 42, 43, 44, 45, 46, 47, 48, 49 ],
 
     "padding"               : 0,
-    "time window size"      : 4,
-    "time window stride"    : 200,
+    "time window size"      : 1,
+    "time window stride"    : 1,
 
-    "discretisation x"      : 16,
-    "discretisation y"      : 16,
-    "discretisation z"      : 1
+    "discretisation x"      : 32,
+    "discretisation y"      : 32,
+    "discretisation z"      : 8
   },
 
   "output parameters" :
   {
     "columns to read" : [1, 2, 3],
-    "prediction step" : 1000
+    "prediction step" : 10
   }
 }

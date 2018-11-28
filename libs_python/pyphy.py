@@ -1329,8 +1329,8 @@ class NNTrajectorySpatialInput(_object):
     __swig_destroy__ = _pyphy.delete_NNTrajectorySpatialInput
     __del__ = lambda self: None
 
-    def create(self, *args):
-        return _pyphy.NNTrajectorySpatialInput_create(self, *args)
+    def create(self, trajectory_input, trajectory_output, line, particle):
+        return _pyphy.NNTrajectorySpatialInput_create(self, trajectory_input, trajectory_output, line, particle)
 
     def get_width(self):
         return _pyphy.NNTrajectorySpatialInput_get_width(self)

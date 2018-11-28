@@ -28,9 +28,9 @@ class NNTrajectorySpatialInput
     void copy(const NNTrajectorySpatialInput& other);
 
   public:
-    virtual sDatasetItem create(DatsLoad &raw_data, unsigned int line, unsigned int particle);
+    //virtual sDatasetItem create(DatsLoad &raw_data, unsigned int line, unsigned int particle);
     virtual sDatasetItem create(  Trajectory &trajectory_input,
-                                  Trajectory &trajectory_output, 
+                                  Trajectory &trajectory_output,
                                   unsigned int line, unsigned int particle);
 
     unsigned int get_width()
@@ -66,8 +66,10 @@ class NNTrajectorySpatialInput
     unsigned int width, height, channels;
 
   private:
+    /*
     std::vector<float> make_input(unsigned int top_particle_idx, unsigned int line, DatsLoad &raw_data);
     std::vector<float> make_output( unsigned int top_particle_idx, unsigned int line, DatsLoad &raw_data);
+    */
 
     std::vector<float> make_input(unsigned int top_particle_idx, unsigned int line, Trajectory &trajectory);
     std::vector<float> make_output( unsigned int top_particle_idx, unsigned int line, Trajectory &raw_data);
