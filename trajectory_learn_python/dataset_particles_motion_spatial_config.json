@@ -2,7 +2,7 @@
   "normalise range"   : [0.0, 1.0],
 
   "training load percentage"          : 100.0,
-  "testing laod percentage"           : 5.0,
+  "testing laod percentage"           : 4.0,
 
   "use other particles"       : false,
   "use gaussian kernel"       : true,
