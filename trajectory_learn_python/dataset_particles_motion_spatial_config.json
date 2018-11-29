@@ -1,9 +1,12 @@
 {
   "normalise range"   : [0.0, 1.0],
 
-  "load percentage"           : 15.0,
+  "training load percentage"          : 100.0,
+  "testing laod percentage"           : 5.0,
+
   "use other particles"       : false,
-  "use gaussian kernel"       : false,
+  "use gaussian kernel"       : true,
+  "gaussian kernel size"      : 5,
 
   "input parameters" :
   {
@@ -16,7 +19,7 @@
 
     "padding"               : 0,
     "time window size"      : 1,
-    "time window stride"    : 1,
+    "time window stride"    : 400,
 
     "discretisation x"      : 32,
     "discretisation y"      : 32,
@@ -26,6 +29,6 @@
   "output parameters" :
   {
     "columns to read" : [1, 2, 3],
-    "prediction step" : 10
+    "prediction step" : 800
   }
 }

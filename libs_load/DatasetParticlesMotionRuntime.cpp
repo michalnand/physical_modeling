@@ -1,51 +1,53 @@
-#include <DatasetParticlesMotion.h>
+#include <DatasetParticlesMotionRuntime.h>
 
 #include <json_config.h>
 #include <iostream>
 
-DatasetParticlesMotion::DatasetParticlesMotion( Trajectory &trajectory_training_input,
+DatasetParticlesMotionRuntime::DatasetParticlesMotionRuntime( Trajectory &trajectory_training_input,
                                                 Trajectory &trajectory_training_output,
                                                 Trajectory &trajectory_testing_input,
                                                 Trajectory &trajectory_testing_output,
                                                 std::string config_file_name)
                        :DatasetInterface()
 {
+  nn_trajectory_input = NNTrajectorySpatialInput(config_file_name);
+
   JsonConfig json(config_file_name);
 
   training_load_percentage = json.result["training load percentage"].asFloat();
-  testing_load_percentage = json.result["training load percentage"].asFloat();
-
-
-  NNTrajectorySpatialInput nn_trajectory_input(config_file_name);
+  testing_load_percentage  = json.result["training load percentage"].asFloat();
 
   width     = nn_trajectory_input.get_width();
   height    = nn_trajectory_input.get_height();
   channels  = nn_trajectory_input.get_channels();
 
+  this->trajectory_training_input = &trajectory_training_input;
+  this->trajectory_training_output= &trajectory_training_output;
 
   training.resize(1);
 
-  std::cout << "creating\n";
-  create(nn_trajectory_input, trajectory_training_input, trajectory_training_output, false);
   create(nn_trajectory_input, trajectory_testing_input, trajectory_testing_output, true);
 
-  std::cout << "creating done\n";
-  std::cout << "training size = " << training[0].size() << "\n";
+  training_size = training_load_percentage*0.01*(this->trajectory_training_input->get_height()*this->trajectory_training_input->get_depth());
+ 
+  std::cout << "training size = " << training_size << "\n";
   std::cout << "testing size  = " << testing.size() << "\n";
 
   print();
-
-  //for (unsigned int i = 0; i < 10; i++)
-    print_testing_item(rand());
+/*
+  print_testing_item(rand());
+  print_training_item();
+*/
 }
 
-DatasetParticlesMotion::~DatasetParticlesMotion()
+DatasetParticlesMotionRuntime::~DatasetParticlesMotionRuntime()
 {
 
 }
 
 
-void DatasetParticlesMotion::create(  NNTrajectorySpatialInput &nn_trajectory_input,
+
+void DatasetParticlesMotionRuntime::create(  NNTrajectorySpatialInput &nn_trajectory_input,
                                       Trajectory &trajectory_input,
                                       Trajectory &trajectory_output,
                                       bool put_to_testing)
@@ -73,7 +75,38 @@ void DatasetParticlesMotion::create(  NNTrajectorySpatialInput &nn_trajectory_in
   }
 }
 
-void DatasetParticlesMotion::print_testing_item(unsigned int idx)
+
+unsigned int DatasetParticlesMotionRuntime::get_training_size()
+{
+  return training_size;
+}
+
+
+unsigned int DatasetParticlesMotionRuntime::get_output_size()
+{
+  return 3;
+}
+
+
+sDatasetItem DatasetParticlesMotionRuntime::get_random_training()
+{
+  sDatasetItem result;
+
+  do
+  {
+    unsigned int line = rand()%trajectory_training_input->get_height();
+    unsigned int particle = rand()%trajectory_training_input->get_depth();
+    result = nn_trajectory_input.create(  *trajectory_training_input,
+                                           *trajectory_training_output,
+                                           line, particle);
+  }
+  while ((result.input.size() == 0) || (result.output.size() == 0));
+
+  return result;
+}
+
+
+void DatasetParticlesMotionRuntime::print_testing_item(unsigned int idx)
 {
   idx = idx%testing.size();
 
@@ -84,16 +117,30 @@ void DatasetParticlesMotion::print_testing_item(unsigned int idx)
     {
       for (unsigned int x = 0; x < width; x++)
       {
-        /*
-        if (testing[idx].input[id] > 0.0)
-          printf("* ");
-        else
-          printf(". ");
-        */
-
         printf("%2.3f ", testing[idx].input[id]);
+        id++;
+      }
+      printf("\n");
+    }
+    printf("\n");
+  }
+
+  printf("\n");
+}
 
 
+void DatasetParticlesMotionRuntime::print_training_item()
+{
+  auto item = get_random_training();
+
+  unsigned int id = 0;
+  for (unsigned int ch = 0; ch < channels; ch++)
+  {
+    for (unsigned int y = 0; y < height; y++)
+    {
+      for (unsigned int x = 0; x < width; x++)
+      {
+        printf("%2.3f ", item.input[id]);
         id++;
       }
       printf("\n");

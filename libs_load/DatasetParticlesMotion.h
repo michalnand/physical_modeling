@@ -11,6 +11,10 @@
 
 class DatasetParticlesMotion: public DatasetInterface
 {
+  private:
+    float training_load_percentage;
+    float testing_load_percentage;
+
   public:
     DatasetParticlesMotion( Trajectory &trajectory_training_input,
                             Trajectory &trajectory_training_output,
@@ -20,7 +24,7 @@ class DatasetParticlesMotion: public DatasetInterface
 
     virtual ~DatasetParticlesMotion();
   private:
-    void create(  NNTrajectorySpatialInput nn_trajectory_input,
+    void create(  NNTrajectorySpatialInput &nn_trajectory_input,
                   Trajectory &trajectory_input,
                   Trajectory &trajectory_output,
                   bool put_to_testing);

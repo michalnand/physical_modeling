@@ -14,9 +14,9 @@
 #include <dats_load.h>
 #include <dataset_interface.h>
 #include <DatasetLorenz.h>
-#include <DatasetLorenzSpatial.h> 
+#include <DatasetLorenzSpatial.h>
 #include <DatasetParticlesMotion.h>
-
+#include <DatasetParticlesMotionRuntime.h>
 
 #include <log.h>
 #include <json_config.h>

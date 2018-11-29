@@ -51,8 +51,7 @@ class NNTrajectorySpatialInput
   private:
     bool use_other_particles;
     bool use_gaussian_kernel;
-    
-    float load_percentage;
+    unsigned int gaussian_kernel_size;
 
     std::vector<unsigned int> input_columns_to_read, input_particles_to_read;
     unsigned int padding, time_window_size, time_window_stride;

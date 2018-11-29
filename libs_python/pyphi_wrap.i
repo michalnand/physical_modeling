@@ -32,6 +32,7 @@
 #include <DatasetLorenz.h>
 #include <DatasetLorenzSpatial.h>
 #include <DatasetParticlesMotion.h>
+#include <DatasetParticlesMotionRuntime.h>
 
 #include <log.h>
 #include <json_config.h>
@@ -55,6 +56,7 @@
 %include <DatasetLorenz.h>
 %include <DatasetLorenzSpatial.h>
 %include <DatasetParticlesMotion.h>
+%include <DatasetParticlesMotionRuntime.h>
 
 %include <log.h>
 %include <json_config.h>

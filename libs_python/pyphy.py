@@ -1802,6 +1802,43 @@ class DatasetParticlesMotion(DatasetInterface):
 DatasetParticlesMotion_swigregister = _pyphy.DatasetParticlesMotion_swigregister
 DatasetParticlesMotion_swigregister(DatasetParticlesMotion)
 
+class DatasetParticlesMotionRuntime(DatasetInterface):
+    __swig_setmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetParticlesMotionRuntime, name, value)
+    __swig_getmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, DatasetParticlesMotionRuntime, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, trajectory_training_input, trajectory_training_output, trajectory_testing_input, trajectory_testing_output, config_file_name):
+        this = _pyphy.new_DatasetParticlesMotionRuntime(trajectory_training_input, trajectory_training_output, trajectory_testing_input, trajectory_testing_output, config_file_name)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_DatasetParticlesMotionRuntime
+    __del__ = lambda self: None
+
+    def get_training_size(self):
+        return _pyphy.DatasetParticlesMotionRuntime_get_training_size(self)
+
+    def get_output_size(self):
+        return _pyphy.DatasetParticlesMotionRuntime_get_output_size(self)
+
+    def get_random_training(self):
+        return _pyphy.DatasetParticlesMotionRuntime_get_random_training(self)
+
+    def print_testing_item(self, idx):
+        return _pyphy.DatasetParticlesMotionRuntime_print_testing_item(self, idx)
+
+    def print_training_item(self):
+        return _pyphy.DatasetParticlesMotionRuntime_print_training_item(self)
+DatasetParticlesMotionRuntime_swigregister = _pyphy.DatasetParticlesMotionRuntime_swigregister
+DatasetParticlesMotionRuntime_swigregister(DatasetParticlesMotionRuntime)
+
 class Log(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Log, name, value)

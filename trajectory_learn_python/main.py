@@ -33,7 +33,7 @@ print("saving done")
 '''
 
 #create dataset for neural network
-dataset = pyphy.DatasetParticlesMotion( training_trajectory.get_trajectory_input(),
+dataset = pyphy.DatasetParticlesMotionRuntime( training_trajectory.get_trajectory_input(),
                                         training_trajectory.get_trajectory_output(),
                                         testing_trajectory.get_trajectory_input(),
                                         testing_trajectory.get_trajectory_output(),

@@ -7,8 +7,8 @@ NNTrajectorySpatialInput::NNTrajectorySpatialInput()
 {
   use_other_particles = false;
   use_gaussian_kernel = false;
+  gaussian_kernel_size = 3;
 
-  load_percentage     = 0.0;
   padding             = 0;
   time_window_size    = 0;
   time_window_stride  = 0;
@@ -29,9 +29,7 @@ NNTrajectorySpatialInput::NNTrajectorySpatialInput(std::string config_file_name)
 
   use_other_particles = json.result["use other particles"].asBool();
   use_gaussian_kernel = json.result["use gaussian kernel"].asBool();
-
-
-  load_percentage = json.result["load percentage"].asFloat();
+  gaussian_kernel_size = json.result["gaussian kernel size"].asInt();
 
   for (unsigned int i = 0; i < json.result["input parameters"]["columns to read"].size(); i++)
     input_columns_to_read.push_back(json.result["input parameters"]["columns to read"][i].asInt());
@@ -92,7 +90,9 @@ NNTrajectorySpatialInput& NNTrajectorySpatialInput::operator= (const NNTrajector
 void NNTrajectorySpatialInput::copy(NNTrajectorySpatialInput& other)
 {
   use_other_particles     = other.use_other_particles;
-  load_percentage         = other.load_percentage;
+  use_gaussian_kernel     = other.use_gaussian_kernel;
+  gaussian_kernel_size    = other.gaussian_kernel_size;
+
   input_columns_to_read   = other.input_columns_to_read;
   input_particles_to_read = other.input_particles_to_read;
 
@@ -115,7 +115,9 @@ void NNTrajectorySpatialInput::copy(NNTrajectorySpatialInput& other)
 void NNTrajectorySpatialInput::copy(const NNTrajectorySpatialInput& other)
 {
   use_other_particles       = other.use_other_particles;
-  load_percentage           = other.load_percentage;
+  use_gaussian_kernel     = other.use_gaussian_kernel;
+  gaussian_kernel_size    = other.gaussian_kernel_size;
+
   input_columns_to_read     = other.input_columns_to_read;
   input_particles_to_read   = other.input_particles_to_read;
 
@@ -143,8 +145,6 @@ sDatasetItem NNTrajectorySpatialInput::create(  Trajectory &trajectory_input,
 {
   sDatasetItem result;
 
-  float p = 100.0*(rand()%10000)/10000.0;
-      if (p < load_percentage)
        if (line < (trajectory_input.get_height() - (time_window_size + 1)*time_window_stride))
         if (line < trajectory_input.get_height() - (prediction_step + 1))
         {
@@ -162,9 +162,6 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
                                                           unsigned int line,
                                                           Trajectory &trajectory)
 {
-    //TODO bug width use_gaussian_kernel -> still true
-    // printf(">>>>> VALUES = %u %u \n\n", use_gaussian_kernel, use_other_particles);
-
     unsigned int result_size = width*height*channels;
 
     std::vector<float> result(result_size);
@@ -172,7 +169,7 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
     for (unsigned int i = 0; i < result.size(); i++)
       result[i] = 0.0;
 
-    unsigned int kernel_size = 5;
+    unsigned int kernel_size = gaussian_kernel_size;
 
     if (discretisation_x < kernel_size)
       kernel_size = discretisation_x;
@@ -182,7 +179,6 @@ std::vector<float> NNTrajectorySpatialInput::make_input(  unsigned int top_parti
 
     if (discretisation_z < kernel_size)
       kernel_size = discretisation_z;
-
 
 
     for (unsigned int time_idx = 0; time_idx < time_window_size; time_idx++)
@@ -341,23 +337,24 @@ std::vector<std::vector<std::vector<float>>> NNTrajectorySpatialInput::make_kern
         result[k][j][i] = gaussian(x_, y_, z_, x, y, z, sigma);
       }
 
-  float sum = 0.0;
+  float max = 0.0;
   for (unsigned int k = 0; k < kernel_size; k++)
     for (unsigned int j = 0; j < kernel_size; j++)
       for (unsigned int i = 0; i < kernel_size; i++)
-        sum+= result[k][j][i];
+        if (result[k][j][i] > max)
+          max = result[k][j][i];
 
-  if (sum > 0.0)
+  if (max > 0.0)
   {
     for (unsigned int k = 0; k < kernel_size; k++)
       for (unsigned int j = 0; j < kernel_size; j++)
         for (unsigned int i = 0; i < kernel_size; i++)
-          result[k][j][i]/= sum;
+          result[k][j][i]/= max;
   }
 
   return result;
 }
-
+ 
 
 float NNTrajectorySpatialInput::gaussian( float x, float y, float z,
                                           float x0, float y0, float z0,
