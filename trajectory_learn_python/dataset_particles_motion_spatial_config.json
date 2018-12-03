@@ -1,8 +1,8 @@
 {
   "normalise range"   : [0.0, 1.0],
 
-  "training load percentage"          : 4.0,
-  "testing load percentage"           : 4.0,
+  "training load percentage"          : 10.0,
+  "testing load percentage"           : 5.0,
 
   "use other particles"       : false,
   "use gaussian kernel"       : false,
