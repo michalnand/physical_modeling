@@ -20,7 +20,7 @@
           "lambda2"           : 0.000001,
           "dropout"           : 0.02,
 
-          "minibatch_size"    : 128
+          "minibatch_size"    : 32
         },
 
         "layers"         :
