@@ -1,5 +1,5 @@
 {
-    "epoch_count"               : 10,
+    "epoch_count"               : 15,
     "sub_epoch_size"            : 5,
 
     "epoch_learning_rate_decay" : 8,
@@ -15,7 +15,7 @@
         "hyperparameters" :
         {
           "init_weight_range" : 0.0,
-          "learning_rate"     : 0.0001,
+          "learning_rate"     : 0.0002,
           "lambda1"           : 0.000001,
           "lambda2"           : 0.000001,
           "dropout"           : 0.02,
