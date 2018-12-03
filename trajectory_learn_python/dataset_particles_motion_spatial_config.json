@@ -1,7 +1,7 @@
 {
   "normalise range"   : [0.0, 1.0],
 
-  "training load percentage"          : 100.0,
+  "training load percentage"          : 4.0,
   "testing load percentage"           : 4.0,
 
   "use other particles"       : false,
