@@ -1,5 +1,5 @@
 {
-    "epoch_count"               : 15,
+    "epoch_count"               : 10,
     "sub_epoch_size"            : 5,
 
     "epoch_learning_rate_decay" : 8,

@@ -1,7 +1,7 @@
 {
   "normalise range"   : [0.0, 1.0],
 
-  "training load percentage"          : 10.0,
+  "training load percentage"          : 15.0,
   "testing load percentage"           : 5.0,
 
   "use other particles"       : false,
@@ -29,6 +29,6 @@
   "output parameters" :
   {
     "columns to read" : [1, 2, 3],
-    "prediction step" : 800
+    "prediction step" : 400
   }
 }
