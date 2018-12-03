@@ -5,7 +5,7 @@
   "testing laod percentage"           : 4.0,
 
   "use other particles"       : false,
-  "use gaussian kernel"       : true,
+  "use gaussian kernel"       : false,
   "gaussian kernel size"      : 5,
 
   "input parameters" :
