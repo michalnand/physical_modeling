@@ -16,11 +16,33 @@ set key right top
 
 # set style fill solid 1.0
 
+
+set xlabel "epoch"
+set ylabel "error"
+
+set yrange [0:0.025]
+
+set output 'training_progress_all.png'
+plot 'experiment_0/training_progress.log' using 1:7 title "network 0" with lines lw 2, \
+     'experiment_1/training_progress.log' using 1:7 title "network 1" with lines lw 2, \
+     'experiment_2/training_progress.log' using 1:7 title "network 2" with lines lw 2, \
+     'experiment_3/training_progress.log' using 1:7 title "network 3" with lines lw 2
+
+
+set output 'testing_progress_all.png'
+plot 'experiment_0/training_progress.log' using 1:4 title "network 0" with lines lw 2, \
+     'experiment_1/training_progress.log' using 1:4 title "network 1" with lines lw 2, \
+     'experiment_2/training_progress.log' using 1:4 title "network 2" with lines lw 2, \
+     'experiment_3/training_progress.log' using 1:4 title "network 3" with lines lw 2
+
+
 set xlabel "x"
 set ylabel "y"
 
 set xrange [0:1]
 set yrange [0:1]
+
+
 
 
 
@@ -48,3 +70,5 @@ plot 'trajectory_testing_target/output_0.log' using 1:2 notitle with lines linec
      'trajectory_testing_target/output_7.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
      'trajectory_testing_target/output_8.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
      'trajectory_testing_target/output_9.log' using 1:2 notitle with lines linecolor rgb "red" lw 2
+
+

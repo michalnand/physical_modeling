@@ -23,7 +23,8 @@ set yrange[0:0.025]
 
 
 set output 'training_progress.png'
-plot 'training_progress.log' using 1:4 title "training" with lines linecolor rgb "red" lw 2, \
-     'training_progress.log' using 1:7 title "testing" with lines linecolor rgb "blue" lw 2
+plot 'training_progress.log' using 1:4 title "testing" with lines linecolor rgb "red" lw 2, \
+     'training_progress.log' using 1:7 title "training" with lines linecolor rgb "blue" lw 2
+
 
 
