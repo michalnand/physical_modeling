@@ -45,4 +45,4 @@ set xlabel "value"
 set ylabel "relative count"
 set output 'required_resulted_summary.png'
 plot 'h_required_summary.log' using 2:4 title "required" with boxes linecolor rgb "red" lw 2, \
-     'h_resulted_summary.log' using 2:4 title "resulted" with boxes linecolor rgb "green" lw 1
+     'h_resulted_summary.log' using 2:4 title "resulted" with boxes linecolor rgb "green" lw 2

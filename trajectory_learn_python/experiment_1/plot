@@ -1,3 +1,5 @@
+gnuplot plot_script
+
 cd result_training
 gnuplot plot_script
 cd ..

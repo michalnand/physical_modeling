@@ -43,11 +43,11 @@ print("dataset creating done")
 
 #run experiments with different networks
 
-experiment_0 = pyphy.RegressionExperiment(dataset, "experiment_0/")
-experiment_0.run()
+experiment_2 = pyphy.RegressionExperiment(dataset, "experiment_2/")
+experiment_2.run()
 
-experiment_1 = pyphy.RegressionExperiment(dataset, "experiment_1/")
-experiment_1.run()
+experiment_3 = pyphy.RegressionExperiment(dataset, "experiment_3/")
+experiment_3.run()
 
 
 print("program done")

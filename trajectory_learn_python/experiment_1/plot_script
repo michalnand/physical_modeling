@@ -16,35 +16,14 @@ set key right top
 
 # set style fill solid 1.0
 
-set xlabel "x"
-set ylabel "y"
+set xlabel "epoch"
+set ylabel "error"
 
-set xrange [0:1]
-set yrange [0:1]
-
+set yrange[0:0.025]
 
 
-set output 'trajectory_training_target.png'
-plot 'trajectory_training_target/output_0.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_training_target/output_1.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_training_target/output_2.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_training_target/output_3.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_training_target/output_4.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_training_target/output_5.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_training_target/output_6.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_training_target/output_7.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_training_target/output_8.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_training_target/output_9.log' using 1:2 notitle with lines linecolor rgb "red" lw 2
+set output 'training_progress.png'
+plot 'training_progress.log' using 1:4 title "training" with lines linecolor rgb "red" lw 2, \
+     'training_progress.log' using 1:7 title "testing" with lines linecolor rgb "blue" lw 2
 
 
-set output 'trajectory_testing_target.png'
-plot 'trajectory_testing_target/output_0.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_testing_target/output_1.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_testing_target/output_2.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_testing_target/output_3.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_testing_target/output_4.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_testing_target/output_5.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_testing_target/output_6.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_testing_target/output_7.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_testing_target/output_8.log' using 1:2 notitle with lines linecolor rgb "red" lw 2, \
-     'trajectory_testing_target/output_9.log' using 1:2 notitle with lines linecolor rgb "red" lw 2
