@@ -1466,6 +1466,116 @@ class Lorenz(_object):
 Lorenz_swigregister = _pyphy.Lorenz_swigregister
 Lorenz_swigregister(Lorenz)
 
+class sDatasetItem(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, sDatasetItem, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, sDatasetItem, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["input"] = _pyphy.sDatasetItem_input_set
+    __swig_getmethods__["input"] = _pyphy.sDatasetItem_input_get
+    if _newclass:
+        input = _swig_property(_pyphy.sDatasetItem_input_get, _pyphy.sDatasetItem_input_set)
+    __swig_setmethods__["output"] = _pyphy.sDatasetItem_output_set
+    __swig_getmethods__["output"] = _pyphy.sDatasetItem_output_get
+    if _newclass:
+        output = _swig_property(_pyphy.sDatasetItem_output_get, _pyphy.sDatasetItem_output_set)
+
+    def __init__(self):
+        this = _pyphy.new_sDatasetItem()
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_sDatasetItem
+    __del__ = lambda self: None
+sDatasetItem_swigregister = _pyphy.sDatasetItem_swigregister
+sDatasetItem_swigregister(sDatasetItem)
+
+class DatasetInterface(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetInterface, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, DatasetInterface, name)
+    __repr__ = _swig_repr
+
+    def __init__(self):
+        this = _pyphy.new_DatasetInterface()
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_DatasetInterface
+    __del__ = lambda self: None
+
+    def _print(self):
+        return _pyphy.DatasetInterface__print(self)
+
+    def get_random_training(self):
+        return _pyphy.DatasetInterface_get_random_training(self)
+
+    def get_training(self, class_idx, idx):
+        return _pyphy.DatasetInterface_get_training(self, class_idx, idx)
+
+    def get_class_items_count(self, class_idx):
+        return _pyphy.DatasetInterface_get_class_items_count(self, class_idx)
+
+    def get_testing(self, idx):
+        return _pyphy.DatasetInterface_get_testing(self, idx)
+
+    def get_random_testing(self):
+        return _pyphy.DatasetInterface_get_random_testing(self)
+
+    def get_unlabeled(self, idx):
+        return _pyphy.DatasetInterface_get_unlabeled(self, idx)
+
+    def get_random_unlabeled(self):
+        return _pyphy.DatasetInterface_get_random_unlabeled(self)
+
+    def get_training_size(self):
+        return _pyphy.DatasetInterface_get_training_size(self)
+
+    def get_testing_size(self):
+        return _pyphy.DatasetInterface_get_testing_size(self)
+
+    def get_unlabeled_size(self):
+        return _pyphy.DatasetInterface_get_unlabeled_size(self)
+
+    def get_input_size(self):
+        return _pyphy.DatasetInterface_get_input_size(self)
+
+    def get_output_size(self):
+        return _pyphy.DatasetInterface_get_output_size(self)
+
+    def get_width(self):
+        return _pyphy.DatasetInterface_get_width(self)
+
+    def get_height(self):
+        return _pyphy.DatasetInterface_get_height(self)
+
+    def get_channels(self):
+        return _pyphy.DatasetInterface_get_channels(self)
+
+    def print_testing_item(self, idx):
+        return _pyphy.DatasetInterface_print_testing_item(self, idx)
+
+    def export_h_testing(self, file_name, count):
+        return _pyphy.DatasetInterface_export_h_testing(self, file_name, count)
+
+    def save_to_json(self, file_name):
+        return _pyphy.DatasetInterface_save_to_json(self, file_name)
+
+    def save_to_txt_training(self, file_name):
+        return _pyphy.DatasetInterface_save_to_txt_training(self, file_name)
+
+    def save_to_txt_testing(self, file_name):
+        return _pyphy.DatasetInterface_save_to_txt_testing(self, file_name)
+
+    def save_to_binary(self, training_file_name, testing_file_name, unlabeled_file_name):
+        return _pyphy.DatasetInterface_save_to_binary(self, training_file_name, testing_file_name, unlabeled_file_name)
+DatasetInterface_swigregister = _pyphy.DatasetInterface_swigregister
+DatasetInterface_swigregister(DatasetInterface)
+
 class sDatExtremes(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, sDatExtremes, name, value)
@@ -1626,115 +1736,134 @@ class DatsLoad(_object):
 DatsLoad_swigregister = _pyphy.DatsLoad_swigregister
 DatsLoad_swigregister(DatsLoad)
 
-class sDatasetItem(_object):
+class sMotionTensorExtreme(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, sDatasetItem, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, sMotionTensorExtreme, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, sDatasetItem, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, sMotionTensorExtreme, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["input"] = _pyphy.sDatasetItem_input_set
-    __swig_getmethods__["input"] = _pyphy.sDatasetItem_input_get
+    __swig_setmethods__["min"] = _pyphy.sMotionTensorExtreme_min_set
+    __swig_getmethods__["min"] = _pyphy.sMotionTensorExtreme_min_get
     if _newclass:
-        input = _swig_property(_pyphy.sDatasetItem_input_get, _pyphy.sDatasetItem_input_set)
-    __swig_setmethods__["output"] = _pyphy.sDatasetItem_output_set
-    __swig_getmethods__["output"] = _pyphy.sDatasetItem_output_get
+        min = _swig_property(_pyphy.sMotionTensorExtreme_min_get, _pyphy.sMotionTensorExtreme_min_set)
+    __swig_setmethods__["max"] = _pyphy.sMotionTensorExtreme_max_set
+    __swig_getmethods__["max"] = _pyphy.sMotionTensorExtreme_max_get
     if _newclass:
-        output = _swig_property(_pyphy.sDatasetItem_output_get, _pyphy.sDatasetItem_output_set)
+        max = _swig_property(_pyphy.sMotionTensorExtreme_max_get, _pyphy.sMotionTensorExtreme_max_set)
 
     def __init__(self):
-        this = _pyphy.new_sDatasetItem()
+        this = _pyphy.new_sMotionTensorExtreme()
         try:
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
-    __swig_destroy__ = _pyphy.delete_sDatasetItem
+    __swig_destroy__ = _pyphy.delete_sMotionTensorExtreme
     __del__ = lambda self: None
-sDatasetItem_swigregister = _pyphy.sDatasetItem_swigregister
-sDatasetItem_swigregister(sDatasetItem)
+sMotionTensorExtreme_swigregister = _pyphy.sMotionTensorExtreme_swigregister
+sMotionTensorExtreme_swigregister(sMotionTensorExtreme)
 
-class DatasetInterface(_object):
+class MotionTensor(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetInterface, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, MotionTensor, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, DatasetInterface, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, MotionTensor, name)
     __repr__ = _swig_repr
 
-    def __init__(self):
-        this = _pyphy.new_DatasetInterface()
+    def __init__(self, *args):
+        this = _pyphy.new_MotionTensor(*args)
         try:
             self.this.append(this)
         except __builtin__.Exception:
             self.this = this
-    __swig_destroy__ = _pyphy.delete_DatasetInterface
+    __swig_destroy__ = _pyphy.delete_MotionTensor
     __del__ = lambda self: None
 
-    def _print(self):
-        return _pyphy.DatasetInterface__print(self)
+    def init(self, width_, height_, depth_):
+        return _pyphy.MotionTensor_init(self, width_, height_, depth_)
 
-    def get_random_training(self):
-        return _pyphy.DatasetInterface_get_random_training(self)
+    def get(self, x, y, z):
+        return _pyphy.MotionTensor_get(self, x, y, z)
 
-    def get_training(self, class_idx, idx):
-        return _pyphy.DatasetInterface_get_training(self, class_idx, idx)
+    def set(self, x, y, z, value):
+        return _pyphy.MotionTensor_set(self, x, y, z, value)
 
-    def get_class_items_count(self, class_idx):
-        return _pyphy.DatasetInterface_get_class_items_count(self, class_idx)
+    def width(self):
+        return _pyphy.MotionTensor_width(self)
 
-    def get_testing(self, idx):
-        return _pyphy.DatasetInterface_get_testing(self, idx)
+    def height(self):
+        return _pyphy.MotionTensor_height(self)
 
-    def get_random_testing(self):
-        return _pyphy.DatasetInterface_get_random_testing(self)
+    def depth(self):
+        return _pyphy.MotionTensor_depth(self)
 
-    def get_unlabeled(self, idx):
-        return _pyphy.DatasetInterface_get_unlabeled(self, idx)
+    def set_extremes(self, extremes):
+        return _pyphy.MotionTensor_set_extremes(self, extremes)
 
-    def get_random_unlabeled(self):
-        return _pyphy.DatasetInterface_get_random_unlabeled(self)
+    def get_extremes(self):
+        return _pyphy.MotionTensor_get_extremes(self)
 
-    def get_training_size(self):
-        return _pyphy.DatasetInterface_get_training_size(self)
+    def _print(self, verbose=False):
+        return _pyphy.MotionTensor__print(self, verbose)
 
-    def get_testing_size(self):
-        return _pyphy.DatasetInterface_get_testing_size(self)
+    def clear(self):
+        return _pyphy.MotionTensor_clear(self)
 
-    def get_unlabeled_size(self):
-        return _pyphy.DatasetInterface_get_unlabeled_size(self)
+    def normalise(self):
+        return _pyphy.MotionTensor_normalise(self)
 
-    def get_input_size(self):
-        return _pyphy.DatasetInterface_get_input_size(self)
+    def add_noise(self, noise_level):
+        return _pyphy.MotionTensor_add_noise(self, noise_level)
 
-    def get_output_size(self):
-        return _pyphy.DatasetInterface_get_output_size(self)
+    def velocity_from_position(self):
+        return _pyphy.MotionTensor_velocity_from_position(self)
+MotionTensor_swigregister = _pyphy.MotionTensor_swigregister
+MotionTensor_swigregister(MotionTensor)
 
-    def get_width(self):
-        return _pyphy.DatasetInterface_get_width(self)
+class DatsToMotionTensor(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DatsToMotionTensor, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, DatsToMotionTensor, name)
+    __repr__ = _swig_repr
 
-    def get_height(self):
-        return _pyphy.DatasetInterface_get_height(self)
+    def __init__(self, *args):
+        this = _pyphy.new_DatsToMotionTensor(*args)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_DatsToMotionTensor
+    __del__ = lambda self: None
 
-    def get_channels(self):
-        return _pyphy.DatasetInterface_get_channels(self)
+    def load(self, *args):
+        return _pyphy.DatsToMotionTensor_load(self, *args)
 
-    def print_testing_item(self, idx):
-        return _pyphy.DatasetInterface_print_testing_item(self, idx)
+    def tensor(self):
+        return _pyphy.DatsToMotionTensor_tensor(self)
+DatsToMotionTensor_swigregister = _pyphy.DatsToMotionTensor_swigregister
+DatsToMotionTensor_swigregister(DatsToMotionTensor)
 
-    def export_h_testing(self, file_name, count):
-        return _pyphy.DatasetInterface_export_h_testing(self, file_name, count)
+class DatasetVelocitySimple(DatasetInterface):
+    __swig_setmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetVelocitySimple, name, value)
+    __swig_getmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, DatasetVelocitySimple, name)
+    __repr__ = _swig_repr
 
-    def save_to_json(self, file_name):
-        return _pyphy.DatasetInterface_save_to_json(self, file_name)
-
-    def save_to_txt_training(self, file_name):
-        return _pyphy.DatasetInterface_save_to_txt_training(self, file_name)
-
-    def save_to_txt_testing(self, file_name):
-        return _pyphy.DatasetInterface_save_to_txt_testing(self, file_name)
-
-    def save_to_binary(self, training_file_name, testing_file_name, unlabeled_file_name):
-        return _pyphy.DatasetInterface_save_to_binary(self, training_file_name, testing_file_name, unlabeled_file_name)
-DatasetInterface_swigregister = _pyphy.DatasetInterface_swigregister
-DatasetInterface_swigregister(DatasetInterface)
+    def __init__(self, training_dats_json_file_name, testing_dats_json_file_name, motion_tensor_file_name, training_count, testing_count):
+        this = _pyphy.new_DatasetVelocitySimple(training_dats_json_file_name, testing_dats_json_file_name, motion_tensor_file_name, training_count, testing_count)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_DatasetVelocitySimple
+    __del__ = lambda self: None
+DatasetVelocitySimple_swigregister = _pyphy.DatasetVelocitySimple_swigregister
+DatasetVelocitySimple_swigregister(DatasetVelocitySimple)
 
 class DatasetLorenz(DatasetInterface):
     __swig_setmethods__ = {}
@@ -1757,6 +1886,28 @@ class DatasetLorenz(DatasetInterface):
     __del__ = lambda self: None
 DatasetLorenz_swigregister = _pyphy.DatasetLorenz_swigregister
 DatasetLorenz_swigregister(DatasetLorenz)
+
+class DatasetMotionTest(DatasetInterface):
+    __swig_setmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetMotionTest, name, value)
+    __swig_getmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, DatasetMotionTest, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, training_count, testing_count):
+        this = _pyphy.new_DatasetMotionTest(training_count, testing_count)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_DatasetMotionTest
+    __del__ = lambda self: None
+DatasetMotionTest_swigregister = _pyphy.DatasetMotionTest_swigregister
+DatasetMotionTest_swigregister(DatasetMotionTest)
 
 class DatasetLorenzSpatial(DatasetInterface):
     __swig_setmethods__ = {}
