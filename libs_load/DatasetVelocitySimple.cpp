@@ -45,7 +45,7 @@ void DatasetVelocitySimple::create(MotionTensor &tensor, bool put_to_testing, un
   item.input.resize(3);
   item.output.resize(3);
 
-
+  /*
   for (unsigned int i = 0; i < count; i++)
   {
     unsigned int z = rand()%tensor.depth();
@@ -63,4 +63,23 @@ void DatasetVelocitySimple::create(MotionTensor &tensor, bool put_to_testing, un
     else
       add_training_for_regression(item);
   }
+  */
+
+  for (unsigned int z = 0; z < tensor.depth(); z++)
+  for (unsigned int y = 0; y < tensor.depth(); y++)
+  {
+    item.input[0] = tensor.get(0, y, z);
+    item.input[1] = tensor.get(1, y, z);
+    item.input[2] = tensor.get(2, y, z);
+
+    item.output[0] = tensor.get(3, y, z);
+    item.output[1] = tensor.get(4, y, z);
+    item.output[2] = tensor.get(5, y, z);
+
+    if (put_to_testing)
+      add_testing(item);
+    else
+      add_training_for_regression(item);
+  }
+
 }
