@@ -12,11 +12,8 @@ int main()
   unsigned int training_count = 800000;
   unsigned int testing_count  = 100000;
 
-  DatsToMotionTensor training_dats_to_motion_tensor;
-  DatsToMotionTensor testing_dats_to_motion_tensor;
-
-  training_dats_to_motion_tensor.load("training_dats.json", "motion_tensor.json");
-  testing_dats_to_motion_tensor.load("testing_dats.json", "motion_tensor.json");
+  DatsToMotionTensor training_dats_to_motion_tensor("training_dats.json", "motion_tensor.json");
+  DatsToMotionTensor testing_dats_to_motion_tensor("testing_dats.json", "motion_tensor.json", training_dats_to_motion_tensor.tensor());
 
   TensorNoSpatial training_tensor("no_spatial_tensor.json", training_dats_to_motion_tensor.tensor());
   TensorNoSpatial testing_tensor("no_spatial_tensor.json", testing_dats_to_motion_tensor.tensor());
@@ -43,7 +40,7 @@ int main()
     RegressionExperiment experiment(dataset, "experiment_3/");
     experiment.run();
   }
-  
+
   std::cout << "program done\n";
 
   return 0;
