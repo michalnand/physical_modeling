@@ -12,8 +12,25 @@ int main()
 
   DatasetVelocitySimple  dataset("training_dats.json", "testing_dats.json", "motion_tensor.json", training_count, testing_count);
 
-  RegressionExperiment experiment(dataset, "experiment_0/");
-  experiment.run();
+  {
+    RegressionExperiment experiment(dataset, "experiment_0/");
+    experiment.run();
+  }
+
+  {
+    RegressionExperiment experiment(dataset, "experiment_1/");
+    experiment.run();
+  }
+
+  {
+    RegressionExperiment experiment(dataset, "experiment_2/");
+    experiment.run();
+  }
+
+  {
+    RegressionExperiment experiment(dataset, "experiment_3/");
+    experiment.run();
+  }
 
   std::cout << "program done\n";
 
