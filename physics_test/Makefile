@@ -8,9 +8,7 @@ INC+= -I$(RYSY_LIBS_PATH)/libs_dataset
 INC+= -I$(RYSY_LIBS_PATH)/libs_experiment
 INC+= -I$(RYSY_LIBS_PATH)/libs_nn
 INC+= -I$(PHYSICAL_MODELING_LIBS_PATH)/libs_common
-INC+= -I$(PHYSICAL_MODELING_LIBS_PATH)/libs_dataset
 
-LIBS+= $(PHYSICAL_MODELING_LIBS_PATH)/libs_dataset/libs_dataset_pm.a
 LIBS+= $(PHYSICAL_MODELING_LIBS_PATH)/libs_common/libs_common_pm.a
 LIBS+= $(RYSY_LIBS_PATH)/libs_dataset/libs_dataset.a
 LIBS+= $(RYSY_LIBS_PATH)/libs_experiment/libs_experiment.a

@@ -91,6 +91,8 @@ void DatsToMotionTensor::load(  std::string dats_json_file_name,
     if (velocity_from_position)
       motion_tensor.velocity_from_position();
 
+    motion_tensor.find_extremes();
+
     if (normalise)
       motion_tensor.normalise();
 }

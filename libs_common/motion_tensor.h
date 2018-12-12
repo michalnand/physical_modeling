@@ -2,6 +2,7 @@
 #define _MOTION_TENSOR_H_
 
 #include <vector>
+#include <string>
 
 struct sMotionTensorExtreme
 {
@@ -56,7 +57,7 @@ class MotionTensor
     std::vector<sMotionTensorExtreme> get_extremes()
     {
       return extremes;
-    } 
+    }
 
   public:
     void print(bool verbose = false);
@@ -64,6 +65,10 @@ class MotionTensor
     void normalise();
     void add_noise(float noise_level);
     void velocity_from_position();
+
+    void save(std::string file_name_prefix);
+
+    void find_extremes();
 
   private:
     unsigned int m_width, m_height, m_depth;
@@ -73,7 +78,6 @@ class MotionTensor
 
 
   private:
-    void find_extremes();
     sMotionTensorExtreme find_column_extreme(unsigned int column);
     void normalise_column(sMotionTensorExtreme extreme, unsigned int column);
 

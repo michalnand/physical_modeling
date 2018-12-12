@@ -88,8 +88,15 @@ void TensorInterface::copy(const TensorInterface& other)
 
 int TensorInterface::create(unsigned int y_offset, unsigned int z_offset)
 {
+  return create(y_offset, z_offset, *m_motion_tensor);
+}
+
+
+int TensorInterface::create(unsigned int y_offset, unsigned int z_offset, MotionTensor &motion_tensor)
+{
   (void)y_offset;
   (void)z_offset;
+  (void)motion_tensor;
 
   return 0;
 }

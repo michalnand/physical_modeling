@@ -1,6 +1,8 @@
 #include "motion_tensor.h"
 #include <iostream>
 
+#include <log.h>
+
 MotionTensor::MotionTensor()
 {
   m_width   = 0;
@@ -165,6 +167,22 @@ void MotionTensor::velocity_from_position()
         float v = get(x, y, z) - get(x, y - 1, z);
         set(x + position_columns, y, z, v);
       }
+}
+
+void MotionTensor::save(std::string file_name_prefix)
+{
+  for (unsigned int z = 0; z < depth(); z++)
+  {
+    std::string file_name = file_name_prefix + std::to_string(z) + ".dat";
+    Log log(file_name);
+
+    for (unsigned int y = 0; y < height(); y++)
+    {
+      for (unsigned int x = 0; x < width(); x++)
+        log << get(x, y, z) << " ";
+      log << "\n";
+    }
+  }
 }
 
 void MotionTensor::find_extremes()

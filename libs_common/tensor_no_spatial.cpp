@@ -51,25 +51,83 @@ TensorNoSpatial::TensorNoSpatial(std::string config_file_name, MotionTensor &mot
   print();
 }
 
+
+TensorNoSpatial::TensorNoSpatial(TensorNoSpatial& other)
+                :TensorInterface(other)
+{
+  copy_no_spatial(other);
+}
+
+TensorNoSpatial::TensorNoSpatial(const TensorNoSpatial& other)
+                :TensorInterface(other)
+{
+  copy_no_spatial(other);
+}
+
 TensorNoSpatial::~TensorNoSpatial()
 {
 
 }
 
+TensorNoSpatial& TensorNoSpatial::operator= (TensorNoSpatial& other)
+{
+  copy(other);
+  copy_no_spatial(other);
+  return *this;
+}
+
+TensorNoSpatial& TensorNoSpatial::operator= (const TensorNoSpatial& other)
+{
+  copy(other);
+  copy_no_spatial(other);
+  return *this;
+}
+
+
+void TensorNoSpatial::copy_no_spatial(TensorNoSpatial& other)
+{
+  input_columns   = other.input_columns;
+  output_columns  = other.output_columns;
+
+  time_window_size      = other.time_window_size;
+  time_step_size        = other.time_step_size;
+  prediction_step_size  = other.prediction_step_size;
+  use_depth             = other.use_depth;
+  padding               = other.padding;
+}
+
+void TensorNoSpatial::copy_no_spatial(const TensorNoSpatial& other)
+{
+  input_columns   = other.input_columns;
+  output_columns  = other.output_columns;
+
+  time_window_size      = other.time_window_size;
+  time_step_size        = other.time_step_size;
+  prediction_step_size  = other.prediction_step_size;
+  use_depth             = other.use_depth;
+  padding               = other.padding;
+}
+
+
 int TensorNoSpatial::create(unsigned int y_offset, unsigned int z_offset)
+{
+  return create(y_offset, z_offset, *m_motion_tensor);
+}
+
+int TensorNoSpatial::create(unsigned int y_offset, unsigned int z_offset, MotionTensor &motion_tensor)
 {
   clear();
 
-  if ((input_height()*time_step_size + y_offset) >= m_motion_tensor->height())
+  if ((input_height()*time_step_size + y_offset) >= motion_tensor.height())
     return -1;
 
-  if ((prediction_step_size + y_offset) >= m_motion_tensor->height())
+  if ((prediction_step_size + y_offset) >= motion_tensor.height())
     return -2;
 
   for (unsigned int y = 0; y < (input_height() - 2*padding); y++)
   for (unsigned int x = 0; x < (input_width() - 2*padding); x++)
   {
-    float value = m_motion_tensor->get(input_columns[x], y*time_step_size + y_offset, z_offset);
+    float value = motion_tensor.get(input_columns[x], y*time_step_size + y_offset, z_offset);
     set_input(x + padding, y + padding, 0, value);
   }
 
@@ -79,14 +137,14 @@ int TensorNoSpatial::create(unsigned int y_offset, unsigned int z_offset)
     for (unsigned int y = 0; y < (input_height() - 2*padding); y++)
     for (unsigned int x = 0; x < (input_width() - 2*padding); x++)
     {
-      float value =  m_motion_tensor->get(input_columns[x], y*time_step_size + y_offset, z);
+      float value =  motion_tensor.get(input_columns[x], y*time_step_size + y_offset, z);
       set_input(x + padding, y + padding, z + 1, value);
     }
   }
 
   for (unsigned int x = 0; x < output_columns.size(); x++)
   {
-    float value = m_motion_tensor->get(output_columns[x], prediction_step_size + y_offset, z_offset);
+    float value = motion_tensor.get(output_columns[x], prediction_step_size + y_offset, z_offset);
     set_output(0, 0, x, value);
   }
 

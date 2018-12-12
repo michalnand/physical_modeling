@@ -57,8 +57,10 @@ class TensorInterface
 
     unsigned int get_max_y_offset();
     unsigned int get_max_z_offset();
+
   public:
     virtual int create(unsigned int y_offset, unsigned int z_offset);
+    virtual int create(unsigned int y_offset, unsigned int z_offset, MotionTensor &motion_tensor);
 
   protected:
     void set_input_dimensions(unsigned int width_, unsigned int height_, unsigned int depth_);

@@ -1,0 +1,12 @@
+{
+  "input columns"           : [0, 1, 2],
+  "output columns"          : [3, 4, 5],
+
+  "time window size"        : 8,
+  "time step size"          : 400,
+  "prediction step size"    : 0,
+
+  "use depth"               : false,
+
+  "padding"                 : 1
+}
