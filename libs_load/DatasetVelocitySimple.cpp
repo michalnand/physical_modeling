@@ -66,7 +66,7 @@ void DatasetVelocitySimple::create(MotionTensor &tensor, bool put_to_testing, un
   */
 
   for (unsigned int z = 0; z < tensor.depth(); z++)
-  for (unsigned int y = 0; y < tensor.depth(); y++)
+  for (unsigned int y = 0; y < tensor.height(); y++)
   {
     item.input[0] = tensor.get(0, y, z);
     item.input[1] = tensor.get(1, y, z);
