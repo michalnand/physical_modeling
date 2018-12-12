@@ -1,9 +1,0 @@
-{
-  "normalise"       : "per column",
-  "normalise range" : [0.0, 1.0],
-
-  "dat files" :
-  [
-    "/home/michal/programming/physical_modeling/trajectory_test_python/data/training.dat"
-  ]
-}

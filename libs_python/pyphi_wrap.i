@@ -18,28 +18,14 @@
 
 
 %{
-#include <dats_to_trajectory.h>
-#include <nn_trajectory_spatial_input.h>
-
-#include <predict_trajectory.h>
-#include <trajectory_compare.h>
-#include <trajectory.h>
-#include <lorenz.h>
-
-#include <dataset_interface.h>
 #include <dat_load.h>
 #include <dats_load.h>
 
 #include <motion_tensor.h>
 #include <dats_to_motion_tensor.h>
 
+#include <dataset_interface.h>
 #include <DatasetVelocitySimple.h>
-
-#include <DatasetLorenz.h>
-#include <DatasetMotionTest.h>
-#include <DatasetLorenzSpatial.h>
-#include <DatasetParticlesMotion.h>
-#include <DatasetParticlesMotionRuntime.h>
 
 #include <log.h>
 #include <json_config.h>
@@ -48,29 +34,14 @@
 
 
 /* Let's just grab the original header file here */
-%include <dats_to_trajectory.h>
-%include <nn_trajectory_spatial_input.h>
-
-%include <predict_trajectory.h>
-%include <trajectory_compare.h>
-%include <trajectory.h>
-%include <lorenz.h>
-
-
-%include <dataset_interface.h>
 %include <dat_load.h>
 %include <dats_load.h>
 
 %include <motion_tensor.h>
 %include <dats_to_motion_tensor.h>
 
+%include <dataset_interface.h>
 %include <DatasetVelocitySimple.h>
-
-%include <DatasetLorenz.h>
-%include <DatasetMotionTest.h>
-%include <DatasetLorenzSpatial.h>
-%include <DatasetParticlesMotion.h>
-%include <DatasetParticlesMotionRuntime.h>
 
 %include <log.h>
 %include <json_config.h>

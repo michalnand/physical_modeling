@@ -1,4 +1,4 @@
-OUTPUT_NAME = libs_common_pm
+OUTPUT_NAME = libs_dataset_pm
 PHYSICAL_MODELING_LIBS_PATH=..
 
 INC+= -I.
@@ -8,7 +8,6 @@ INC+= -I$(RYSY_LIBS_PATH)/libs_experiment
 INC+= -I$(RYSY_LIBS_PATH)/libs_nn
 INC+= -I$(PHYSICAL_MODELING_LIBS_PATH)/libs_common
 INC+= -I$(PHYSICAL_MODELING_LIBS_PATH)/libs_dataset
-
 
 SRCS+= $(shell find . -name '*.cpp')
 
