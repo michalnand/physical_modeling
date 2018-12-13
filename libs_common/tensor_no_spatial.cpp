@@ -26,8 +26,10 @@ TensorNoSpatial::TensorNoSpatial(std::string config_file_name, MotionTensor &mot
   height_ = time_window_size     + 2*padding;
   depth_  = 1;
 
+
   if (use_depth)
     depth_+= m_motion_tensor->depth();
+
 
   set_input_dimensions(width_, height_, depth_);
   set_output_dimensions(1, 1, output_columns.size());
@@ -47,7 +49,7 @@ TensorNoSpatial::TensorNoSpatial(std::string config_file_name, MotionTensor &mot
   */
 
 
-  create(1000, 10);
+  create(1, 1);
   print();
 }
 

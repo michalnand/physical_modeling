@@ -3,8 +3,8 @@
   "output columns"          : [3, 4, 5],
 
   "time window size"        : 8,
-  "time step size"          : 400,
-  "prediction step size"    : 3200,
+  "time step size"          : 100,
+  "prediction step size"    : 1,
 
   "use depth"               : false,
 

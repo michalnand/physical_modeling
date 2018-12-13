@@ -1,11 +1,13 @@
 #include "trajectory_prediction.h"
-#include <cnn.h>
 
 #include <iostream>
+#include <math.h>
 
 TrajectoryPrediction::TrajectoryPrediction(MotionTensor &initial_conditions)
 {
   this->initial_conditions = &initial_conditions;
+
+  extremes = this->initial_conditions->get_extremes();
 }
 
 TrajectoryPrediction::~TrajectoryPrediction()
@@ -14,17 +16,9 @@ TrajectoryPrediction::~TrajectoryPrediction()
 }
 
 
-float map_to(float source_min, float source_max, float dest_min, float dest_max, float x)
-{
-  float k = (dest_max - dest_min)/(source_max - source_min);
-  float q = dest_max - k*source_max;
-
-  return k*x + q;
-}
-
-void TrajectoryPrediction::process( std::string network_file_name,
-                                    TensorInterface &tensor_interface,
-                                    unsigned int line_offset)
+unsigned int TrajectoryPrediction::process( std::string network_file_name,
+                                            TensorInterface &tensor_interface,
+                                            unsigned int line_offset)
 {
   sGeometry input_geometry, output_geometry;
 
@@ -38,12 +32,13 @@ void TrajectoryPrediction::process( std::string network_file_name,
 
   CNN nn(network_file_name, input_geometry, output_geometry);
 
-  unsigned int prediction_step = line_offset;
-
 
   result.init(initial_conditions->width(), initial_conditions->height(), initial_conditions->depth());
   result.clear();
 
+  std::cout << "LINE OFFSET " << line_offset << "\n";
+
+//  for (unsigned int y = 0; y < result.height(); y++)
   for (unsigned int y = 0; y < line_offset; y++)
   for (unsigned int z = 0; z < result.depth(); z++)
   for (unsigned int x = 0; x < result.width(); x++)
@@ -52,65 +47,154 @@ void TrajectoryPrediction::process( std::string network_file_name,
     result.set(x, y, z, v);
   }
 
-  std::vector<float> nn_output(tensor_interface.output_size());
-
-
-  unsigned int width = initial_conditions->width()/2;
-
-
-  auto extremes = initial_conditions->get_extremes();
-
-  for (unsigned int y = 0; y < result.height()/10; y++)
+  for (unsigned int time_idx = 0; time_idx < initial_conditions->height()-1; time_idx++)
   {
-    for (unsigned int z = 0; z < result.depth(); z++)
-    {
-      int ti_res = tensor_interface.create(y, z, result);
-      if (ti_res == 0)
+      for (unsigned int particle_idx = 0; particle_idx < result.depth(); particle_idx++)
       {
-        auto dataset_item = tensor_interface.get();
-      //  nn.forward(nn_output, dataset_item.input);
+        std::vector<float> res;
 
-        for (unsigned int x = 0; x < width; x++)
+        res = predict(nn, tensor_interface, time_idx, particle_idx);
+
+        if (res.size() == 0)
         {
-          float v_norm   = initial_conditions->get(x + width, y, z);
-          //TODO not working
-          //float v_norm   = nn_output[x];
-
-          float pos_norm = result.get(x, y, z);
-
-          float v_orig, pos_orig;
-
-          v_orig = map_to(0.0, 1.0,
-                          extremes[width + x].min, extremes[width + x].max,
-                          v_norm);
-
-          pos_orig = map_to(0.0, 1.0,
-                            extremes[x].min, extremes[x].max,
-                            pos_norm);
-
-
-
-          float predicted_orig = pos_orig + v_orig;
-
-          float predicted = map_to(extremes[x].min, extremes[x].max, 0.0, 1.0, predicted_orig);
-
-          result.set(x, y + prediction_step, z, predicted);
-          result.set(x + 3, y + prediction_step, z, v_norm);
-
+          res.resize(3);
+          res[0] = 0.5;
+          res[1] = 0.5;
+          res[2] = 0.5;
         }
-      }
-    }
 
-    if ((y%100) == 0)
-    {
-      float done = y*100.0/result.height();
-      std::cout << "done = " << done << "%\n";
-    }
+        result.set(0, time_idx + 1, particle_idx, res[0]);
+        result.set(1, time_idx + 1, particle_idx, res[1]);
+        result.set(2, time_idx + 1, particle_idx, res[2]);
+      }
+
+
+      unsigned int particle_idx = 10;
+
+      unsigned int width = initial_conditions->width()/2;
+
+      float error = 0.0;
+      float base  = 0.0000000001;
+
+
+      for (unsigned int x = 0; x < width; x++)
+      {
+        error+= pow(initial_conditions->get(x, time_idx, particle_idx) - result.get(x, time_idx, particle_idx), 2.0);
+        base+= pow(initial_conditions->get(x, time_idx, particle_idx), 2.0);
+      }
+
+      float relative_error = 100.0*sqrt(error/base);
+
+      std::cout << time_idx << " > ";
+
+      for (unsigned int x = 0; x < width; x++)
+        std::cout << initial_conditions->get(x, time_idx, particle_idx) << " ";
+
+      std::cout << " : ";
+
+
+      for (unsigned int x = 0; x < width; x++)
+        std::cout << result.get(x, time_idx, particle_idx) << " ";
+
+      std::cout << " : " << relative_error << "% ";
+
+      std::cout << "\n";
+
+      /*
+      if (relative_error > 20.0)
+      {
+        return time_idx;
+      }
+      */
+
+      /*
+      if ((y%100) == 0)
+      {
+        float done = y*100.0/result.height();
+        std::cout << "done = " << done << "%\n";
+      }
+      */
   }
+
+
+  return result.height();
 
 }
 
 MotionTensor& TrajectoryPrediction::get_result()
 {
   return result;
+}
+
+
+
+
+
+float TrajectoryPrediction::map_to(float source_min, float source_max, float dest_min, float dest_max, float x)
+{
+  float k = (dest_max - dest_min)/(source_max - source_min);
+  float q = dest_max - k*source_max;
+
+  return k*x + q;
+}
+
+
+std::vector<float> TrajectoryPrediction::predict(CNN &nn, TensorInterface &tensor_interface, unsigned int time_idx, unsigned int particle_idx)
+{
+  std::vector<float> predict_result;
+
+  int ti_res = tensor_interface.create(time_idx, particle_idx, result);
+
+  if (ti_res != 0)
+  {
+    return predict_result;
+  }
+
+  auto dataset_item = tensor_interface.get();
+
+  unsigned int output_size = dataset_item.output.size();
+
+
+  std::vector<float> nn_output(output_size);
+  predict_result.resize(output_size);
+
+  nn.forward(nn_output, dataset_item.input);
+
+
+  for (unsigned int x = 0; x < output_size; x++)
+  {
+    float pos_norm = result.get(x, time_idx, particle_idx);
+
+    //float v_norm = initial_conditions->get(x + output_size, time_idx, particle_idx);
+
+    //TODO not working
+    float v_norm   = nn_output[x];
+
+
+    float v_orig, pos_orig;
+
+    v_orig = map_to(0.0, 1.0,
+                    extremes[output_size + x].min, extremes[output_size + x].max,
+                    v_norm);
+
+    pos_orig = map_to(0.0, 1.0,
+                      extremes[x].min, extremes[x].max,
+                      pos_norm);
+
+
+
+    float predicted_orig = pos_orig + v_orig;
+
+    float predicted = map_to(extremes[x].min, extremes[x].max, 0.0, 1.0, predicted_orig);
+
+    if (x == 2)
+      predicted = initial_conditions->get(x, 0, particle_idx);
+
+    result.set(x, time_idx + 1, particle_idx, predicted);
+    result.set(x + output_size, time_idx + 1, particle_idx, v_norm);
+
+    predict_result[x] = predicted;
+  }
+
+  return predict_result;
 }

@@ -54,15 +54,14 @@ void MotionTensorVisualisation::render( MotionTensor &motion_tensor,
     float g_ = g*0.5;
     float b_ = b*0.5;
 
-    /*
-    if ( (y >= min) && (y <= max) )
+
+    if (y < min)
     {
       r_ = 1.0;
       g_ = 1.0;
       b_ = 1.0;
     }
-    */
-   
+
     visualisation.push();
 
 
@@ -72,7 +71,7 @@ void MotionTensorVisualisation::render( MotionTensor &motion_tensor,
     visualisation.pop();
   }
 
-  unsigned int idx = time_idx%motion_tensor.height();
+  unsigned int idx = time_idx%max_range;
 
   for (unsigned int particle = 0; particle < motion_tensor.depth(); particle++)
   {
