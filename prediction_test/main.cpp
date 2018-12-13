@@ -53,9 +53,49 @@ int main()
     std::cout << "\n";
   }
 */
+  unsigned int line_offset = 32;
 
-  prediction.process( "experiment_0/trained/cnn_config.json", tensor_interface, 100);
+  prediction.process( "experiment_0/trained/cnn_config.json", tensor_interface, line_offset);
 
+  unsigned int z = 0;
+
+  //for (unsigned int y = prediction.get_result().height(); y++)
+  for (unsigned int y = 0; y < 1000; y++)
+  {
+    std::cout << y << ": ";
+
+    /*
+    for (unsigned int x = 0; x < 3; x++)
+    {
+      std::cout << dats_to_motion_tensor.tensor().get(x, y, x) << " ";
+    }
+
+    std::cout << " : ";
+
+    for (unsigned int x = 0; x < 3; x++)
+    {
+      std::cout << prediction.get_result().get(x, y, z) << " ";
+    }
+    */
+
+    std::cout << " : ";
+
+    for (unsigned int x = 0; x < 3; x++)
+    {
+      std::cout << dats_to_motion_tensor.tensor().get(x + 3, y, z) << " ";
+    }
+
+    std::cout << " : ";
+
+    for (unsigned int x = 0; x < 3; x++)
+    {
+      std::cout << prediction.get_result().get(x + 3, y, z) << " ";
+    }
+
+    std::cout << "\n";
+  }
+
+  /*
   MotionTensorVisualisation visualisation;
   while (1)
   {
@@ -64,7 +104,7 @@ int main()
     visualisation.render(prediction.get_result(), 0.0, 0.0, 1.0);
     visualisation.finish();
   }
-
+  */
 
   std::cout << "program done\n";
 

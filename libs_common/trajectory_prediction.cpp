@@ -38,7 +38,7 @@ void TrajectoryPrediction::process( std::string network_file_name,
 
   CNN nn(network_file_name, input_geometry, output_geometry);
 
-  unsigned int prediction_step = 1;
+  unsigned int prediction_step = 32;
 
 
   result.init(initial_conditions->width(), initial_conditions->height(), initial_conditions->depth());
@@ -60,7 +60,7 @@ void TrajectoryPrediction::process( std::string network_file_name,
 
   auto extremes = initial_conditions->get_extremes();
 
-  for (unsigned int y = 0; y < result.height(); y++)
+  for (unsigned int y = 0; y < result.height()/10; y++)
   {
     for (unsigned int z = 0; z < result.depth(); z++)
     {
@@ -95,6 +95,8 @@ void TrajectoryPrediction::process( std::string network_file_name,
           float predicted = map_to(extremes[x].min, extremes[x].max, 0.0, 1.0, predicted_orig);
 
           result.set(x, y + prediction_step, z, predicted);
+          result.set(x + 3, y + prediction_step, z, v_norm);
+
         }
       }
     }
