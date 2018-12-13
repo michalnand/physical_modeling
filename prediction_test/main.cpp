@@ -8,6 +8,8 @@
 
 #include <cnn.h>
 
+#include <math.h>
+
 int main()
 {
   DatsToMotionTensor dats_to_motion_tensor("training_dats.json", "motion_tensor.json");
@@ -15,8 +17,22 @@ int main()
   TensorNoSpatial tensor_interface("no_spatial_tensor.json", dats_to_motion_tensor.tensor());
 
   TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
+  unsigned int line_offset = 1;
 
 /*
+
+  prediction.process( "experiment_0/trained/cnn_config.json", tensor_interface, line_offset);
+
+  MotionTensorVisualisation visualisation;
+  while (1)
+  {
+    visualisation.start();
+    visualisation.render(dats_to_motion_tensor.tensor(), 1.0, 0.0, 0.0);
+    visualisation.render(prediction.get_result(), 0.0, 0.0, 1.0, line_offset);
+    visualisation.finish();
+  }
+*/
+
   sGeometry input_geometry, output_geometry;
 
   input_geometry.w = tensor_interface.input_width();
@@ -50,10 +66,22 @@ int main()
     for (unsigned int j = 0; j < nn_output.size(); j++)
       std::cout << nn_output[j] << " ";
 
+    float error = 0.0;
+    float base = 0.0;
+    for (unsigned int j = 0; j < (dataset_item.output.size()-1); j++)
+    {
+      error+= pow(dataset_item.output[j] - nn_output[j], 2.0);
+      base+= pow(dataset_item.output[j], 2.0);
+    }
+
+    float relative_error = 100.0*sqrt(error)/sqrt(base + 0.00000000000001);
+
+    std::cout << " e = " << relative_error << "% ";
+
     std::cout << "\n";
   }
-*/
-  unsigned int line_offset = 32;
+
+  return 0;
 
   prediction.process( "experiment_0/trained/cnn_config.json", tensor_interface, line_offset);
 
@@ -95,16 +123,7 @@ int main()
     std::cout << "\n";
   }
 
-  /*
-  MotionTensorVisualisation visualisation;
-  while (1)
-  {
-    visualisation.start();
-    visualisation.render(dats_to_motion_tensor.tensor(), 1.0, 0.0, 0.0);
-    visualisation.render(prediction.get_result(), 0.0, 0.0, 1.0);
-    visualisation.finish();
-  }
-  */
+
 
   std::cout << "program done\n";
 

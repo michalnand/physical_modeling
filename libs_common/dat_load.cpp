@@ -205,6 +205,14 @@ void DatLoad::find_extreme()
 }
 
 
+bool is_float(const std::string &in)
+{
+  std::stringstream str(in);
+  float f;
+  return bool(str >> f);
+}
+
+
 void DatLoad::load(std::string file_name)
 {
   for (unsigned int i = 0; i < values.size(); i++)
@@ -231,14 +239,17 @@ void DatLoad::load(std::string file_name)
   {
     std::stringstream iss(line);
 
-    float value;
-    std::vector<float> line_f;
-    while (iss >> value)
+    if (is_float(line))
     {
-      line_f.push_back(value);
-    }
+      float value;
+      std::vector<float> line_f;
+      while (iss >> value)
+      {
+        line_f.push_back(value);
+      }
 
-    values.push_back(line_f);
+      values.push_back(line_f);
+    }
   }
 
   find_extreme();

@@ -24,8 +24,13 @@
 #include <motion_tensor.h>
 #include <dats_to_motion_tensor.h>
 
+#include <motion_tensor.h>
+#include <tensor_interface.h>
+#include <tensor_no_spatial.h>
+
 #include <dataset_interface.h>
 #include <DatasetVelocitySimple.h>
+#include <DatasetTrajectory.h>
 
 #include <log.h>
 #include <json_config.h>
@@ -40,8 +45,14 @@
 %include <motion_tensor.h>
 %include <dats_to_motion_tensor.h>
 
+%include <motion_tensor.h>
+%include <tensor_interface.h>
+%include <tensor_no_spatial.h>
+
 %include <dataset_interface.h>
 %include <DatasetVelocitySimple.h>
+%include <DatasetTrajectory.h>
+
 
 %include <log.h>
 %include <json_config.h>

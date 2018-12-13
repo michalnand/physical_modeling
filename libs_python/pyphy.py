@@ -1562,6 +1562,91 @@ class DatsToMotionTensor(_object):
 DatsToMotionTensor_swigregister = _pyphy.DatsToMotionTensor_swigregister
 DatsToMotionTensor_swigregister(DatsToMotionTensor)
 
+class TensorInterface(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, TensorInterface, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, TensorInterface, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, *args):
+        this = _pyphy.new_TensorInterface(*args)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_TensorInterface
+    __del__ = lambda self: None
+
+    def get(self):
+        return _pyphy.TensorInterface_get(self)
+
+    def input_width(self):
+        return _pyphy.TensorInterface_input_width(self)
+
+    def input_height(self):
+        return _pyphy.TensorInterface_input_height(self)
+
+    def input_depth(self):
+        return _pyphy.TensorInterface_input_depth(self)
+
+    def output_width(self):
+        return _pyphy.TensorInterface_output_width(self)
+
+    def output_height(self):
+        return _pyphy.TensorInterface_output_height(self)
+
+    def output_depth(self):
+        return _pyphy.TensorInterface_output_depth(self)
+
+    def input_size(self):
+        return _pyphy.TensorInterface_input_size(self)
+
+    def output_size(self):
+        return _pyphy.TensorInterface_output_size(self)
+
+    def asString(self):
+        return _pyphy.TensorInterface_asString(self)
+
+    def _print(self):
+        return _pyphy.TensorInterface__print(self)
+
+    def get_max_y_offset(self):
+        return _pyphy.TensorInterface_get_max_y_offset(self)
+
+    def get_max_z_offset(self):
+        return _pyphy.TensorInterface_get_max_z_offset(self)
+
+    def create(self, *args):
+        return _pyphy.TensorInterface_create(self, *args)
+TensorInterface_swigregister = _pyphy.TensorInterface_swigregister
+TensorInterface_swigregister(TensorInterface)
+
+class TensorNoSpatial(TensorInterface):
+    __swig_setmethods__ = {}
+    for _s in [TensorInterface]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, TensorNoSpatial, name, value)
+    __swig_getmethods__ = {}
+    for _s in [TensorInterface]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, TensorNoSpatial, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, *args):
+        this = _pyphy.new_TensorNoSpatial(*args)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_TensorNoSpatial
+    __del__ = lambda self: None
+
+    def create(self, *args):
+        return _pyphy.TensorNoSpatial_create(self, *args)
+TensorNoSpatial_swigregister = _pyphy.TensorNoSpatial_swigregister
+TensorNoSpatial_swigregister(TensorNoSpatial)
+
 class sDatasetItem(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, sDatasetItem, name, value)
@@ -1693,6 +1778,28 @@ class DatasetVelocitySimple(DatasetInterface):
     __del__ = lambda self: None
 DatasetVelocitySimple_swigregister = _pyphy.DatasetVelocitySimple_swigregister
 DatasetVelocitySimple_swigregister(DatasetVelocitySimple)
+
+class DatasetTrajectory(DatasetInterface):
+    __swig_setmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetTrajectory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, DatasetTrajectory, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, training_tensor_interface, testing_tensor_interface, training_count=0, testing_count=0):
+        this = _pyphy.new_DatasetTrajectory(training_tensor_interface, testing_tensor_interface, training_count, testing_count)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_DatasetTrajectory
+    __del__ = lambda self: None
+DatasetTrajectory_swigregister = _pyphy.DatasetTrajectory_swigregister
+DatasetTrajectory_swigregister(DatasetTrajectory)
 
 class Log(_object):
     __swig_setmethods__ = {}

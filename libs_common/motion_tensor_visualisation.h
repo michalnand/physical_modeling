@@ -15,7 +15,10 @@ class MotionTensorVisualisation
     virtual ~MotionTensorVisualisation();
 
     void start();
-    void render(MotionTensor &motion_tensor, float r, float g, float b);
+    void render(  MotionTensor &motion_tensor,
+                  float r, float g, float b,
+                  unsigned int min = 0, unsigned int max = 0
+                );
     void finish();
 };
 

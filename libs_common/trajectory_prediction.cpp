@@ -38,7 +38,7 @@ void TrajectoryPrediction::process( std::string network_file_name,
 
   CNN nn(network_file_name, input_geometry, output_geometry);
 
-  unsigned int prediction_step = 32;
+  unsigned int prediction_step = line_offset;
 
 
   result.init(initial_conditions->width(), initial_conditions->height(), initial_conditions->depth());
@@ -68,13 +68,13 @@ void TrajectoryPrediction::process( std::string network_file_name,
       if (ti_res == 0)
       {
         auto dataset_item = tensor_interface.get();
-        nn.forward(nn_output, dataset_item.input);
+      //  nn.forward(nn_output, dataset_item.input);
 
         for (unsigned int x = 0; x < width; x++)
         {
-          //float v_norm   = initial_conditions->get(x + width, y, z);
+          float v_norm   = initial_conditions->get(x + width, y, z);
           //TODO not working
-          float v_norm   = nn_output[x];
+          //float v_norm   = nn_output[x];
 
           float pos_norm = result.get(x, y, z);
 

@@ -10,8 +10,8 @@ class DatasetTrajectory: public DatasetInterface
     DatasetTrajectory(
                         TensorInterface &training_tensor_interface,
                         TensorInterface &testing_tensor_interface,
-                        unsigned int training_count,
-                        unsigned int testing_count
+                        unsigned int training_count = 0,
+                        unsigned int testing_count = 0
                       );
 
     virtual ~DatasetTrajectory();
@@ -19,6 +19,7 @@ class DatasetTrajectory: public DatasetInterface
 
   private:
     void create(TensorInterface &tensor, bool put_to_testing, unsigned int count);
+    void create_all(TensorInterface &tensor, bool put_to_testing);
 
 };
 

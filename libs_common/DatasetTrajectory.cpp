@@ -15,8 +15,15 @@ DatasetTrajectory::DatasetTrajectory(
 
   std::cout << "creating dataset\n";
 
-  create(training_tensor_interface, false, training_count);
-  create(testing_tensor_interface, true, testing_count);
+  if (training_count == 0)
+    create_all(training_tensor_interface, false);
+  else
+    create(training_tensor_interface, false, training_count);
+
+  if (testing_count == 0)
+    create_all(testing_tensor_interface, true);
+  else
+    create(testing_tensor_interface, true, testing_count);
 
   training.resize(1);
 
@@ -48,4 +55,20 @@ void DatasetTrajectory::create(TensorInterface &tensor, bool put_to_testing, uns
       count--;
     }
   }
+}
+
+
+void DatasetTrajectory::create_all(TensorInterface &tensor, bool put_to_testing)
+{
+    for (unsigned int y_offset = 0; y_offset < tensor.get_max_y_offset(); y_offset++)
+    for (unsigned int z_offset = 0; z_offset < tensor.get_max_z_offset(); z_offset++)
+    if (tensor.create(y_offset, z_offset) == 0)
+    { 
+      auto item = tensor.get();
+
+      if (put_to_testing)
+        add_testing(item);
+      else
+        add_training_for_regression(item);
+    }
 }
