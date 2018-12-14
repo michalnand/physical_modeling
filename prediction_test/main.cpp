@@ -2,6 +2,7 @@
 
 #include <dats_to_motion_tensor.h>
 #include <tensor_no_spatial.h>
+#include <tensor_spatial.h>
 
 #include <trajectory_prediction.h>
 #include <motion_tensor_visualisation.h>
@@ -14,14 +15,15 @@ int main()
 {
   DatsToMotionTensor dats_to_motion_tensor("testing_dats.json", "motion_tensor.json");
 
-  TensorNoSpatial tensor_interface("no_spatial_tensor.json", dats_to_motion_tensor.tensor());
+  //TensorNoSpatial tensor_interface("no_spatial_tensor.json", dats_to_motion_tensor.tensor());
+  TensorSpatial tensor_interface("spatial_tensor.json", dats_to_motion_tensor.tensor());
 
 
   TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
   unsigned int line_offset = 800;
 
 
-  prediction.process( "experiment_3/trained/cnn_config.json", tensor_interface, line_offset);
+  prediction.process( "experiment_4/trained/cnn_config.json", tensor_interface, line_offset);
 
 
   MotionTensorVisualisation visualisation;
