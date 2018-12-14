@@ -38,8 +38,10 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
 
   std::cout << "LINE OFFSET " << line_offset << "\n";
 
-//  for (unsigned int y = 0; y < result.height(); y++)
-  for (unsigned int y = 0; y < line_offset; y++)
+  unsigned int prediction_offset = 800;
+
+  for (unsigned int y = 0; y < prediction_offset; y++)
+  //for (unsigned int y = 0; y < line_offset; y++)
   for (unsigned int z = 0; z < result.depth(); z++)
   for (unsigned int x = 0; x < result.width(); x++)
   {
@@ -47,25 +49,26 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
     result.set(x, y, z, v);
   }
 
-  for (unsigned int time_idx = 0; time_idx < initial_conditions->height()-1; time_idx++)
+  for (unsigned int time_idx = 0; time_idx < initial_conditions->height()-prediction_offset; time_idx++)
   {
       for (unsigned int particle_idx = 0; particle_idx < result.depth(); particle_idx++)
       {
         std::vector<float> res;
 
-        res = predict(nn, tensor_interface, time_idx, particle_idx);
+        res = predict(nn, tensor_interface, time_idx, particle_idx, prediction_offset);
 
         if (res.size() == 0)
         {
           res.resize(3);
-          res[0] = 0.5;
-          res[1] = 0.5;
-          res[2] = 0.5;
+          res[0] = result.get(0, time_idx + prediction_offset - 1, particle_idx);
+          res[1] = result.get(1, time_idx + prediction_offset - 1, particle_idx);
+          res[2] = result.get(2, time_idx + prediction_offset - 1, particle_idx);
+
+          result.set(0, time_idx + prediction_offset, particle_idx, res[0]);
+          result.set(1, time_idx + prediction_offset, particle_idx, res[1]);
+          result.set(2, time_idx + prediction_offset, particle_idx, res[2]);
         }
 
-        result.set(0, time_idx + 1, particle_idx, res[0]);
-        result.set(1, time_idx + 1, particle_idx, res[1]);
-        result.set(2, time_idx + 1, particle_idx, res[2]);
       }
 
 
@@ -139,7 +142,11 @@ float TrajectoryPrediction::map_to(float source_min, float source_max, float des
 }
 
 
-std::vector<float> TrajectoryPrediction::predict(CNN &nn, TensorInterface &tensor_interface, unsigned int time_idx, unsigned int particle_idx)
+std::vector<float> TrajectoryPrediction::predict( CNN &nn, TensorInterface &tensor_interface,
+                                                  unsigned int time_idx,
+                                                  unsigned int particle_idx,
+                                                  unsigned int prediction_offset
+                                                )
 {
   std::vector<float> predict_result;
 
@@ -163,9 +170,9 @@ std::vector<float> TrajectoryPrediction::predict(CNN &nn, TensorInterface &tenso
 
   for (unsigned int x = 0; x < output_size; x++)
   {
-    float pos_norm = result.get(x, time_idx, particle_idx);
+    float pos_norm = result.get(x, time_idx + prediction_offset-1, particle_idx);
 
-    //float v_norm = initial_conditions->get(x + output_size, time_idx, particle_idx);
+    //float v_norm = initial_conditions->get(x + output_size, time_idx + prediction_offset, particle_idx);
 
     //TODO not working
     float v_norm   = nn_output[x];
@@ -187,11 +194,13 @@ std::vector<float> TrajectoryPrediction::predict(CNN &nn, TensorInterface &tenso
 
     float predicted = map_to(extremes[x].min, extremes[x].max, 0.0, 1.0, predicted_orig);
 
+    /*
     if (x == 2)
       predicted = initial_conditions->get(x, 0, particle_idx);
-
-    result.set(x, time_idx + 1, particle_idx, predicted);
-    result.set(x + output_size, time_idx + 1, particle_idx, v_norm);
+    */
+    
+    result.set(x, time_idx + prediction_offset, particle_idx, predicted);
+    result.set(x + output_size, time_idx + prediction_offset, particle_idx, v_norm);
 
     predict_result[x] = predicted;
   }

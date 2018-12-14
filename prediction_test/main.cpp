@@ -18,7 +18,7 @@ int main()
 
 
   TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
-  unsigned int line_offset = 2000;
+  unsigned int line_offset = 800;
 
 
   prediction.process( "experiment_0/trained/cnn_config.json", tensor_interface, line_offset);

@@ -26,7 +26,11 @@ class TrajectoryPrediction
     MotionTensor& get_result();
 
   private:
-    std::vector<float> predict(CNN &nn, TensorInterface &tensor_interface, unsigned int time_idx, unsigned int particle_idx);
+    std::vector<float> predict( CNN &nn, TensorInterface &tensor_interface,
+                                unsigned int time_idx,
+                                unsigned int particle_idx,
+                                unsigned int prediction_offset);
+                                
     float map_to(float source_min, float source_max, float dest_min, float dest_max, float x);
 
 };
