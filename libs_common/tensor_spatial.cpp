@@ -169,12 +169,6 @@ int TensorSpatial::create(unsigned int y_offset, unsigned int z_offset, MotionTe
     if (z_rounded >= discretization_z)
       z_rounded = discretization_z - 1;
 
-    std::cout << "rounded = ";
-    std::cout << x_rounded << " ";
-    std::cout << y_rounded << " ";
-    std::cout << z_rounded << " ";
-    std::cout << "\n";
-
     if (use_gaussian_kernel)
     {
         auto kernel = make_kernel(x_raw, y_raw, x_rounded, y_rounded, kernel_size);
