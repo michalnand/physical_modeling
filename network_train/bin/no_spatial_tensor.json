@@ -4,7 +4,7 @@
 
   "time window size"        : 8,
   "time step size"          : 100,
-  "prediction step size"    : 1,
+  "prediction step size"    : 800,
 
   "use depth"               : false,
 
