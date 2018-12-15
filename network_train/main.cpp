@@ -12,7 +12,7 @@ int main()
 {
   DatsToMotionTensor training_dats_to_motion_tensor("training_dats.json", "motion_tensor.json");
   DatsToMotionTensor testing_dats_to_motion_tensor("testing_dats.json", "motion_tensor.json", training_dats_to_motion_tensor.tensor());
-
+ 
   /*
   {
     TensorNoSpatial training_tensor("no_spatial_tensor.json", training_dats_to_motion_tensor.tensor());
@@ -44,7 +44,7 @@ int main()
   */
 
 
-
+  /*
   {
     TensorSpatial training_tensor("spatial_tensor.json", training_dats_to_motion_tensor.tensor());
     TensorSpatial testing_tensor("spatial_tensor.json", testing_dats_to_motion_tensor.tensor());
@@ -70,7 +70,35 @@ int main()
       RegressionExperiment experiment(dataset, "experiment_7/");
       experiment.run();
     }
+  }
+  */
 
+
+  {
+    TensorSpatial training_tensor("spatial_tensor_depth.json", training_dats_to_motion_tensor.tensor());
+    TensorSpatial testing_tensor("spatial_tensor_depth.json", testing_dats_to_motion_tensor.tensor());
+
+    DatasetTrajectory dataset(training_tensor, training_tensor);
+
+    {
+      RegressionExperiment experiment(dataset, "experiment_8/");
+      experiment.run();
+    }
+
+    {
+      RegressionExperiment experiment(dataset, "experiment_9/");
+      experiment.run();
+    }
+
+    {
+      RegressionExperiment experiment(dataset, "experiment_10/");
+      experiment.run();
+    }
+
+    {
+      RegressionExperiment experiment(dataset, "experiment_11/");
+      experiment.run();
+    }
   }
 
   std::cout << "program done\n";
