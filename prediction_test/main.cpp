@@ -23,7 +23,7 @@ int main()
   unsigned int line_offset = 800;
 
 
-  prediction.process( "experiment_4/trained/cnn_config.json", tensor_interface, line_offset);
+  prediction.process( "experiment_6/trained/cnn_config.json", tensor_interface, line_offset);
 
 
   MotionTensorVisualisation visualisation;
