@@ -194,7 +194,7 @@ std::vector<float> TrajectoryPrediction::predict( CNN &nn, TensorInterface &tens
 
     float predicted = map_to(extremes[x].min, extremes[x].max, 0.0, 1.0, predicted_orig);
 
-    
+
     if (x == 2)
       predicted = initial_conditions->get(x, 0, particle_idx);
 
