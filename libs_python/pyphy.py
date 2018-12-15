@@ -1533,6 +1533,12 @@ class MotionTensor(_object):
     def save(self, file_name_prefix):
         return _pyphy.MotionTensor_save(self, file_name_prefix)
 
+    def save_json(self, file_name):
+        return _pyphy.MotionTensor_save_json(self, file_name)
+
+    def load_json(self, file_name):
+        return _pyphy.MotionTensor_load_json(self, file_name)
+
     def find_extremes(self):
         return _pyphy.MotionTensor_find_extremes(self)
 MotionTensor_swigregister = _pyphy.MotionTensor_swigregister
@@ -1800,6 +1806,33 @@ class DatasetTrajectory(DatasetInterface):
     __del__ = lambda self: None
 DatasetTrajectory_swigregister = _pyphy.DatasetTrajectory_swigregister
 DatasetTrajectory_swigregister(DatasetTrajectory)
+
+class MotionTensorVisualisation(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, MotionTensorVisualisation, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, MotionTensorVisualisation, name)
+    __repr__ = _swig_repr
+
+    def __init__(self):
+        this = _pyphy.new_MotionTensorVisualisation()
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_MotionTensorVisualisation
+    __del__ = lambda self: None
+
+    def start(self):
+        return _pyphy.MotionTensorVisualisation_start(self)
+
+    def render(self, motion_tensor, r, g, b, min=0, max=0):
+        return _pyphy.MotionTensorVisualisation_render(self, motion_tensor, r, g, b, min, max)
+
+    def finish(self):
+        return _pyphy.MotionTensorVisualisation_finish(self)
+MotionTensorVisualisation_swigregister = _pyphy.MotionTensorVisualisation_swigregister
+MotionTensorVisualisation_swigregister(MotionTensorVisualisation)
 
 class Log(_object):
     __swig_setmethods__ = {}

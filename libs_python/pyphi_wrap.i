@@ -32,6 +32,8 @@
 #include <DatasetVelocitySimple.h>
 #include <DatasetTrajectory.h>
 
+#include <motion_tensor_visualisation.h>
+
 #include <log.h>
 #include <json_config.h>
 #include <regression_experiment.h>
@@ -53,9 +55,11 @@
 %include <DatasetVelocitySimple.h>
 %include <DatasetTrajectory.h>
 
+%include <motion_tensor_visualisation.h>
 
 %include <log.h>
 %include <json_config.h>
 %include <regression_experiment.h>
+
 
 %include "pyphy.h"

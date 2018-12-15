@@ -7,13 +7,13 @@ all:
 	cd libs_python && make -j4
 
 	cd network_train && make -j4
-	cd visualisation_test && make -j4
-	cd prediction_test && make -j4
+	cd prediction && make -j4
+	cd visualisation && make -j4
 
 clean:
 	cd libs_common && make clean
 	cd libs_python && make clean
 
 	cd network_train && make clean
-	cd visualisation_test && make clean
-	cd prediction_test && make clean
+	cd prediction && make clean
+	cd visualisation && make clean

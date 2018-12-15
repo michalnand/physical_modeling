@@ -67,6 +67,8 @@ class MotionTensor
     void velocity_from_position();
 
     void save(std::string file_name_prefix);
+    void save_json(std::string file_name);
+    void load_json(std::string file_name);
 
     void find_extremes();
 
@@ -75,7 +77,7 @@ class MotionTensor
     std::vector<std::vector<std::vector<float>>> v;
 
     std::vector<sMotionTensorExtreme> extremes;
-
+ 
 
   private:
     sMotionTensorExtreme find_column_extreme(unsigned int column);

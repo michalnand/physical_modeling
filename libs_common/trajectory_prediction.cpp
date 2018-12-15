@@ -36,7 +36,6 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
   result.init(initial_conditions->width(), initial_conditions->height(), initial_conditions->depth());
   result.clear();
 
-  std::cout << "LINE OFFSET " << line_offset << "\n";
 
   unsigned int prediction_offset = 800;
 
@@ -49,7 +48,9 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
     result.set(x, y, z, v);
   }
 
-  for (unsigned int time_idx = 0; time_idx < initial_conditions->height()-prediction_offset; time_idx++)
+  unsigned int time_max = initial_conditions->height() - prediction_offset;
+
+  for (unsigned int time_idx = 0; time_idx < time_max; time_idx++)
   {
       for (unsigned int particle_idx = 0; particle_idx < result.depth(); particle_idx++)
       {
@@ -72,6 +73,7 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
       }
 
 
+      /*
       unsigned int particle_idx = 10;
 
       unsigned int width = initial_conditions->width()/2;
@@ -102,21 +104,15 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
       std::cout << " : " << relative_error << "% ";
 
       std::cout << "\n";
-
-      /*
-      if (relative_error > 20.0)
-      {
-        return time_idx;
-      }
       */
 
-      /*
-      if ((y%100) == 0)
+
+      if ((time_idx%100) == 0)
       {
-        float done = y*100.0/result.height();
+        float done = time_idx*100.0/time_max;
         std::cout << "done = " << done << "%\n";
       }
-      */
+
   }
 
 

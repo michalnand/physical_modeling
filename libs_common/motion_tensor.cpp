@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include <log.h>
+#include <json_config.h>
 
 MotionTensor::MotionTensor()
 {
@@ -183,6 +184,70 @@ void MotionTensor::save(std::string file_name_prefix)
       log << "\n";
     }
   }
+
+  std::string file_name = file_name_prefix + "extremes" + ".dat";
+  Log log(file_name);
+
+  for (unsigned int i = 0; i < extremes.size(); i++)
+  {
+      log << extremes[i].min << " " << extremes[i].max << "\n";
+  }
+}
+
+void MotionTensor::save_json(std::string file_name)
+{
+    JsonConfig json;
+
+    json.result["width"]    = width();
+    json.result["height"]   = height();
+    json.result["depth"]    = depth();
+
+    for (unsigned int i = 0; i < extremes.size(); i++)
+    {
+        json.result["extremes"][i]["min"] = extremes[i].min;
+        json.result["extremes"][i]["max"] = extremes[i].max;
+    }
+
+    for (unsigned int z = 0; z < depth(); z++)
+      for (unsigned int y = 0; y < height(); y++)
+        for (unsigned int x = 0; x < width(); x++)
+        {
+            json.result["values"][z][y][x] = get(x, y, z);
+        }
+
+    json.save(file_name);
+}
+
+
+
+void MotionTensor::load_json(std::string file_name)
+{
+    JsonConfig json(file_name);
+
+    unsigned int width_     = json.result["width"].asInt();
+    unsigned int height_    = json.result["height"].asInt();
+    unsigned int depth_     = json.result["depth"].asInt();
+
+    init(width_, height_, depth_);
+
+    extremes.clear();
+    for (unsigned int i = 0; i < json.result["extremes"].size(); i++)
+    {
+        sMotionTensorExtreme tmp;
+
+        tmp.min = json.result["extremes"][i]["min"].asInt();
+        tmp.max = json.result["extremes"][i]["max"].asInt();
+
+        extremes.push_back(tmp);
+    }
+
+    for (unsigned int z = 0; z < depth(); z++)
+      for (unsigned int y = 0; y < height(); y++)
+        for (unsigned int x = 0; x < width(); x++)
+        {
+            float value = json.result["values"][z][y][x].asFloat();
+            set(x, y, z, value);
+        }
 }
 
 void MotionTensor::find_extremes()

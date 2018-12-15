@@ -9,7 +9,7 @@
 
 #include <dataset_interface.h>
 #include <DatasetVelocitySimple.h>
-
+#include <motion_tensor_visualisation.h>
 
 #include <log.h>
 #include <json_config.h>
