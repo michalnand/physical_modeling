@@ -18,14 +18,14 @@ int main()
 
   dats_to_motion_tensor.tensor().save_json("trajectory_result/target.json");
 
-  unsigned int line_offset = 800;
- 
+  unsigned int prediction_offset = 800;
+
   {
       std::cout << "processing experiment 0\n";
 
       TensorNoSpatial tensor_interface("no_spatial_tensor.json", dats_to_motion_tensor.tensor());
       TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
-      prediction.process( "experiment_0/trained/cnn_config.json", tensor_interface, line_offset);
+      prediction.process( "experiment_0/trained/cnn_config.json", tensor_interface, prediction_offset);
       prediction.get_result().save_json("trajectory_result/experiment_0.json");
   }
 
@@ -34,7 +34,7 @@ int main()
 
       TensorNoSpatial tensor_interface("no_spatial_tensor.json", dats_to_motion_tensor.tensor());
       TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
-      prediction.process( "experiment_1/trained/cnn_config.json", tensor_interface, line_offset);
+      prediction.process( "experiment_1/trained/cnn_config.json", tensor_interface, prediction_offset);
       prediction.get_result().save_json("trajectory_result/experiment_1.json");
   }
 
@@ -43,7 +43,7 @@ int main()
 
       TensorNoSpatial tensor_interface("no_spatial_tensor.json", dats_to_motion_tensor.tensor());
       TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
-      prediction.process( "experiment_2/trained/cnn_config.json", tensor_interface, line_offset);
+      prediction.process( "experiment_2/trained/cnn_config.json", tensor_interface, prediction_offset);
       prediction.get_result().save_json("trajectory_result/experiment_2.json");
   }
 
@@ -52,7 +52,7 @@ int main()
 
       TensorNoSpatial tensor_interface("no_spatial_tensor.json", dats_to_motion_tensor.tensor());
       TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
-      prediction.process( "experiment_3/trained/cnn_config.json", tensor_interface, line_offset);
+      prediction.process( "experiment_3/trained/cnn_config.json", tensor_interface, prediction_offset);
       prediction.get_result().save_json("trajectory_result/experiment_3.json");
   }
 
@@ -61,7 +61,7 @@ int main()
 
       TensorSpatial tensor_interface("spatial_tensor.json", dats_to_motion_tensor.tensor());
       TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
-      prediction.process( "experiment_4/trained/cnn_config.json", tensor_interface, line_offset);
+      prediction.process( "experiment_4/trained/cnn_config.json", tensor_interface, prediction_offset);
       prediction.get_result().save_json("trajectory_result/experiment_4.json");
   }
 
@@ -70,7 +70,7 @@ int main()
 
       TensorSpatial tensor_interface("spatial_tensor.json", dats_to_motion_tensor.tensor());
       TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
-      prediction.process( "experiment_5/trained/cnn_config.json", tensor_interface, line_offset);
+      prediction.process( "experiment_5/trained/cnn_config.json", tensor_interface, prediction_offset);
       prediction.get_result().save_json("trajectory_result/experiment_5.json");
   }
 
@@ -79,7 +79,7 @@ int main()
 
       TensorSpatial tensor_interface("spatial_tensor.json", dats_to_motion_tensor.tensor());
       TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
-      prediction.process( "experiment_6/trained/cnn_config.json", tensor_interface, line_offset);
+      prediction.process( "experiment_6/trained/cnn_config.json", tensor_interface, prediction_offset);
       prediction.get_result().save_json("trajectory_result/experiment_6.json");
   }
 
@@ -88,7 +88,7 @@ int main()
 
       TensorSpatial tensor_interface("spatial_tensor.json", dats_to_motion_tensor.tensor());
       TrajectoryPrediction prediction(dats_to_motion_tensor.tensor());
-      prediction.process( "experiment_7/trained/cnn_config.json", tensor_interface, line_offset);
+      prediction.process( "experiment_7/trained/cnn_config.json", tensor_interface, prediction_offset);
       prediction.get_result().save_json("trajectory_result/experiment_7.json");
   }
 
@@ -99,7 +99,7 @@ int main()
   {
     visualisation.start();
     visualisation.render(dats_to_motion_tensor.tensor(), 1.0, 0.0, 0.0);
-    visualisation.render(prediction.get_result(), 0.0, 0.0, 1.0, line_offset);
+    visualisation.render(prediction.get_result(), 0.0, 0.0, 1.0, prediction_offset);
     visualisation.finish();
   }
   */

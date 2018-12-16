@@ -21,7 +21,7 @@ class TrajectoryPrediction
 
     unsigned int process( std::string network_file_name,
                           TensorInterface &tensor_interface,
-                          unsigned int line_offset);
+                          unsigned int prediction_offset);
 
     MotionTensor& get_result();
 
@@ -30,7 +30,7 @@ class TrajectoryPrediction
                                 unsigned int time_idx,
                                 unsigned int particle_idx,
                                 unsigned int prediction_offset);
-                                
+
     float map_to(float source_min, float source_max, float dest_min, float dest_max, float x);
 
 };

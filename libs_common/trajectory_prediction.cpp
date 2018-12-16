@@ -18,7 +18,7 @@ TrajectoryPrediction::~TrajectoryPrediction()
 
 unsigned int TrajectoryPrediction::process( std::string network_file_name,
                                             TensorInterface &tensor_interface,
-                                            unsigned int line_offset)
+                                            unsigned int prediction_offset)
 {
   sGeometry input_geometry, output_geometry;
 
@@ -36,17 +36,19 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
   result.init(initial_conditions->width(), initial_conditions->height(), initial_conditions->depth());
   result.clear();
 
+  auto extremes = initial_conditions->get_extremes();
+  result.set_extremes(extremes);
 
-  unsigned int prediction_offset = 800;
 
   for (unsigned int y = 0; y < prediction_offset; y++)
-  //for (unsigned int y = 0; y < line_offset; y++)
   for (unsigned int z = 0; z < result.depth(); z++)
   for (unsigned int x = 0; x < result.width(); x++)
   {
     float v = initial_conditions->get(x, y, z);
     result.set(x, y, z, v);
   }
+
+
 
   unsigned int time_max = initial_conditions->height() - prediction_offset;
 
