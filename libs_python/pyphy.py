@@ -1826,11 +1826,14 @@ class MotionTensorVisualisation(_object):
     def start(self):
         return _pyphy.MotionTensorVisualisation_start(self)
 
-    def render(self, motion_tensor, r, g, b, min=0, max=0):
-        return _pyphy.MotionTensorVisualisation_render(self, motion_tensor, r, g, b, min, max)
+    def render(self, motion_tensor, r, g, b, view_mode=0, min=0, max=0):
+        return _pyphy.MotionTensorVisualisation_render(self, motion_tensor, r, g, b, view_mode, min, max)
 
     def finish(self):
         return _pyphy.MotionTensorVisualisation_finish(self)
+
+    def new_loop(self):
+        return _pyphy.MotionTensorVisualisation_new_loop(self)
 MotionTensorVisualisation_swigregister = _pyphy.MotionTensorVisualisation_swigregister
 MotionTensorVisualisation_swigregister(MotionTensorVisualisation)
 

@@ -4,6 +4,8 @@ MotionTensorVisualisation::MotionTensorVisualisation()
 {
   time_idx = 0;
 
+  m_new_loop = false;
+
   unsigned int width  = 800;
   unsigned int height = 800;
   visualisation.init("visualisation", width, height);
@@ -17,27 +19,58 @@ MotionTensorVisualisation::~MotionTensorVisualisation()
 void MotionTensorVisualisation::start()
 {
   visualisation.start();
+
+  visualisation.push();
+
+  visualisation.translate(0.0, 0.0, -6.0);
+  visualisation.set_color(1.0, 1.0, 1.0);
+  visualisation.paint_square(20.0);
+
+  visualisation.pop();
 }
+
+
 
 void MotionTensorVisualisation::render( MotionTensor &motion_tensor,
                                         float r, float g, float b,
-                                        unsigned int min, unsigned int max)
+                                        unsigned int view_mode,
+                                        unsigned int min, unsigned int max
+                                        )
 {
     visualisation.push();
     visualisation.translate(0.0, 0.0, -3.0);
 
-    visualisation.push();
+    switch (view_mode%3)
+    {
+        case 0: render_raw(motion_tensor, r, g, b, min, max); break;
+        case 1: {
+                    visualisation.push();
+                        visualisation.rotate(-70.0, 0.0, 0.0);
+                        visualisation.rotate(0.0, 0.0, 90.0);
+                        render_raw(motion_tensor, r, g, b, min, max);
+                    visualisation.pop();
+                }
+                break;
 
-    visualisation.translate(0.0, 0.0, -3.1);
-    visualisation.set_color(1.0, 1.0, 1.0);
-    visualisation.paint_square(6.0);
+        case 2: {
+                    visualisation.push();
+                    visualisation.rotate(-85.0, 0.0, 0.0);
+                    render_raw(motion_tensor, r, g, b, min, max);
+                    visualisation.pop();
+                }
+                break;
+    }
 
     visualisation.pop();
+}
+
+void MotionTensorVisualisation::render_raw( MotionTensor &motion_tensor,
+                                            float r, float g, float b,
+                                            unsigned int min, unsigned int max)
+{
+
 
       unsigned int step = 100;
-
-      float k = 2.0;
-      float q = -1.0;
 
       unsigned int max_range = (motion_tensor.height()-step);
 
@@ -74,7 +107,14 @@ void MotionTensorVisualisation::render( MotionTensor &motion_tensor,
 
 
           visualisation.set_color(r_, g_, b_);
-          visualisation.paint_line(x0*k + q, y0*k + q, z0*k + q, x1*k + q, y1*k + q, z1*k + q);
+          visualisation.paint_line( scale_x(x0),
+                                    scale_y(y0),
+                                    scale_z(z0),
+
+                                    scale_x(x1),
+                                    scale_y(y1),
+                                    scale_z(z1));
+
 
         visualisation.pop();
       }
@@ -89,18 +129,43 @@ void MotionTensorVisualisation::render( MotionTensor &motion_tensor,
 
         visualisation.push();
 
-          visualisation.translate(x*k + q, y*k + q, z*k + q);
+          visualisation.translate(scale_x(x), scale_y(y), scale_z(z));
           visualisation.set_color(r, g, b);
           visualisation.paint_sphere(0.01);
 
         visualisation.pop();
       }
 
-      visualisation.pop();
+        if ((time_idx+10)%20000 == 0)
+            m_new_loop = true;
+        else
+            m_new_loop = false;
+
 }
 
 void MotionTensorVisualisation::finish()
 {
   visualisation.finish();
-  time_idx+=5;
+  time_idx+= 10;
+}
+
+bool MotionTensorVisualisation::new_loop()
+{
+    return m_new_loop;
+}
+
+
+float MotionTensorVisualisation::scale_x(float v)
+{
+    return v*2.0 - 1.0;
+}
+
+float MotionTensorVisualisation::scale_y(float v)
+{
+    return v*2.0 - 1.0;
+}
+
+float MotionTensorVisualisation::scale_z(float v)
+{
+    return v*2.0 - 1.0;
 }
