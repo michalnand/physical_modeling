@@ -27,6 +27,7 @@
 #include <motion_tensor.h>
 #include <tensor_interface.h>
 #include <tensor_no_spatial.h>
+#include <tensor_spatial.h>
 
 #include <dataset_interface.h>
 #include <DatasetVelocitySimple.h>
@@ -50,6 +51,7 @@
 %include <motion_tensor.h>
 %include <tensor_interface.h>
 %include <tensor_no_spatial.h>
+%include <tensor_spatial.h>
 
 %include <dataset_interface.h>
 %include <DatasetVelocitySimple.h>

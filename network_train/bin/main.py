@@ -15,6 +15,7 @@ testing_dats_to_motion_tensor = pyphy.DatsToMotionTensor("testing_dats.json", "m
 training_tensor = pyphy.TensorSpatial("spatial_tensor.json", training_dats_to_motion_tensor.tensor())
 testing_tensor  = pyphy.TensorSpatial("spatial_tensor.json", testing_dats_to_motion_tensor.tensor())
 
+
 #3, create dataset
 dataset = pyphy.DatasetTrajectory(training_tensor, training_tensor)
 

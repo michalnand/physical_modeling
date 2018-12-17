@@ -1653,6 +1653,31 @@ class TensorNoSpatial(TensorInterface):
 TensorNoSpatial_swigregister = _pyphy.TensorNoSpatial_swigregister
 TensorNoSpatial_swigregister(TensorNoSpatial)
 
+class TensorSpatial(TensorInterface):
+    __swig_setmethods__ = {}
+    for _s in [TensorInterface]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, TensorSpatial, name, value)
+    __swig_getmethods__ = {}
+    for _s in [TensorInterface]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, TensorSpatial, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, *args):
+        this = _pyphy.new_TensorSpatial(*args)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_TensorSpatial
+    __del__ = lambda self: None
+
+    def create(self, *args):
+        return _pyphy.TensorSpatial_create(self, *args)
+TensorSpatial_swigregister = _pyphy.TensorSpatial_swigregister
+TensorSpatial_swigregister(TensorSpatial)
+
 class sDatasetItem(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, sDatasetItem, name, value)

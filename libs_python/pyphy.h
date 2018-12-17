@@ -6,6 +6,7 @@
 
 #include <motion_tensor.h>
 #include <dats_to_motion_tensor.h>
+#include <tensor_spatial.h>
 
 #include <dataset_interface.h>
 #include <DatasetVelocitySimple.h>
