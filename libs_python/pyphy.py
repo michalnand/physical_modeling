@@ -1941,6 +1941,30 @@ class RegressionExperiment(_object):
 RegressionExperiment_swigregister = _pyphy.RegressionExperiment_swigregister
 RegressionExperiment_swigregister(RegressionExperiment)
 
+class TrajectoryPrediction(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, TrajectoryPrediction, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, TrajectoryPrediction, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, initial_conditions):
+        this = _pyphy.new_TrajectoryPrediction(initial_conditions)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_TrajectoryPrediction
+    __del__ = lambda self: None
+
+    def process(self, network_file_name, tensor_interface, prediction_offset):
+        return _pyphy.TrajectoryPrediction_process(self, network_file_name, tensor_interface, prediction_offset)
+
+    def get_result(self):
+        return _pyphy.TrajectoryPrediction_get_result(self)
+TrajectoryPrediction_swigregister = _pyphy.TrajectoryPrediction_swigregister
+TrajectoryPrediction_swigregister(TrajectoryPrediction)
+
 # This file is compatible with both classic and new-style classes.
 
 

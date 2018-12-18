@@ -38,6 +38,8 @@
 #include <log.h>
 #include <json_config.h>
 #include <regression_experiment.h>
+
+#include <trajectory_prediction.h>
 %}
 
 
@@ -63,5 +65,6 @@
 %include <json_config.h>
 %include <regression_experiment.h>
 
+%include <trajectory_prediction.h>
 
 %include "pyphy.h"

@@ -16,4 +16,6 @@
 #include <json_config.h>
 #include <regression_experiment.h>
 
+#include <trajectory_prediction.h>
+
 #endif
