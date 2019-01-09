@@ -7,7 +7,7 @@ import pyphy
 target = pyphy.MotionTensor()
 target.load_json("trajectory_result/target.json")
 
-
+'''
 experiment_4 = pyphy.MotionTensor()
 experiment_4.load_json("trajectory_result/experiment_4.json")
 
@@ -16,7 +16,7 @@ experiment_5.load_json("trajectory_result/experiment_5.json")
 
 experiment_6 = pyphy.MotionTensor()
 experiment_6.load_json("trajectory_result/experiment_6.json")
-
+'''
 experiment_7 = pyphy.MotionTensor()
 experiment_7.load_json("trajectory_result/experiment_7.json")
 
