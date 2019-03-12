@@ -1785,6 +1785,9 @@ class DatasetInterface(_object):
 
     def save_to_binary(self, training_file_name, testing_file_name, unlabeled_file_name):
         return _pyphy.DatasetInterface_save_to_binary(self, training_file_name, testing_file_name, unlabeled_file_name)
+
+    def save_images(self, training_file_name_prefix, testing_file_name_prefix):
+        return _pyphy.DatasetInterface_save_images(self, training_file_name_prefix, testing_file_name_prefix)
 DatasetInterface_swigregister = _pyphy.DatasetInterface_swigregister
 DatasetInterface_swigregister(DatasetInterface)
 
@@ -1831,6 +1834,34 @@ class DatasetTrajectory(DatasetInterface):
     __del__ = lambda self: None
 DatasetTrajectory_swigregister = _pyphy.DatasetTrajectory_swigregister
 DatasetTrajectory_swigregister(DatasetTrajectory)
+
+class DatasetTrajectoryRuntime(DatasetInterface):
+    __swig_setmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DatasetTrajectoryRuntime, name, value)
+    __swig_getmethods__ = {}
+    for _s in [DatasetInterface]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, DatasetTrajectoryRuntime, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, training_tensor_interface, testing_tensor_interface, testing_count=0):
+        this = _pyphy.new_DatasetTrajectoryRuntime(training_tensor_interface, testing_tensor_interface, testing_count)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_DatasetTrajectoryRuntime
+    __del__ = lambda self: None
+
+    def get_training_size(self):
+        return _pyphy.DatasetTrajectoryRuntime_get_training_size(self)
+
+    def get_random_training(self):
+        return _pyphy.DatasetTrajectoryRuntime_get_random_training(self)
+DatasetTrajectoryRuntime_swigregister = _pyphy.DatasetTrajectoryRuntime_swigregister
+DatasetTrajectoryRuntime_swigregister(DatasetTrajectoryRuntime)
 
 class MotionTensorVisualisation(_object):
     __swig_setmethods__ = {}

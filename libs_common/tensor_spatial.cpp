@@ -6,38 +6,37 @@
 TensorSpatial::TensorSpatial(std::string config_file_name, MotionTensor &motion_tensor)
                 :TensorInterface(motion_tensor)
 {
-  JsonConfig json(config_file_name);
+    JsonConfig json(config_file_name);
 
-  for (unsigned int i = 0; i < json.result["input columns"].size(); i++)
-    input_columns.push_back(json.result["input columns"][i].asInt());
+    for (unsigned int i = 0; i < json.result["input columns"].size(); i++)
+        input_columns.push_back(json.result["input columns"][i].asInt());
 
-  for (unsigned int i = 0; i < json.result["output columns"].size(); i++)
-    output_columns.push_back(json.result["output columns"][i].asInt());
+    for (unsigned int i = 0; i < json.result["output columns"].size(); i++)
+        output_columns.push_back(json.result["output columns"][i].asInt());
 
-  time_window_size      = json.result["time window size"].asInt();
-  time_step_size        = json.result["time step size"].asInt();
-  prediction_step_size  = json.result["prediction step size"].asInt();
-  use_depth             = json.result["use depth"].asBool();
+    time_window_size      = json.result["time window size"].asInt();
+    time_step_size        = json.result["time step size"].asInt();
+    prediction_step_size  = json.result["prediction step size"].asInt();
+    use_depth             = json.result["use depth"].asBool();
 
-  use_gaussian_kernel   = json.result["use gaussian kernel"].asBool();
+    use_gaussian_kernel   = json.result["use gaussian kernel"].asBool();
+
+    discretization_x      = json.result["discretization x"].asInt();
+    discretization_y      = json.result["discretization y"].asInt();
+    discretization_z      = json.result["discretization z"].asInt();
 
 
-  discretization_x      = json.result["discretization x"].asInt();
-  discretization_y      = json.result["discretization y"].asInt();
-  discretization_z      = json.result["discretization z"].asInt();
+    unsigned int width_, height_, depth_;
 
+    width_  = discretization_x;
+    height_ = discretization_y;
+    depth_  = discretization_z*time_window_size;
 
-  unsigned int width_, height_, depth_;
+    if (use_depth)
+        depth_*= 2;
 
-  width_  = discretization_x;
-  height_ = discretization_y;
-  depth_  = discretization_z*time_window_size;
-
-  if (use_depth)
-    depth_*= 2;
-
-  set_input_dimensions(width_, height_, depth_);
-  set_output_dimensions(1, 1, output_columns.size());
+    set_input_dimensions(width_, height_, depth_);
+    set_output_dimensions(1, 1, output_columns.size());
 
   /*
   unsigned int items = 0;
@@ -54,21 +53,22 @@ TensorSpatial::TensorSpatial(std::string config_file_name, MotionTensor &motion_
   */
 
 
-  create(6000, 20);
-  print();
+
+    create(6000, 20);
+    //print();
 }
 
 
 TensorSpatial::TensorSpatial(TensorSpatial& other)
                 :TensorInterface(other)
 {
-  copy_spatial(other);
+    copy_spatial(other);
 }
 
 TensorSpatial::TensorSpatial(const TensorSpatial& other)
                 :TensorInterface(other)
 {
-  copy_spatial(other);
+    copy_spatial(other);
 }
 
 TensorSpatial::~TensorSpatial()
@@ -78,124 +78,127 @@ TensorSpatial::~TensorSpatial()
 
 TensorSpatial& TensorSpatial::operator= (TensorSpatial& other)
 {
-  copy(other);
-  copy_spatial(other);
-  return *this;
+    copy(other);
+    copy_spatial(other);
+
+    return *this;
 }
 
 TensorSpatial& TensorSpatial::operator= (const TensorSpatial& other)
 {
-  copy(other);
-  copy_spatial(other);
-  return *this;
+    copy(other);
+    copy_spatial(other);
+
+    return *this;
 }
 
 
 void TensorSpatial::copy_spatial(TensorSpatial& other)
 {
-  input_columns   = other.input_columns;
-  output_columns  = other.output_columns;
+    input_columns   = other.input_columns;
+    output_columns  = other.output_columns;
 
-  time_window_size      = other.time_window_size;
-  time_step_size        = other.time_step_size;
-  prediction_step_size  = other.prediction_step_size;
-  use_depth             = other.use_depth;
+    time_window_size      = other.time_window_size;
+    time_step_size        = other.time_step_size;
+    prediction_step_size  = other.prediction_step_size;
+    use_depth             = other.use_depth;
 
-  use_gaussian_kernel   = other.use_gaussian_kernel;
+    use_gaussian_kernel   = other.use_gaussian_kernel;
 
-  discretization_x      = other.discretization_x;
-  discretization_y      = other.discretization_y;
-  discretization_z      = other.discretization_z;
+    discretization_x      = other.discretization_x;
+    discretization_y      = other.discretization_y;
+    discretization_z      = other.discretization_z;
 }
 
 void TensorSpatial::copy_spatial(const TensorSpatial& other)
 {
-  input_columns   = other.input_columns;
-  output_columns  = other.output_columns;
+    input_columns   = other.input_columns;
+    output_columns  = other.output_columns;
 
-  time_window_size      = other.time_window_size;
-  time_step_size        = other.time_step_size;
-  prediction_step_size  = other.prediction_step_size;
-  use_depth             = other.use_depth;
+    time_window_size      = other.time_window_size;
+    time_step_size        = other.time_step_size;
+    prediction_step_size  = other.prediction_step_size;
+    use_depth             = other.use_depth;
 
-  use_gaussian_kernel   = other.use_gaussian_kernel;
+    use_gaussian_kernel   = other.use_gaussian_kernel;
 
-  discretization_x      = other.discretization_x;
-  discretization_y      = other.discretization_y;
-  discretization_z      = other.discretization_z;
+    discretization_x      = other.discretization_x;
+    discretization_y      = other.discretization_y;
+    discretization_z      = other.discretization_z;
 }
 
 
 int TensorSpatial::create(unsigned int y_offset, unsigned int z_offset)
 {
-  return create(y_offset, z_offset, *m_motion_tensor);
+    return create(y_offset, z_offset, *m_motion_tensor);
 }
 
 
 
 int TensorSpatial::create(unsigned int y_offset, unsigned int z_offset, MotionTensor &motion_tensor)
 {
-  clear();
+    clear();
 
-  if ((input_height()*time_step_size + y_offset) >= motion_tensor.height())
-    return -1;
+    if ((input_height()*time_step_size + y_offset) >= motion_tensor.height())
+        return -1;
 
-  if ((prediction_step_size + y_offset) >= motion_tensor.height())
-    return -2;
+    if ((prediction_step_size + y_offset) >= motion_tensor.height())
+        return -2;
 
 
-  unsigned int kernel_size = 5;
+    unsigned int kernel_size = 5;
 
-  for (unsigned int time_idx = 0; time_idx < time_window_size; time_idx++)
-  {
-    float x = motion_tensor.get(input_columns[0], time_idx*time_step_size + y_offset, z_offset);
-    float y = motion_tensor.get(input_columns[1], time_idx*time_step_size + y_offset, z_offset);
-    float z = motion_tensor.get(input_columns[2], time_idx*time_step_size + y_offset, z_offset);
-
-    float x_raw = x*discretization_x;
-    float y_raw = y*discretization_y;
-    float z_raw = z*discretization_z;
-
-    unsigned int x_rounded = round(x_raw);
-    unsigned int y_rounded = round(y_raw);
-    unsigned int z_rounded = round(z_raw);
-
-    if (x_rounded >= discretization_x)
-      x_rounded = discretization_x - 1;
-
-    if (y_rounded >= discretization_y)
-      y_rounded = discretization_y - 1;
-
-    if (z_rounded >= discretization_z)
-      z_rounded = discretization_z - 1;
-
-    if (use_gaussian_kernel)
+    for (unsigned int time_idx = 0; time_idx < time_window_size; time_idx++)
     {
-        auto kernel = make_kernel(x_raw, y_raw, x_rounded, y_rounded, kernel_size);
+        float x = motion_tensor.get(input_columns[0], time_idx*time_step_size + y_offset, z_offset);
+        float y = motion_tensor.get(input_columns[1], time_idx*time_step_size + y_offset, z_offset);
+        float z = motion_tensor.get(input_columns[2], time_idx*time_step_size + y_offset, z_offset);
 
-        for (unsigned int j = 0; j < kernel_size; j++)
-            for (unsigned int i = 0; i < kernel_size; i++)
-            {
-                int x_ = (int)x_rounded + (int)i - (int)kernel_size/2;
-                int y_ = (int)y_rounded + (int)j - (int)kernel_size/2;
+        float x_raw = x*discretization_x;
+        float y_raw = y*discretization_y;
+        float z_raw = z*discretization_z;
 
-                if ((x_ > 0)&&(y_>0))
-                if ((x_ < (int)discretization_x)&&(y_ < (int)discretization_y))
-                    set_input(x_, y_, z_rounded + time_idx*discretization_z, kernel[j][i]);
-            }
+        unsigned int x_rounded = round(x_raw);
+        unsigned int y_rounded = round(y_raw);
+        unsigned int z_rounded = round(z_raw);
+
+        if (x_rounded >= discretization_x)
+            x_rounded = discretization_x - 1;
+
+        if (y_rounded >= discretization_y)
+            y_rounded = discretization_y - 1;
+
+        if (z_rounded >= discretization_z)
+            z_rounded = discretization_z - 1;
+
+        if (use_gaussian_kernel)
+        {
+            auto kernel = make_kernel(x_raw, y_raw, x_rounded, y_rounded, kernel_size);
+
+            for (unsigned int j = 0; j < kernel_size; j++)
+                for (unsigned int i = 0; i < kernel_size; i++)
+                {
+                    int x_ = (int)x_rounded + (int)i - (int)kernel_size/2;
+                    int y_ = (int)y_rounded + (int)j - (int)kernel_size/2;
+
+                    if ((x_ > 0)&&(y_>0))
+                    if ((x_ < (int)discretization_x)&&(y_ < (int)discretization_y))
+                        set_input(x_, y_, z_rounded + time_idx*discretization_z, kernel[j][i]);
+                }
+        }
+        else
+        {
+            set_input(x_rounded, y_rounded, z_rounded + time_idx*discretization_z, 1.0);
+        }
     }
-    else
-        set_input(x_rounded, y_rounded, z_rounded + time_idx*discretization_z, 1.0);
-  }
 
+    for (unsigned int x = 0; x < output_columns.size(); x++)
+    {
+        float value = motion_tensor.get(output_columns[x], prediction_step_size + y_offset, z_offset);
+        set_output(0, 0, x, value);
+    }
 
-  for (unsigned int x = 0; x < output_columns.size(); x++)
-  {
-    float value = motion_tensor.get(output_columns[x], prediction_step_size + y_offset, z_offset);
-    set_output(0, 0, x, value);
-  }
-
-  return 0;
+    return 0;
 }
 
 

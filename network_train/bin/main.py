@@ -15,16 +15,19 @@ testing_dats_to_motion_tensor = pyphy.DatsToMotionTensor("testing_dats.json", "m
 training_tensor = pyphy.TensorSpatial("spatial_tensor.json", training_dats_to_motion_tensor.tensor())
 testing_tensor  = pyphy.TensorSpatial("spatial_tensor.json", testing_dats_to_motion_tensor.tensor())
 
-
+testing_count = 20000
 #3, create dataset
-dataset = pyphy.DatasetTrajectory(training_tensor, training_tensor)
+dataset = pyphy.DatasetTrajectoryRuntime(training_tensor, training_tensor, testing_count)
+
+print("loading done")
+
 
 
 
 #4, run experiments, train network
 
-experiment_12 = pyphy.RegressionExperiment(dataset, "experiment_12/")
-experiment_12.run()
+experiment = pyphy.RegressionExperiment(dataset, "experiment_20/")
+experiment.run()
 
 
 print("program done")

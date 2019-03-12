@@ -11,5 +11,5 @@
 
   "discretization x"        : 16,
   "discretization y"        : 16,
-  "discretization z"        : 3
-}
+  "discretization z"        : 8,
+} 
