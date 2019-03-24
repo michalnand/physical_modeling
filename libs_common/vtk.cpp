@@ -38,6 +38,11 @@ VTK::VTK(const VTK& other)
 VTK::VTK(std::string file_name)
 {
     std::ifstream infile(file_name);
+    if (infile.fail())
+    {
+        std::cout << "VTK - opening error in " << file_name << "\n";
+        return;
+    }
 
     std::string line;
 
@@ -70,6 +75,7 @@ VTK::VTK(std::string file_name)
     }
 
     find_extremes();
+    find_center();
 }
 
 VTK::~VTK()
@@ -105,6 +111,22 @@ sVTKPoint VTK::get_min_extreme()
     return min_extreme;
 }
 
+unsigned int VTK::get_points_count()
+{
+    return points.size();
+}
+
+std::vector<sVTKPoint>& VTK::get()
+{
+    return points;
+}
+
+sVTKPoint VTK::get(unsigned int idx)
+{
+    return points[idx];
+}
+
+
 void VTK::normalise()
 {
     normalise(min_extreme, max_extreme);
@@ -127,6 +149,8 @@ void VTK::normalise(sVTKPoint min_extreme, sVTKPoint max_extreme)
         points[i].z = kz*points[i].z + cz;
     }
 
+    find_center();
+
     normalised = true;
 }
 
@@ -148,6 +172,8 @@ void VTK::normalise_global(float min_extreme_global, float max_extreme_global)
         points[i].y = k*points[i].y + c;
         points[i].z = k*points[i].z + c;
     }
+
+    find_center();
 
     normalised = true;
 }
@@ -175,6 +201,8 @@ void VTK::denormalise(sVTKPoint min_extreme, sVTKPoint max_extreme)
         points[i].z = kz*points[i].z + cz;
     }
 
+    find_center();
+
     normalised = false;
 }
 
@@ -196,15 +224,6 @@ void VTK::print()
     }
 }
 
-unsigned int VTK::get_points_count()
-{
-    return points.size();
-}
-
-std::vector<sVTKPoint>& VTK::get()
-{
-    return points;
-}
 
 void VTK::copy(VTK& other)
 {
@@ -332,4 +351,23 @@ void VTK::find_extremes()
         min_extreme_global = min_extreme.y;
     if (min_extreme.z < min_extreme_global)
         min_extreme_global = min_extreme.z;
+}
+
+
+
+
+
+
+void VTK::find_center()
+{
+    center.x = 0.0;
+    center.y = 0.0;
+    center.z = 0.0;
+
+    for (unsigned int i = 0; i < points.size(); i++)
+    {
+        center.x+= points[i].x/points.size();
+        center.y+= points[i].y/points.size();
+        center.z+= points[i].z/points.size();
+    }
 }

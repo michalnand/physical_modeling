@@ -1,0 +1,40 @@
+{
+    "path" : "/home/michal/dataset/cells/sim26/testing_vtk/",
+
+    "file_name_prefix" :
+    [
+        "rbc5_",
+        "rbc6_",
+        "rbc7_",
+        "rbc8_",
+        "rbc9_",
+        "rbc10_",
+        "rbc11_",
+        "rbc12_",
+        "rbc13_",
+        "rbc14_",
+        "rbc15_",
+        "rbc16_",
+        "rbc17_",
+        "rbc18_",
+        "rbc19_",
+        "rbc20_",
+        "rbc21_",
+        "rbc22_",
+        "rbc23_",
+        "rbc24_",
+        "rbc25_",
+        "rbc26_",
+        "rbc27_",
+        "rbc28_",
+        "rbc29_",
+        "rbc30_",
+        "rbc31_",
+        "rbc32_",
+        "rbc33_",
+        "rbc34_",
+        "rbc35_",
+        "rbc36_",
+        "rbc37_"
+    ]
+}

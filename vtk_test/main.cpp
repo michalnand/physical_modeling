@@ -1,55 +1,38 @@
 #include <iostream>
+#include <timer.h>
 
-#include <vtk.h>
 #include <glvisualisation.h>
-
-void vtk_render(GLVisualisation &visualisation, VTK &vtk)
-{
-    for (unsigned int i = 0; i < vtk.get_points_count(); i++)
-    {
-        auto point = vtk.get()[i];
-
-        point.x = point.x*2.0 - 1.0;
-        point.y = point.y*2.0 - 1.0;
-        point.z = point.z*2.0 - 1.0;
-
-        visualisation.push();
-        visualisation.set_color(1.0, 1.0, 1.0);
-        visualisation.translate(point.x, point.y, point.z);
-        visualisation.paint_point();
-        visualisation.pop();
-    }
-}
+#include <vtk_cells.h>
 
 int main()
 {
-    VTK vtk_a("vtk/rbc4_2250000.vtk");
-    VTK vtk_b("vtk/rbc5_3300000.vtk");
-    VTK vtk_c("vtk/rbc6_2700000.vtk");
-    VTK vtk_d("vtk/rbc32_690000.vtk");
-
-    vtk_a.normalise_global();
-    vtk_b.normalise_global();
-    vtk_c.normalise_global();
-    vtk_d.normalise_global();
-
+    Timer timer;
     GLVisualisation visualisation;
+
+    VTKCells vtk_cells_training("config_training.json");
+    vtk_cells_training.normalise_global();
+    vtk_cells_training.print();
+
+    VTKCells vtk_cells_testing("config_testing.json");
+    vtk_cells_testing.normalise_global();
+    vtk_cells_testing.print();
+
+
+    unsigned int time_idx = 0;
 
     while (1)
     {
         visualisation.start();
-        visualisation.translate(0, 0, -3);
-        //visualisation.rotate(40, 0.0, 0.0);
+        visualisation.translate(0, 0, -2.0);
 
-
-        vtk_render(visualisation, vtk_a);
-        vtk_render(visualisation, vtk_b);
-        vtk_render(visualisation, vtk_c);
-        vtk_render(visualisation, vtk_d);
+        vtk_cells_training.render(visualisation, time_idx%vtk_cells_training.get_time_steps(), 1.0, 0.0, 0.0);
+        vtk_cells_testing.render(visualisation, time_idx%vtk_cells_testing.get_time_steps(), 0.0, 0.0, 1.0);
 
         visualisation.finish();
-    }
 
+        timer.sleep_ms(10);
+        time_idx++;
+    }
 
 
     std::cout << "program done\n";

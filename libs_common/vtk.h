@@ -23,12 +23,16 @@ class VTK
         VTK& operator= (VTK& other);
         VTK& operator= (const VTK& other);
 
+    public:
         sVTKPoint get_center();
         sVTKPoint get_max_extreme();
         sVTKPoint get_min_extreme();
 
         std::vector<sVTKPoint>& get();
+        sVTKPoint get(unsigned int idx);
+        unsigned int get_points_count();
 
+    public:
         void normalise();
         void normalise(sVTKPoint min_extreme, sVTKPoint max_extreme);
         void normalise_global();
@@ -43,7 +47,6 @@ class VTK
         bool is_normalised();
 
         void print();
-        unsigned int get_points_count();
 
     protected:
         void copy(VTK& other);
@@ -52,8 +55,11 @@ class VTK
     private:
         int find_points_starting_line(std::vector<std::string> &lines);
         int get_points_count(std::string &line);
+
         sVTKPoint get_point(std::string &line);
+
         void find_extremes();
+        void find_center();
 
     protected:
         std::vector<sVTKPoint> points;
