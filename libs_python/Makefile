@@ -59,7 +59,7 @@ OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_dataset -name '*.o')
 OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_experiment -name '*.o')
 OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_nn -name '*.o')
 OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_preprocessing -name '*.o')
-OBJS_EXTERN+= $(shell find ~/libs/rysy -name '*.oc')
+OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_nn -name '*.oc')
 
 
 OBJS_EXTERN+= $(shell find ../libs_common -name '*.o')
