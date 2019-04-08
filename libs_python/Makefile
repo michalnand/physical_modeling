@@ -1,26 +1,15 @@
 OUTPUT_NAME = pyphy
 
-PHYSICAL_MODELING_LIBS_PATH=..
-
 INC+= -I.
 INC+= -I$(RYSY_LIBS_PATH)/libs_common
-INC+= -I$(RYSY_LIBS_PATH)/libs_dataset
 INC+= -I$(RYSY_LIBS_PATH)/libs_experiment
 INC+= -I$(RYSY_LIBS_PATH)/libs_nn
-INC+= -I$(PHYSICAL_MODELING_LIBS_PATH)/libs_common
+INC+= -I$(RYSY_LIBS_PATH)/libs_preprocessing
+INC+= -I$(RYSY_LIBS_PATH)/libs_dataset
+INC+= -I../libs_common
 
-# LIBS+= $(PHYSICAL_MODELING_LIBS_PATH)/libs_dataset/libs_dataset_pm.a
-# LIBS+= $(PHYSICAL_MODELING_LIBS_PATH)/libs_common/libs_common_pm.a
-# LIBS+= $(RYSY_LIBS_PATH)/libs_dataset/libs_dataset.a
-# LIBS+= $(RYSY_LIBS_PATH)/libs_experiment/libs_experiment.a
-# LIBS+= $(RYSY_LIBS_PATH)/libs_nn/libs_nn.a
-# LIBS+= $(RYSY_LIBS_PATH)/libs_common/libs_common.a
-
+SRCS+= $(shell find ../libs_common -name '*.cpp')
 SRCS+= $(shell find . -name '*.cpp')
-
-
-
-
 SRCS_SWIG+= $(shell find . -name '*.i')
 
 # CUDA_PATH = /usr/local/cuda-9.1/bin/
@@ -53,22 +42,17 @@ OBJS_CSWIG  = $(SRCS_SWIG:.i=.cxx)
 OBJS_SWIG 	= $(OBJS_CSWIG:.cxx=.oswig)
 
 
-
 OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_common -name '*.o')
-OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_dataset -name '*.o')
 OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_experiment -name '*.o')
 OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_nn -name '*.o')
-OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_preprocessing -name '*.o')
 OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_nn -name '*.oc')
-
-
-OBJS_EXTERN+= $(shell find ../libs_common -name '*.o')
-
+OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_preprocessing -name '*.o')
+OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_preprocessing -name '*.oc')
+OBJS_EXTERN+= $(shell find ~/libs/rysy/libs_dataset -name '*.o')
 
 
 all: $(OBJS) $(OBJS_CUDA) $(OBJS_SWIG)
-	 $(ARCHIVE) rc $(OUTPUT_NAME).a $(OBJS) $(OBJS_CUDA)
-	 $(CC) -shared -fPIC $(PYTHONL) -o _$(OUTPUT_NAME).so $(OBJS_EXTERN) $(OBJS)  $(OBJS_SWIG) $(LDFLAGS)
+	 $(CC) -shared -fPIC $(PYTHONL) -o _$(OUTPUT_NAME).so $(OBJS) $(OBJS_EXTERN) $(OBJS_SWIG) $(LDFLAGS)
 
 
 
@@ -89,7 +73,6 @@ clean:
 	rm $(OBJS) -f
 	rm $(OBJS_CSWIG) -f
 	rm $(OBJS_SWIG) -f
-	rm $(OUTPUT_NAME).a -f
 	rm _$(OUTPUT_NAME).so -f
 	rm $(OUTPUT_NAME).py -f
 	rm $(OUTPUT_NAME).pyc -f

@@ -1996,6 +1996,126 @@ class TrajectoryPrediction(_object):
 TrajectoryPrediction_swigregister = _pyphy.TrajectoryPrediction_swigregister
 TrajectoryPrediction_swigregister(TrajectoryPrediction)
 
+class LoadTextures(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, LoadTextures, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, LoadTextures, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, *args):
+        this = _pyphy.new_LoadTextures(*args)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_LoadTextures
+    __del__ = lambda self: None
+
+    def load(self, file_name):
+        return _pyphy.LoadTextures_load(self, file_name)
+
+    def get_textures_count(self):
+        return _pyphy.LoadTextures_get_textures_count(self)
+
+    def get(self, id):
+        return _pyphy.LoadTextures_get(self, id)
+
+    def get_idx(self, idx):
+        return _pyphy.LoadTextures_get_idx(self, idx)
+LoadTextures_swigregister = _pyphy.LoadTextures_swigregister
+LoadTextures_swigregister(LoadTextures)
+
+class GLVisualisation(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, GLVisualisation, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, GLVisualisation, name)
+    __repr__ = _swig_repr
+
+    def __init__(self):
+        this = _pyphy.new_GLVisualisation()
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_GLVisualisation
+    __del__ = lambda self: None
+
+    def time(self):
+        return _pyphy.GLVisualisation_time(self)
+
+    def init(self, *args):
+        return _pyphy.GLVisualisation_init(self, *args)
+
+    def width(self):
+        return _pyphy.GLVisualisation_width(self)
+
+    def height(self):
+        return _pyphy.GLVisualisation_height(self)
+
+    def start(self):
+        return _pyphy.GLVisualisation_start(self)
+
+    def finish(self):
+        return _pyphy.GLVisualisation_finish(self)
+
+    def push(self):
+        return _pyphy.GLVisualisation_push(self)
+
+    def pop(self):
+        return _pyphy.GLVisualisation_pop(self)
+
+    def translate(self, x, y, z):
+        return _pyphy.GLVisualisation_translate(self, x, y, z)
+
+    def rotate(self, angle_x, angle_y, angle_z):
+        return _pyphy.GLVisualisation_rotate(self, angle_x, angle_y, angle_z)
+
+    def set_color(self, r, g, b):
+        return _pyphy.GLVisualisation_set_color(self, r, g, b)
+
+    def paint_point(self):
+        return _pyphy.GLVisualisation_paint_point(self)
+
+    def paint_square(self, size):
+        return _pyphy.GLVisualisation_paint_square(self, size)
+
+    def paint_rectangle(self, width, height):
+        return _pyphy.GLVisualisation_paint_rectangle(self, width, height)
+
+    def paint_textured_rectangle(self, width, height, texture_id):
+        return _pyphy.GLVisualisation_paint_textured_rectangle(self, width, height, texture_id)
+
+    def paint_line(self, x0, y0, z0, x1, y1, z1):
+        return _pyphy.GLVisualisation_paint_line(self, x0, y0, z0, x1, y1, z1)
+
+    def paint_quad(self, x0, y0, z0, r0, g0, b0, x1, y1, z1, r1, g1, b1, x2, y2, z2, r2, g2, b2, x3, y3, z3, r3, g3, b3):
+        return _pyphy.GLVisualisation_paint_quad(self, x0, y0, z0, r0, g0, b0, x1, y1, z1, r1, g1, b1, x2, y2, z2, r2, g2, b2, x3, y3, z3, r3, g3, b3)
+
+    def paint_cube(self, size):
+        return _pyphy.GLVisualisation_paint_cube(self, size)
+
+    def paint_cuboid(self, width, height, depth):
+        return _pyphy.GLVisualisation_paint_cuboid(self, width, height, depth)
+
+    def paint_circle(self, size, steps=12):
+        return _pyphy.GLVisualisation_paint_circle(self, size, steps)
+
+    def paint_sphere(self, size, steps=12):
+        return _pyphy.GLVisualisation_paint_sphere(self, size, steps)
+
+    def _print(self, x, y, z, string, small_font=False):
+        return _pyphy.GLVisualisation__print(self, x, y, z, string, small_font)
+
+    def get_key(self):
+        return _pyphy.GLVisualisation_get_key(self)
+
+    def get_texture(self, id):
+        return _pyphy.GLVisualisation_get_texture(self, id)
+GLVisualisation_swigregister = _pyphy.GLVisualisation_swigregister
+GLVisualisation_swigregister(GLVisualisation)
+
 # This file is compatible with both classic and new-style classes.
 
 
