@@ -166,7 +166,7 @@ std::vector<float> TrajectoryPrediction::predict( CNN &nn, TensorInterface &tens
   nn.forward(nn_output, dataset_item.input);
 
   float extremes_k = 1.5;
-  
+
   for (unsigned int x = 0; x < output_size; x++)
   {
     float pos_norm = result.get(x, time_idx + prediction_offset-1, particle_idx);
@@ -193,12 +193,13 @@ std::vector<float> TrajectoryPrediction::predict( CNN &nn, TensorInterface &tens
 
     float predicted = map_to(extremes[x].min, extremes[x].max, 0.0, 1.0, predicted_orig);
 
+    /*
     if (predicted < extremes[x].min*extremes_k)
         predicted = extremes[x].min*extremes_k;
 
     if (predicted > extremes[x].max*extremes_k)
         predicted = extremes[x].max*extremes_k;
-
+    */
     /*
     if (x == 2)
       predicted = initial_conditions->get(x, 0, particle_idx);
