@@ -1996,6 +1996,30 @@ class TrajectoryPrediction(_object):
 TrajectoryPrediction_swigregister = _pyphy.TrajectoryPrediction_swigregister
 TrajectoryPrediction_swigregister(TrajectoryPrediction)
 
+class VelocityPrediction(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, VelocityPrediction, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, VelocityPrediction, name)
+    __repr__ = _swig_repr
+
+    def __init__(self, target_trajectory):
+        this = _pyphy.new_VelocityPrediction(target_trajectory)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _pyphy.delete_VelocityPrediction
+    __del__ = lambda self: None
+
+    def process(self, network_file_name, tensor_interface, prediction_offset):
+        return _pyphy.VelocityPrediction_process(self, network_file_name, tensor_interface, prediction_offset)
+
+    def get_result(self):
+        return _pyphy.VelocityPrediction_get_result(self)
+VelocityPrediction_swigregister = _pyphy.VelocityPrediction_swigregister
+VelocityPrediction_swigregister(VelocityPrediction)
+
 class LoadTextures(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, LoadTextures, name, value)

@@ -47,6 +47,7 @@
 #include <regression_experiment.h>
 
 #include <trajectory_prediction.h>
+#include <velocity_prediction.h>
 
 #include <load_textures.h>
 #include <glvisualisation.h>
@@ -89,6 +90,7 @@
 %include <regression_experiment.h>
 
 %include <trajectory_prediction.h>
+%include <velocity_prediction.h>
 
 %include <load_textures.h>
 %include <glvisualisation.h>
