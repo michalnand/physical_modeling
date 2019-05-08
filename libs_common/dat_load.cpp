@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <math.h>
 
 #include <log.h>
 
@@ -269,4 +270,18 @@ void DatLoad::normalise_column(unsigned int column, float source_min, float sour
 
   for (unsigned int i = 0; i < values.size(); i++)
     values[i][column] = k*values[i][column] + q;
+}
+
+
+void DatLoad::process_modulo(std::vector<float> modulo)
+{
+    for (unsigned int column = 0; column < modulo.size(); column++)
+    {
+        float mod = modulo[column];
+        if (mod > 0.0)
+            for (unsigned int i = 0; i < values.size(); i++)
+            {
+                values[i][column] = fmod(values[i][column], mod);
+            } 
+    }
 }

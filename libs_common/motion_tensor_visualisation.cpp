@@ -1,4 +1,5 @@
 #include "motion_tensor_visualisation.h"
+#include <math.h>
 
 MotionTensorVisualisation::MotionTensorVisualisation()
 {
@@ -68,9 +69,9 @@ void MotionTensorVisualisation::render_raw( MotionTensor &motion_tensor,
                                             float r, float g, float b,
                                             unsigned int min, unsigned int max)
 {
-
-
-      unsigned int step = 100;
+      unsigned int step = motion_tensor.height()/2000;
+      if (step < 1)
+        step = 1;
 
       unsigned int max_range = (motion_tensor.height()-step);
 
@@ -103,20 +104,29 @@ void MotionTensorVisualisation::render_raw( MotionTensor &motion_tensor,
           b_ = 0.0;
         }
 
-        visualisation.push();
+        float dx = x1 - x0;
+        float dy = y1 - y0;
+        float dz = z1 - z0;
+
+        float dif_limit = 0.5;
+
+        if ((fabs(dx) < dif_limit) && (fabs(dy) < dif_limit) && (fabs(dz) < dif_limit))
+        {
+            visualisation.push();
 
 
-          visualisation.set_color(r_, g_, b_);
-          visualisation.paint_line( scale_x(x0),
-                                    scale_y(y0),
-                                    scale_z(z0),
+              visualisation.set_color(r_, g_, b_);
+              visualisation.paint_line( scale_x(x0),
+                                        scale_y(y0),
+                                        scale_z(z0),
 
-                                    scale_x(x1),
-                                    scale_y(y1),
-                                    scale_z(z1));
+                                        scale_x(x1),
+                                        scale_y(y1),
+                                        scale_z(z1));
 
 
-        visualisation.pop();
+            visualisation.pop();
+        }
       }
 
       unsigned int idx = time_idx%max_range;

@@ -1378,6 +1378,9 @@ class DatLoad(_object):
     def save(self, file_name):
         return _pyphy.DatLoad_save(self, file_name)
 
+    def process_modulo(self, modulo):
+        return _pyphy.DatLoad_process_modulo(self, modulo)
+
     def load(self, file_name):
         return _pyphy.DatLoad_load(self, file_name)
 

@@ -62,6 +62,8 @@ class DatLoad
     void print(bool verbose = false);
     void save(std::string file_name);
 
+    void process_modulo(std::vector<float> modulo);
+
   public:
     void load(std::string file_name);
     void find_extreme();

@@ -56,23 +56,27 @@ void DatsLoad::copy(const DatsLoad& other)
 
 void DatsLoad::load(std::string json_config_file_name)
 {
-  dat.clear();
+    dat.clear();
 
-  JsonConfig json(json_config_file_name);
+    JsonConfig json(json_config_file_name);
 
-  for (unsigned int i = 0; i < json.result["dat files"].size(); i++)
-  {
-    std::string file_name = json.result["dat files"][i].asString();
+    std::vector<float> modulo;
 
-    std::cout << "loading file " << file_name << "\n";
+    for (unsigned int i = 0; i < json.result["values modulo"].size(); i++)
+        modulo.push_back(json.result["values modulo"][i].asFloat());
 
-    dat.push_back(DatLoad(file_name));
-  }
+    for (unsigned int i = 0; i < json.result["dat files"].size(); i++)
+    {
+        std::string file_name = json.result["dat files"][i].asString();
+        dat.push_back(DatLoad(file_name));
 
-  std::cout << "\n";
+        if (modulo.size() != 0)
+            dat[i].process_modulo(modulo);
+    } 
 
-  compute_metric();
-  find_extreme();
+    compute_metric();
+    find_extreme();
+    print();
 }
 
 
