@@ -1,7 +1,7 @@
 #include "motion_tensor_visualisation.h"
 #include <math.h>
 
-MotionTensorVisualisation::MotionTensorVisualisation()
+MotionTensorVisualisation::MotionTensorVisualisation(unsigned int points_max_count)
 {
   time_idx = 0;
 
@@ -9,6 +9,7 @@ MotionTensorVisualisation::MotionTensorVisualisation()
 
   unsigned int width  = 800;
   unsigned int height = 800;
+  this->points_max_count = points_max_count;
   visualisation.init("visualisation", width, height);
 }
 
@@ -69,9 +70,14 @@ void MotionTensorVisualisation::render_raw( MotionTensor &motion_tensor,
                                             float r, float g, float b,
                                             unsigned int min, unsigned int max)
 {
-      unsigned int step = motion_tensor.height()/2000;
-      if (step < 1)
-        step = 1;
+	
+      unsigned int step = 1; 
+
+	if (points_max_count > 0)
+		step =	motion_tensor.height()/points_max_count;
+	
+	if (step < 1)
+	        step = 1;
 
       unsigned int max_range = (motion_tensor.height()-step);
 

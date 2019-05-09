@@ -10,9 +10,9 @@ class MotionTensorVisualisation
         unsigned int time_idx;
         bool m_new_loop;
         GLVisualisation visualisation;
-
+	unsigned int points_max_count;
     public:
-        MotionTensorVisualisation();
+        MotionTensorVisualisation(unsigned int points_max_count = 0);
         virtual ~MotionTensorVisualisation();
 
         void start();

@@ -238,6 +238,10 @@ void DatLoad::load(std::string file_name)
 
   while (std::getline(file, line))
   {
+
+    for (unsigned int i = 0; i < line.size(); i++)
+     if (line[i] == ',')
+	line[i] =' ';
     std::stringstream iss(line);
 
     if (is_float(line))

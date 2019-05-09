@@ -1873,8 +1873,8 @@ class MotionTensorVisualisation(_object):
     __getattr__ = lambda self, name: _swig_getattr(self, MotionTensorVisualisation, name)
     __repr__ = _swig_repr
 
-    def __init__(self):
-        this = _pyphy.new_MotionTensorVisualisation()
+    def __init__(self, points_max_count=0):
+        this = _pyphy.new_MotionTensorVisualisation(points_max_count)
         try:
             self.this.append(this)
         except __builtin__.Exception:
