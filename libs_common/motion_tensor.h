@@ -77,7 +77,7 @@ class MotionTensor
     std::vector<std::vector<std::vector<float>>> v;
 
     std::vector<sMotionTensorExtreme> extremes;
- 
+
 
   private:
     sMotionTensorExtreme find_column_extreme(unsigned int column);

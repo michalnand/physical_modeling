@@ -12,7 +12,7 @@ class DatsLoad
     sDatExtremes extremes;
 
     unsigned int dat_count, column_count, lines_count;
-
+    std::vector<float> values_modulo;
 
   public:
     // Default constructor
@@ -72,6 +72,8 @@ class DatsLoad
     }
 
     void find_extreme();
+
+    std::vector<float>& get_values_modulo();
 
   private:
     void compute_metric();

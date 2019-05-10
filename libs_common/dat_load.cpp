@@ -206,7 +206,7 @@ void DatLoad::find_extreme()
 }
 
 
-bool is_float(const std::string &in)
+bool DatLoad::is_float(const std::string &in)
 {
   std::stringstream str(in);
   float f;
@@ -286,6 +286,6 @@ void DatLoad::process_modulo(std::vector<float> modulo)
             for (unsigned int i = 0; i < values.size(); i++)
             {
                 values[i][column] = fmod(values[i][column], mod);
-            } 
+            }
     }
 }

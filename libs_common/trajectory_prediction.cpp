@@ -18,7 +18,8 @@ TrajectoryPrediction::~TrajectoryPrediction()
 
 unsigned int TrajectoryPrediction::process( std::string network_file_name,
                                             TensorInterface &tensor_interface,
-                                            unsigned int prediction_offset)
+                                            unsigned int prediction_offset,
+                                            std::vector<float> trajectory_modulo)
 {
   sGeometry input_geometry, output_geometry;
 
@@ -66,6 +67,9 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
           res[0] = result.get(0, time_idx + prediction_offset - 1, particle_idx);
           res[1] = result.get(1, time_idx + prediction_offset - 1, particle_idx);
           res[2] = result.get(2, time_idx + prediction_offset - 1, particle_idx);
+
+          for (unsigned int k = 0; k < trajectory_modulo.size(); k++)
+            res[k] = fmod(res[k], trajectory_modulo[k]);
 
           result.set(0, time_idx + prediction_offset, particle_idx, res[0]);
           result.set(1, time_idx + prediction_offset, particle_idx, res[1]);

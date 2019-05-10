@@ -70,7 +70,7 @@ class DatLoad
 
   private:
     void normalise_column(unsigned int column, float source_min, float source_max, float dest_min, float dest_max);
-
+    bool is_float(const std::string &in);
 };
 
 #endif

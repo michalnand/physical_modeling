@@ -21,7 +21,8 @@ class TrajectoryPrediction
 
     unsigned int process( std::string network_file_name,
                           TensorInterface &tensor_interface,
-                          unsigned int prediction_offset);
+                          unsigned int prediction_offset,
+                          std::vector<float> trajectory_modulo = std::vector<float>());
 
     MotionTensor& get_result();
 

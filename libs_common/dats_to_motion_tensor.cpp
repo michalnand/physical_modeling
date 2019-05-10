@@ -15,7 +15,7 @@ DatsToMotionTensor::DatsToMotionTensor(
                                         std::string motion_tensor_file_name
                                       )
 {
-  load(dats_json_file_name, motion_tensor_file_name);
+    load(dats_json_file_name, motion_tensor_file_name);
 }
 
 
@@ -26,29 +26,29 @@ DatsToMotionTensor::DatsToMotionTensor(
                                         MotionTensor &other
                                       )
 {
-  load(dats_json_file_name, motion_tensor_file_name, other);
+    load(dats_json_file_name, motion_tensor_file_name, other);
 }
 
 DatsToMotionTensor::DatsToMotionTensor(DatsToMotionTensor& other)
 {
-  copy(other);
+    copy(other);
 }
 
 DatsToMotionTensor::DatsToMotionTensor(const DatsToMotionTensor& other)
 {
-  copy(other);
+    copy(other);
 }
 
 DatsToMotionTensor& DatsToMotionTensor::operator= (DatsToMotionTensor& other)
 {
-  copy(other);
-  return *this;
+    copy(other);
+    return *this;
 }
 
 DatsToMotionTensor& DatsToMotionTensor::operator= (const DatsToMotionTensor& other)
 {
-  copy(other);
-  return *this;
+    copy(other);
+    return *this;
 }
 
 DatsToMotionTensor::~DatsToMotionTensor()
@@ -89,12 +89,14 @@ void DatsToMotionTensor::load(  std::string dats_json_file_name,
     }
 
     if (velocity_from_position)
-      motion_tensor.velocity_from_position();
+        motion_tensor.velocity_from_position();
 
     motion_tensor.find_extremes();
 
     if (normalise)
-      motion_tensor.normalise();
+        motion_tensor.normalise();
+
+    values_modulo = dats.get_values_modulo();
 }
 
 void DatsToMotionTensor::load(  std::string dats_json_file_name,
@@ -113,11 +115,11 @@ void DatsToMotionTensor::load(  std::string dats_json_file_name,
       columns_to_load.push_back(json.result["columns to load"][i].asInt());
 
     for (unsigned int i = 0; i < json.result["dats to load"].size(); i++)
-      dats_to_load.push_back(json.result["dats to load"][i].asInt());
+        dats_to_load.push_back(json.result["dats to load"][i].asInt());
 
     unsigned int columns_count = columns_to_load.size();
     if (velocity_from_position)
-      columns_count = columns_count*2;
+        columns_count = columns_count*2;
 
     motion_tensor.init(columns_count, dats.get_lines_count(), dats_to_load.size());
 
@@ -125,28 +127,37 @@ void DatsToMotionTensor::load(  std::string dats_json_file_name,
     for (unsigned int y = 0; y < dats.get_lines_count(); y++)
     for (unsigned int x = 0; x < columns_to_load.size(); x++)
     {
-      float value = dats.get(dats_to_load[z], columns_to_load[x], y);
-      motion_tensor.set(x, y, z, value);
+        float value = dats.get(dats_to_load[z], columns_to_load[x], y);
+        motion_tensor.set(x, y, z, value);
     }
 
     if (velocity_from_position)
-      motion_tensor.velocity_from_position();
+        motion_tensor.velocity_from_position();
 
     if (normalise)
     {
-      auto extremes = other.get_extremes();
-      motion_tensor.set_extremes(extremes);
-      motion_tensor.normalise();
+        auto extremes = other.get_extremes();
+        motion_tensor.set_extremes(extremes);
+        motion_tensor.normalise();
     }
+
+    values_modulo = dats.get_values_modulo();
 }
 
 
+std::vector<float>& DatsToMotionTensor::get_values_modulo()
+{
+    return values_modulo;
+}
+
 void DatsToMotionTensor::copy(DatsToMotionTensor& other)
 {
-  motion_tensor = other.motion_tensor;
+    motion_tensor = other.motion_tensor;
+    values_modulo = other.values_modulo;
 }
 
 void DatsToMotionTensor::copy(const DatsToMotionTensor& other)
 {
-  motion_tensor = other.motion_tensor;
+    motion_tensor = other.motion_tensor;
+    values_modulo = other.values_modulo;
 }

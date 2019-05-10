@@ -57,22 +57,20 @@ void DatsLoad::copy(const DatsLoad& other)
 void DatsLoad::load(std::string json_config_file_name)
 {
     dat.clear();
-
     JsonConfig json(json_config_file_name);
 
-    std::vector<float> modulo;
-
-    for (unsigned int i = 0; i < json.result["values modulo"].size(); i++)
-        modulo.push_back(json.result["values modulo"][i].asFloat());
+    values_modulo.resize(json.result["values modulo"].size());
+    for (unsigned int i = 0; i < values_modulo.size(); i++)
+        values_modulo[i] = json.result["values modulo"][i].asFloat();
 
     for (unsigned int i = 0; i < json.result["dat files"].size(); i++)
     {
         std::string file_name = json.result["dat files"][i].asString();
         dat.push_back(DatLoad(file_name));
 
-        if (modulo.size() != 0)
-            dat[i].process_modulo(modulo);
-    } 
+        if (values_modulo.size() != 0)
+            dat[i].process_modulo(values_modulo);
+    }
 
     compute_metric();
     find_extreme();
@@ -238,4 +236,9 @@ void DatsLoad::normalise_column(float min, float max, bool find_own_extreme)
   find_extreme();
 
   std::cout << "normalising done\n";
+}
+
+std::vector<float>& DatsLoad::get_values_modulo()
+{
+    return values_modulo;
 }

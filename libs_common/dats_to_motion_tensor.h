@@ -36,6 +36,8 @@ class DatsToMotionTensor
                 std::string motion_tensor_file_name,
                 MotionTensor &other);
 
+    std::vector<float>& get_values_modulo();
+
   protected:
     void copy(DatsToMotionTensor& other);
     void copy(const DatsToMotionTensor& other);
@@ -48,7 +50,8 @@ class DatsToMotionTensor
 
 
   private:
-    MotionTensor motion_tensor;
+      MotionTensor motion_tensor;
+      std::vector<float> values_modulo;
 };
 
 #endif

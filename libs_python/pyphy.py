@@ -1449,6 +1449,9 @@ class DatsLoad(_object):
 
     def find_extreme(self):
         return _pyphy.DatsLoad_find_extreme(self)
+
+    def get_values_modulo(self):
+        return _pyphy.DatsLoad_get_values_modulo(self)
 DatsLoad_swigregister = _pyphy.DatsLoad_swigregister
 DatsLoad_swigregister(DatsLoad)
 
@@ -1565,6 +1568,9 @@ class DatsToMotionTensor(_object):
 
     def load(self, *args):
         return _pyphy.DatsToMotionTensor_load(self, *args)
+
+    def get_values_modulo(self):
+        return _pyphy.DatsToMotionTensor_get_values_modulo(self)
 
     def tensor(self):
         return _pyphy.DatsToMotionTensor_tensor(self)
@@ -1991,8 +1997,8 @@ class TrajectoryPrediction(_object):
     __swig_destroy__ = _pyphy.delete_TrajectoryPrediction
     __del__ = lambda self: None
 
-    def process(self, network_file_name, tensor_interface, prediction_offset):
-        return _pyphy.TrajectoryPrediction_process(self, network_file_name, tensor_interface, prediction_offset)
+    def process(self, *args):
+        return _pyphy.TrajectoryPrediction_process(self, *args)
 
     def get_result(self):
         return _pyphy.TrajectoryPrediction_get_result(self)
