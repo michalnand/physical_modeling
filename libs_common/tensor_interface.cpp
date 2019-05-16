@@ -265,3 +265,19 @@ void TensorInterface::clear()
   for (unsigned int i = 0; i < result.output.size(); i++)
     result.output[i] = 0.0;
 }
+
+float TensorInterface::rnd(float min, float max)
+{
+    return ((rand()%1000000)/1000000.0)*(max - min) + min;
+}
+
+float TensorInterface::clamp(float value, float min, float max)
+{
+    if (value < min)
+        value = min;
+
+    if (value > max)
+        value = max;
+
+    return value;
+}

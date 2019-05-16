@@ -25,6 +25,32 @@ TensorSpatial::TensorSpatial(std::string config_file_name, MotionTensor &motion_
     discretization_y      = json.result["discretization y"].asInt();
     discretization_z      = json.result["discretization z"].asInt();
 
+    float _input_data_corruption             = json.result["input data corruption"].asFloat();
+    float _input_data_corruption_noise_level = json.result["input data corruption noise level"].asFloat();
+
+    input_data_corruption             = 0.0;
+    input_data_corruption_noise_level = 0.0;
+
+    if ((_input_data_corruption >= 0.0)&&(_input_data_corruption <= 1.0))
+        input_data_corruption = _input_data_corruption;
+
+    if ((_input_data_corruption_noise_level >= 0.0)&&(_input_data_corruption_noise_level <= 1.0))
+        input_data_corruption_noise_level = _input_data_corruption_noise_level;
+
+
+
+    float _output_data_corruption             = json.result["output data corruption"].asFloat();
+    float _output_data_corruption_noise_level = json.result["output data corruption noise level"].asFloat();
+
+    output_data_corruption             = 0.0;
+    output_data_corruption_noise_level = 0.0;
+
+    if ((_output_data_corruption >= 0.0)&&(_output_data_corruption <= 1.0))
+        output_data_corruption = _output_data_corruption;
+
+    if ((_output_data_corruption_noise_level >= 0.0)&&(_output_data_corruption_noise_level <= 1.0))
+        output_data_corruption_noise_level = _output_data_corruption_noise_level;
+
 
     unsigned int width_, height_, depth_;
 
@@ -108,6 +134,11 @@ void TensorSpatial::copy_spatial(TensorSpatial& other)
     discretization_x      = other.discretization_x;
     discretization_y      = other.discretization_y;
     discretization_z      = other.discretization_z;
+
+    input_data_corruption               = other.input_data_corruption;
+    input_data_corruption_noise_level   = other.input_data_corruption_noise_level;
+    output_data_corruption              = other.output_data_corruption;
+    output_data_corruption_noise_level  = other.output_data_corruption_noise_level;
 }
 
 void TensorSpatial::copy_spatial(const TensorSpatial& other)
@@ -125,6 +156,11 @@ void TensorSpatial::copy_spatial(const TensorSpatial& other)
     discretization_x      = other.discretization_x;
     discretization_y      = other.discretization_y;
     discretization_z      = other.discretization_z;
+
+    input_data_corruption               = other.input_data_corruption;
+    input_data_corruption_noise_level   = other.input_data_corruption_noise_level;
+    output_data_corruption              = other.output_data_corruption;
+    output_data_corruption_noise_level  = other.output_data_corruption_noise_level;
 }
 
 
@@ -153,6 +189,18 @@ int TensorSpatial::create(unsigned int y_offset, unsigned int z_offset, MotionTe
         float x = motion_tensor.get(input_columns[0], time_idx*time_step_size + y_offset, z_offset);
         float y = motion_tensor.get(input_columns[1], time_idx*time_step_size + y_offset, z_offset);
         float z = motion_tensor.get(input_columns[2], time_idx*time_step_size + y_offset, z_offset);
+
+        if (rnd(0.0, 1.0) < input_data_corruption)
+        {
+            x = (1.0 - input_data_corruption_noise_level)*x + input_data_corruption_noise_level*rnd(0.0, 1.0);
+            y = (1.0 - input_data_corruption_noise_level)*y + input_data_corruption_noise_level*rnd(0.0, 1.0);
+            z = (1.0 - input_data_corruption_noise_level)*z + input_data_corruption_noise_level*rnd(0.0, 1.0);
+        }
+
+        x = clamp(x, 0.0, 1.0);
+        y = clamp(y, 0.0, 1.0);
+        z = clamp(z, 0.0, 1.0);
+
 
         float x_raw = x*discretization_x;
         float y_raw = y*discretization_y;
@@ -192,9 +240,18 @@ int TensorSpatial::create(unsigned int y_offset, unsigned int z_offset, MotionTe
         }
     }
 
+    bool output_corruption = false;
+    if (rnd(0.0, 1.0) < output_data_corruption)
+        output_corruption = true;
+
     for (unsigned int x = 0; x < output_columns.size(); x++)
     {
         float value = motion_tensor.get(output_columns[x], prediction_step_size + y_offset, z_offset);
+        if (output_corruption)
+        {
+            value = (1.0 - output_data_corruption_noise_level)*value + output_data_corruption_noise_level*rnd(0.0, 1.0);
+        }
+
         set_output(0, 0, x, value);
     }
 

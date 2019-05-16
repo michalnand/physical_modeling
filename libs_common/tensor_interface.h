@@ -70,6 +70,9 @@ class TensorInterface
     void set_output(unsigned int x, unsigned int y, unsigned z, float value);
 
     void clear();
+
+    float rnd(float min = 0.0, float max = 1.0);
+    float clamp(float value, float min, float max);
 };
 
 #endif

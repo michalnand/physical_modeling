@@ -37,6 +37,10 @@ class TensorSpatial: public TensorInterface
     bool use_gaussian_kernel;
 
     unsigned int discretization_x, discretization_y, discretization_z;
+
+    float input_data_corruption, input_data_corruption_noise_level;
+    float output_data_corruption, output_data_corruption_noise_level;
+
 };
 
 
