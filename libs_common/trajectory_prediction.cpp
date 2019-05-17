@@ -63,21 +63,23 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
 
         if (res.size() == 0)
         {
-          res.resize(3);
+            res.resize(3);
+
           res[0] = result.get(0, time_idx + prediction_offset - 1, particle_idx);
           res[1] = result.get(1, time_idx + prediction_offset - 1, particle_idx);
           res[2] = result.get(2, time_idx + prediction_offset - 1, particle_idx);
 
-          for (unsigned int k = 0; k < trajectory_modulo.size(); k++)
+          /*
+        for (unsigned int k = 0; k < trajectory_modulo.size(); k++)
             res[k] = fmod(res[k], trajectory_modulo[k]);
+            */
 
           result.set(0, time_idx + prediction_offset, particle_idx, res[0]);
           result.set(1, time_idx + prediction_offset, particle_idx, res[1]);
           result.set(2, time_idx + prediction_offset, particle_idx, res[2]);
-        }
+       }
 
       }
-
 
       /*
       unsigned int particle_idx = 10;
@@ -156,7 +158,8 @@ std::vector<float> TrajectoryPrediction::predict( CNN &nn, TensorInterface &tens
 
   if (ti_res != 0)
   {
-    return predict_result;
+      std::cout << "tensor interface returned " << ti_res << " at [" << time_idx << ", " << particle_idx << "]\n";
+      return predict_result;
   }
 
   auto dataset_item = tensor_interface.get();
@@ -176,7 +179,7 @@ std::vector<float> TrajectoryPrediction::predict( CNN &nn, TensorInterface &tens
     float pos_norm = result.get(x, time_idx + prediction_offset-1, particle_idx);
 
     //float v_norm = initial_conditions->get(x + output_size, time_idx + prediction_offset, particle_idx);
-
+ 
     float v_norm   = nn_output[x];
 
 

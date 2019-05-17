@@ -175,9 +175,21 @@ int TensorSpatial::create(unsigned int y_offset, unsigned int z_offset, MotionTe
 {
     clear();
 
+    /*
     if ((input_height()*time_step_size + y_offset) >= motion_tensor.height())
-        return -1;
+    {
 
+        std::cout << "\n\n";
+        std::cout << input_height() << "\n";
+        std::cout << time_step_size << "\n";
+        std::cout << y_offset << "\n";
+        std::cout << motion_tensor.height() << "\n";
+        std::cout << "\n\n";
+
+        return -1;
+    }
+    */
+    
     if ((prediction_step_size + y_offset) >= motion_tensor.height())
         return -2;
 
@@ -253,7 +265,7 @@ int TensorSpatial::create(unsigned int y_offset, unsigned int z_offset, MotionTe
         }
 
         set_output(0, 0, x, value);
-    } 
+    }
 
     return 0;
 }
