@@ -192,9 +192,9 @@ int TensorSpatial::create(unsigned int y_offset, unsigned int z_offset, MotionTe
 
         if (rnd(0.0, 1.0) < input_data_corruption)
         {
-            x = (1.0 - input_data_corruption_noise_level)*x + input_data_corruption_noise_level*rnd(0.0, 1.0);
-            y = (1.0 - input_data_corruption_noise_level)*y + input_data_corruption_noise_level*rnd(0.0, 1.0);
-            z = (1.0 - input_data_corruption_noise_level)*z + input_data_corruption_noise_level*rnd(0.0, 1.0);
+            x = (1.0 - input_data_corruption_noise_level)*x + input_data_corruption_noise_level*rnd(-1.0, 1.0);
+            y = (1.0 - input_data_corruption_noise_level)*y + input_data_corruption_noise_level*rnd(-1.0, 1.0);
+            z = (1.0 - input_data_corruption_noise_level)*z + input_data_corruption_noise_level*rnd(-1.0, 1.0);
         }
 
         x = clamp(x, 0.0, 1.0);
@@ -249,11 +249,11 @@ int TensorSpatial::create(unsigned int y_offset, unsigned int z_offset, MotionTe
         float value = motion_tensor.get(output_columns[x], prediction_step_size + y_offset, z_offset);
         if (output_corruption)
         {
-            value = (1.0 - output_data_corruption_noise_level)*value + output_data_corruption_noise_level*rnd(0.0, 1.0);
+            value = (1.0 - output_data_corruption_noise_level)*value + output_data_corruption_noise_level*rnd(-1.0, 1.0);
         }
 
         set_output(0, 0, x, value);
-    }
+    } 
 
     return 0;
 }
