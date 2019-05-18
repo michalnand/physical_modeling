@@ -61,6 +61,7 @@ unsigned int TrajectoryPrediction::process( std::string network_file_name,
 
         res = predict(nn, tensor_interface, time_idx, particle_idx, prediction_offset);
 
+
         if (res.size() == 0)
         {
             res.resize(3);
@@ -172,14 +173,12 @@ std::vector<float> TrajectoryPrediction::predict( CNN &nn, TensorInterface &tens
 
   nn.forward(nn_output, dataset_item.input);
 
-  float extremes_k = 1.5;
-
   for (unsigned int x = 0; x < output_size; x++)
   {
     float pos_norm = result.get(x, time_idx + prediction_offset-1, particle_idx);
 
     //float v_norm = initial_conditions->get(x + output_size, time_idx + prediction_offset, particle_idx);
- 
+
     float v_norm   = nn_output[x];
 
 
