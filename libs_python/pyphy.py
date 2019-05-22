@@ -1855,7 +1855,7 @@ class DatasetTrajectoryRuntime(DatasetInterface):
     __getattr__ = lambda self, name: _swig_getattr(self, DatasetTrajectoryRuntime, name)
     __repr__ = _swig_repr
 
-    def __init__(self, training_tensor_interface, testing_tensor_interface, testing_count=0):
+    def __init__(self, training_tensor_interface, testing_tensor_interface, testing_count):
         this = _pyphy.new_DatasetTrajectoryRuntime(training_tensor_interface, testing_tensor_interface, testing_count)
         try:
             self.this.append(this)
@@ -1869,6 +1869,12 @@ class DatasetTrajectoryRuntime(DatasetInterface):
 
     def get_random_training(self):
         return _pyphy.DatasetTrajectoryRuntime_get_random_training(self)
+
+    def get_testing(self, idx):
+        return _pyphy.DatasetTrajectoryRuntime_get_testing(self, idx)
+
+    def get_testing_size(self):
+        return _pyphy.DatasetTrajectoryRuntime_get_testing_size(self)
 DatasetTrajectoryRuntime_swigregister = _pyphy.DatasetTrajectoryRuntime_swigregister
 DatasetTrajectoryRuntime_swigregister(DatasetTrajectoryRuntime)
 

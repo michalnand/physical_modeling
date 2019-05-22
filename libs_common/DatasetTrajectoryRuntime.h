@@ -10,7 +10,7 @@ class DatasetTrajectoryRuntime: public DatasetInterface
         DatasetTrajectoryRuntime(
                                     TensorInterface &training_tensor_interface,
                                     TensorInterface &testing_tensor_interface,
-                                    unsigned int testing_count = 0
+                                    unsigned int testing_count
                                 );
 
         virtual ~DatasetTrajectoryRuntime();
@@ -18,12 +18,20 @@ class DatasetTrajectoryRuntime: public DatasetInterface
         unsigned int get_training_size();
         sDatasetItem get_random_training();
 
+        sDatasetItem get_testing(unsigned int idx);
+
+
+        unsigned int get_testing_size();
+
     private:
         void create_testing(TensorInterface &tensor, unsigned int count);
         void create_testing_all(TensorInterface &tensor);
 
     private:
+        unsigned int testing_count;
         TensorInterface *training_tensor;
+        TensorInterface *testing_tensor;
+
 };
 
 #endif

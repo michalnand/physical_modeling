@@ -12,14 +12,20 @@ DatasetTrajectoryRuntime::DatasetTrajectoryRuntime(
     height    = training_tensor_interface.input_height();
     channels  = training_tensor_interface.input_depth();
 
-    this->training_tensor = &training_tensor_interface;
+    this->training_tensor           = &training_tensor_interface;
+    this->testing_tensor            = &testing_tensor_interface;
+    this->testing_count             = testing_count;
 
     std::cout << "creating dataset\n";
 
+    /*
     if (testing_count == 0)
         create_testing_all(testing_tensor_interface);
     else
         create_testing(testing_tensor_interface, testing_count);
+    */
+
+    create_testing(testing_tensor_interface, 10);
 
     training_size = testing_tensor_interface.get_max_y_offset()*testing_tensor_interface.get_max_z_offset();
 
@@ -63,7 +69,6 @@ sDatasetItem DatasetTrajectoryRuntime::get_random_training()
     return training_tensor->get();
 }
 
-
 void DatasetTrajectoryRuntime::create_testing(TensorInterface &tensor, unsigned int count)
 {
     while (count > 0)
@@ -93,4 +98,29 @@ void DatasetTrajectoryRuntime::create_testing_all(TensorInterface &tensor)
 
                 add_testing(item);
             }
+}
+
+unsigned int DatasetTrajectoryRuntime::get_testing_size()
+{
+    return testing_count;
+}
+
+sDatasetItem DatasetTrajectoryRuntime::get_testing(unsigned int idx)
+{
+    (void)idx;
+
+    bool created = false;
+
+    while (created != true)
+    {
+        unsigned int y_offset = rand()%testing_tensor->get_max_y_offset();        //random time step
+        unsigned int z_offset = rand()%testing_tensor->get_max_z_offset();       //random cell
+
+        if (testing_tensor->create(y_offset, z_offset) == 0)
+        {
+            created = true;
+        }
+    }
+
+    return testing_tensor->get();
 }
